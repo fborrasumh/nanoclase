@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NanoClase · de un documento a una clase de tres minutos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#EEF1F2; --papel-hondo:#E2E7E9; --tinta:#10222B; --tinta-suave:#4A5F68;
+  --acento:#0E6E78; --acento-vivo:#16929E; --aviso:#A8552F; --linea:#CBD5D8;
+  --sube:#2E7D5B; --baja:#A8552F;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--papel);color:var(--tinta);
+  font:400 16px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:940px;margin:0 auto;padding:0 24px 120px}
+
+header{padding:56px 0 8px}
+h1{font:600 clamp(34px,6vw,52px)/1.05 "Newsreader",Georgia,serif;margin:0 0 10px;letter-spacing:-.015em}
+header p{margin:0;max-width:62ch;color:var(--tinta-suave);font-size:17px}
+
+.tira{display:flex;gap:6px;margin:32px 0 8px;padding:10px;overflow-x:auto;background:var(--tinta);border-radius:3px}
+.tira::-webkit-scrollbar{height:8px}
+.tira::-webkit-scrollbar-thumb{background:#2C4451;border-radius:4px}
+.frame{flex:0 0 116px;height:66px;border-radius:2px;background:#1B303C;display:grid;place-items:center;
+  color:#5C7A88;font-size:11px;border:1px solid #24404E;overflow:hidden;position:relative}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.frame.vacio::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(135deg,transparent 0 7px,#1F3745 7px 8px)}
+.tira-pie{display:flex;justify-content:space-between;color:var(--tinta-suave);font-size:13px;margin-bottom:40px}
+
+.paso{border-top:1px solid var(--linea);padding:28px 0}
+.paso[data-estado="bloqueado"]{opacity:.4;pointer-events:none}
+.paso h2{font:600 21px/1.25 "Newsreader",Georgia,serif;margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+.paso h2 .n{font:500 12px/1 "IBM Plex Sans",sans-serif;color:var(--acento);
+  border:1px solid var(--acento);border-radius:2px;padding:4px 6px;flex:0 0 auto}
+.paso h2 .hecho{color:var(--acento);font-size:13px;font-family:"IBM Plex Sans",sans-serif;font-weight:500}
+.paso > p{margin:0 0 18px;color:var(--tinta-suave);max-width:66ch}
+
+label{display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--tinta-suave)}
+input[type=text],input[type=password],select,textarea{width:100%;padding:9px 11px;border:1px solid var(--linea);
+  border-radius:2px;background:#fff;color:var(--tinta);font:400 15px/1.45 "IBM Plex Sans",sans-serif}
+textarea{resize:vertical;min-height:120px;font-size:14px}
+textarea.codigo{font:400 13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.zona:focus-visible{
+  outline:2px solid var(--acento-vivo);outline-offset:2px}
+.rejilla{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+button{font:500 15px/1 "IBM Plex Sans",sans-serif;padding:11px 20px;border-radius:2px;
+  border:1px solid var(--tinta);background:var(--tinta);color:#fff;cursor:pointer}
+button:hover:not(:disabled){background:#1B3946;border-color:#1B3946}
+button.secundario{background:transparent;color:var(--tinta)}
+button.secundario:hover:not(:disabled){background:var(--papel-hondo)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.botonera{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+
+.zona{border:1px dashed var(--acento);background:#fff;border-radius:2px;padding:34px 24px;text-align:center;cursor:pointer}
+.zona:hover,.zona.encima{background:#E6F0F1}
+.zona strong{display:block;font-size:17px;margin-bottom:4px}
+.zona span{color:var(--tinta-suave);font-size:14px}
+
+.slider-fila{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+input[type=range]{flex:1;min-width:200px;accent-color:var(--acento)}
+.lectura{font:600 15px/1.3 "IBM Plex Sans",sans-serif;white-space:nowrap;padding:8px 12px;
+  background:#fff;border:1px solid var(--linea);border-radius:2px}
+.lectura em{font-style:normal;color:var(--acento)}
+
+.nota{font-size:13px;color:var(--tinta-suave);margin-top:10px;max-width:70ch}
+.alerta{border-left:3px solid var(--aviso);background:#FBF2ED;padding:12px 14px;font-size:14px;margin:16px 0;color:#6E3A20}
+.registro{font:400 13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--tinta);color:#BFD4DB;
+  padding:14px 16px;border-radius:2px;max-height:200px;overflow-y:auto;white-space:pre-wrap;margin-top:16px;display:none}
+.registro.visible{display:block}
+.barra{height:3px;background:var(--papel-hondo);margin-top:16px;display:none}
+.barra.visible{display:block}
+.barra i{display:block;height:100%;background:var(--acento);width:0;transition:width .3s}
+
+/* evaluación */
+.veredicto{font:400 18px/1.5 "Newsreader",Georgia,serif;background:#fff;border:1px solid var(--linea);
+  padding:16px 18px;margin:16px 0}
+table.rubrica{width:100%;border-collapse:collapse;background:#fff;font-size:14px;margin-top:8px}
+table.rubrica th,table.rubrica td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--linea)}
+table.rubrica th{font-weight:500;font-size:12px;color:var(--tinta-suave)}
+table.rubrica td.num{text-align:right;font-variant-numeric:tabular-nums;width:64px}
+.medida{display:block;height:4px;background:var(--papel-hondo);margin-top:5px}
+.medida i{display:block;height:100%;background:var(--acento)}
+.delta{font-weight:600;font-variant-numeric:tabular-nums}
+.delta.sube{color:var(--sube)} .delta.baja{color:var(--baja)} .delta.igual{color:var(--tinta-suave)}
+.listas{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:18px}
+.listas h4{margin:0 0 6px;font:600 14px/1.3 "IBM Plex Sans",sans-serif}
+.listas ul{margin:0;padding-left:18px;font-size:14px;color:var(--tinta-suave)}
+.listas li{margin-bottom:5px}
+
+.escena{border:1px solid var(--linea);background:#fff;padding:14px 16px;margin-bottom:10px}
+.escena h3{margin:0 0 8px;font:600 15px/1.3 "IBM Plex Sans",sans-serif}
+.escena textarea{min-height:78px}
+.escena .meta{font-size:12px;color:var(--tinta-suave);margin-top:6px}
+.pestanas{display:flex;gap:0;margin:18px 0 0;border-bottom:1px solid var(--linea)}
+.pestanas button{background:none;border:none;border-bottom:2px solid transparent;color:var(--tinta-suave);
+  padding:9px 14px;font-weight:500;border-radius:0}
+.pestanas button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--acento)}
+.pestanas button:hover{background:var(--papel-hondo)}
+.panel{display:none;padding-top:18px} .panel.visible{display:block}
+
+video{width:100%;background:#000;margin-top:18px;display:none}
+video.visible{display:block}
+canvas#lienzo{position:fixed;left:-10000px;top:0;width:480px;height:270px;pointer-events:none}
+footer{border-top:1px solid var(--linea);padding:26px 0;color:var(--tinta-suave);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>De un documento a una clase de tres minutos</h1>
+  <p>NanoClase evalúa tu material docente, lo reescribe, vuelve a evaluarlo para que veas qué ha cambiado, y monta un vídeo locutado con el texto escrito debajo de cada diapositiva. Puede terminar en un idioma distinto al de entrada. Todo ocurre en tu navegador, con tu clave de OpenAI.</p>
+</header>
+
+<div class="tira" id="tira" aria-label="Diapositivas del vídeo"></div>
+<div class="tira-pie">
+  <span id="tiraEstado">Aún no hay diapositivas</span>
+  <span id="tiraDuracion"></span>
+</div>
+
+<!-- 1 -->
+<section class="paso" id="paso1" data-estado="activo">
+  <h2><span class="n">1</span> Clave, modelos e idiomas <span class="hecho" id="ok1"></span></h2>
+  <p>La clave se queda en este navegador y viaja solo a api.openai.com. El idioma de entrada se detecta solo; el de salida lo eliges tú, y puede ser otro.</p>
+
+  <div class="rejilla">
+    <div style="grid-column:1/-1">
+      <label for="clave">Clave de API de OpenAI</label>
+      <input type="password" id="clave" placeholder="sk-..." autocomplete="off">
+    </div>
+    <div>
+      <label for="modeloTexto">Modelo que escribe</label>
+      <input type="text" id="modeloTexto" value="gpt-4.1-mini">
+    </div>
+    <div>
+      <label for="modeloVoz">Modelo que locuta</label>
+      <select id="modeloVoz">
+        <option value="gpt-4o-mini-tts" selected>gpt-4o-mini-tts (admite tono)</option>
+        <option value="tts-1">tts-1 (más barato, plano)</option>
+        <option value="tts-1-hd">tts-1-hd</option>
+      </select>
+    </div>
+    <div>
+      <label for="voz">Voz</label>
+      <select id="voz">
+        <option value="onyx" selected>onyx · grave</option>
+        <option value="alloy">alloy · neutra</option>
+        <option value="nova">nova · clara</option>
+        <option value="shimmer">shimmer · suave</option>
+        <option value="echo">echo</option><option value="fable">fable</option>
+        <option value="ballad">ballad</option><option value="coral">coral</option>
+      </select>
+    </div>
+    <div>
+      <label for="idiomaSalida">Idioma del vídeo y del documento mejorado</label>
+      <select id="idiomaSalida"></select>
+    </div>
+    <div id="cajaOtroIdioma" style="display:none">
+      <label for="otroIdioma">Escribe el idioma</label>
+      <input type="text" id="otroIdioma" placeholder="p. ej. neerlandés">
+    </div>
+    <div>
+      <label for="marca">Pie de las diapositivas</label>
+      <input type="text" id="marca" placeholder="déjalo vacío para no poner ninguno">
+    </div>
+    <div>
+      <label for="subtituloDentro">Texto leído bajo la diapositiva</label>
+      <select id="subtituloDentro">
+        <option value="si" selected>Sí, escrito en el vídeo</option>
+        <option value="no">No, solo en el fichero .srt</option>
+      </select>
+    </div>
+  </div>
+  <div class="botonera">
+    <button id="btnGuardarClave">Guardar clave en este navegador</button>
+    <button class="secundario" id="btnOlvidarClave">Olvidarla</button>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="paso" id="paso2" data-estado="bloqueado">
+  <h2><span class="n">2</span> El documento <span class="hecho" id="ok2"></span></h2>
+  <p>Cuaderno Jupyter, Word, PDF con texto seleccionable, Markdown o texto plano.</p>
+  <div class="zona" id="zona" tabindex="0" role="button" aria-label="Elegir documento">
+    <strong>Arrastra el documento aquí</strong>
+    <span>o pulsa para elegirlo</span>
+  </div>
+  <input type="file" id="fichero" accept=".ipynb,.docx,.pdf,.md,.txt,.markdown" hidden>
+  <div class="nota" id="notaDoc"></div>
+</section>
+
+<!-- 3 -->
+<section class="paso" id="paso3" data-estado="bloqueado">
+  <h2><span class="n">3</span> Cómo está ahora <span class="hecho" id="ok3"></span></h2>
+  <p>Ocho dimensiones de calidad docente, puntuadas de cero a diez, con lo que falta y lo que ya funciona. Esta es la medición de partida.</p>
+  <div class="botonera"><button id="btnEvalInicial">Evaluar el documento</button></div>
+  <div class="barra" id="barra3"><i></i></div>
+  <div id="evalInicial"></div>
+</section>
+
+<!-- 4 -->
+<section class="paso" id="paso4" data-estado="bloqueado">
+  <h2><span class="n">4</span> La reescritura <span class="hecho" id="ok4"></span></h2>
+  <p>Objetivos, entrada y salida de cada bloque, comprobaciones con la respuesta plegada, glosario, errores frecuentes y ejercicios. Léelo y corrígelo: de aquí sale el guion.</p>
+  <div class="botonera">
+    <button id="btnMejorar">Reescribir el documento</button>
+    <button class="secundario" id="btnSaltarMejora">Usarlo tal cual</button>
+  </div>
+  <div class="barra" id="barra4"><i></i></div>
+  <div style="margin-top:18px">
+    <label for="mejorado">Documento reescrito (editable)</label>
+    <textarea id="mejorado" style="min-height:280px" placeholder="Aparecerá aquí según se escriba."></textarea>
+  </div>
+  <div class="botonera">
+    <button class="secundario" id="btnDescargarMd" disabled>Descargar .md</button>
+    <button class="secundario" id="btnDescargarIpynb" disabled>Descargar .ipynb</button>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="paso" id="paso5" data-estado="bloqueado">
+  <h2><span class="n">5</span> Qué ha cambiado <span class="hecho" id="ok5"></span></h2>
+  <p>La misma rúbrica sobre el documento reescrito, junto a la de partida. Si una dimensión no ha subido, la reescritura no la ha tocado y conviene mirarla a mano.</p>
+  <div class="botonera"><button id="btnEvalFinal">Volver a evaluar</button></div>
+  <div class="barra" id="barra5"><i></i></div>
+  <div id="evalFinal"></div>
+</section>
+
+<!-- 6 -->
+<section class="paso" id="paso6" data-estado="bloqueado">
+  <h2><span class="n">6</span> El guion y las diapositivas <span class="hecho" id="ok6"></span></h2>
+  <p>Cada diapositiva ocupa unos 22 segundos hablados, así que su número es la duración del vídeo. Puedes retocar escena a escena o editar el JSON entero.</p>
+
+  <div class="slider-fila">
+    <input type="range" id="nDiapos" min="4" max="16" value="8" step="1">
+    <span class="lectura"><em id="lecturaN">8</em> diapositivas · <em id="lecturaT">3:00</em> · <em id="lecturaP">440</em> palabras</span>
+  </div>
+  <div class="nota">Por debajo de seis el vídeo orienta pero no recorre. Por encima de doce deja de ser una presentación.</div>
+
+  <div class="botonera"><button id="btnGuion">Escribir el guion</button></div>
+  <div class="barra" id="barra6"><i></i></div>
+
+  <div id="zonaGuion" style="display:none">
+    <div class="pestanas" role="tablist">
+      <button role="tab" id="tabFichas" aria-selected="true" aria-controls="panelFichas">Fichas</button>
+      <button role="tab" id="tabJson" aria-selected="false" aria-controls="panelJson">JSON</button>
+    </div>
+    <div class="panel visible" id="panelFichas"><div id="escenas"></div></div>
+    <div class="panel" id="panelJson">
+      <label for="jsonGuion">Guion completo. Edítalo y aplícalo; se validará antes de redibujar.</label>
+      <textarea id="jsonGuion" class="codigo" style="min-height:340px"></textarea>
+      <div class="botonera">
+        <button id="btnAplicarJson">Aplicar el JSON</button>
+        <button class="secundario" id="btnRevertirJson">Descartar mis cambios</button>
+      </div>
+      <div id="avisoJson"></div>
+    </div>
+    <div class="botonera">
+      <button class="secundario" id="btnRedibujar">Redibujar las diapositivas</button>
+      <button class="secundario" id="btnDescargarGuion">Descargar el guion (.json)</button>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="paso" id="paso7" data-estado="bloqueado">
+  <h2><span class="n">7</span> La voz y el montaje <span class="hecho" id="ok7"></span></h2>
+  <p>Una llamada de voz por escena. El montaje se graba en tiempo real: un vídeo de tres minutos tarda tres minutos, y la pestaña debe quedarse delante.</p>
+  <div id="avisoFormato"></div>
+  <div class="botonera">
+    <button id="btnVoz">Locutar las escenas</button>
+    <button id="btnMontar" disabled>Montar el vídeo</button>
+  </div>
+  <div class="barra" id="barra7"><i></i></div>
+  <div class="registro" id="registro"></div>
+  <video id="salida" controls playsinline></video>
+  <div class="botonera">
+    <button class="secundario" id="btnDescargarVideo" disabled>Descargar el vídeo</button>
+    <button class="secundario" id="btnDescargarSrt" disabled>Descargar los subtítulos</button>
+    <button class="secundario" id="btnDescargarZip" disabled>Descargar el material suelto (.zip)</button>
+  </div>
+  <div class="nota">El zip trae las diapositivas en PNG, los audios en MP3, los subtítulos y las órdenes de ffmpeg para montar un MP4 con el texto incrustado.</div>
+</section>
+
+<canvas id="lienzo" width="1920" height="1080"></canvas>
+
+<footer>NanoClase · herramienta abierta para docencia universitaria. Las llamadas se facturan en tu cuenta de OpenAI.</footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const API = "https://api.openai.com/v1";
+
+const S = {
+  nombre:"", tipo:"", bruto:"", mejorado:"",
+  evalIni:null, evalFin:null,
+  guion:null, imagenes:[], basesLimpias:[], audios:[], cues:[], srt:"", videoBlob:null
+};
+
+/* ===================== idiomas ===================== */
+const IDIOMAS = [
+  ["mismo","El mismo del documento"],
+  ["español","Español"],["inglés","Inglés"],["francés","Francés"],["alemán","Alemán"],
+  ["italiano","Italiano"],["portugués","Portugués"],["catalán","Catalán"],["gallego","Gallego"],
+  ["euskera","Euskera"],["neerlandés","Neerlandés"],["polaco","Polaco"],["rumano","Rumano"],
+  ["sueco","Sueco"],["noruego","Noruego"],["danés","Danés"],["finés","Finés"],["griego","Griego"],
+  ["checo","Checo"],["húngaro","Húngaro"],["turco","Turco"],["ruso","Ruso"],["ucraniano","Ucraniano"],
+  ["árabe","Árabe"],["hebreo","Hebreo"],["hindi","Hindi"],["chino mandarín","Chino mandarín"],
+  ["japonés","Japonés"],["coreano","Coreano"],["indonesio","Indonesio"],["vietnamita","Vietnamita"],
+  ["tailandés","Tailandés"],["otro","Otro (lo escribo)"]
+];
+(function llenarIdiomas(){
+  const s = $("idiomaSalida");
+  IDIOMAS.forEach(([v, t]) => {
+    const o = document.createElement("option");
+    o.value = v; o.textContent = t;
+    if (v === "mismo") o.selected = true;
+    s.appendChild(o);
+  });
+})();
+$("idiomaSalida").onchange = e => {
+  $("cajaOtroIdioma").style.display = e.target.value === "otro" ? "" : "none";
+};
+function idiomaSalida(){
+  const v = $("idiomaSalida").value;
+  if (v === "otro") return $("otroIdioma").value.trim() || "el mismo idioma del documento";
+  if (v === "mismo") return null;
+  return v;
+}
+function instruccionIdioma(){
+  const l = idiomaSalida();
+  return l ? `Escribe en ${l}. El documento de partida puede estar en otro idioma: traduce el contenido, no lo resumas ni lo abrevies al cambiar de lengua.`
+           : "Escribe en el mismo idioma que el documento de partida.";
+}
+
+/* ===================== utilidades ===================== */
+function log(t){ const r=$("registro"); r.classList.add("visible"); r.textContent+=t+"\n"; r.scrollTop=r.scrollHeight; }
+function barra(id,f){ const b=$(id); b.classList.add("visible"); b.querySelector("i").style.width=Math.round(f*100)+"%"; }
+function abrirPaso(n){ const p=$("paso"+n); if(p.dataset.estado==="bloqueado") p.dataset.estado="activo"; }
+function marcar(n,t){ $("ok"+n).textContent = t ? "· "+t : ""; }
+function descargar(blob,nombre){
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=nombre; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+function limpiarNombre(s){
+  return (s||"nanoclase").replace(/\.[^.]+$/,"").replace(/[^\w\-áéíóúñÁÉÍÓÚÑ ]+/g,"").trim().replace(/\s+/g,"_");
+}
+function esc(s){ const d=document.createElement("div"); d.textContent=s==null?"":s; return d.innerHTML; }
+
+/* ===================== clave ===================== */
+const CLAVE="ia_openai_key";
+$("clave").value = localStorage.getItem(CLAVE) || "";
+if ($("clave").value){ abrirPaso(2); marcar(1,"clave guardada"); }
+$("clave").addEventListener("input",()=>{ if($("clave").value.trim().length>20) abrirPaso(2); });
+$("btnGuardarClave").onclick=()=>{ const v=$("clave").value.trim(); if(!v)return;
+  localStorage.setItem(CLAVE,v); marcar(1,"clave guardada"); abrirPaso(2); };
+$("btnOlvidarClave").onclick=()=>{ localStorage.removeItem(CLAVE); $("clave").value=""; marcar(1,""); };
+const laClave=()=>$("clave").value.trim();
+
+/* ===================== OpenAI ===================== */
+async function chat(mensajes,{json=false,alTrozo=null}={}){
+  const base={ model:$("modeloTexto").value.trim()||"gpt-4.1-mini", messages:mensajes };
+  const cuerpo={...base};
+  if(json) cuerpo.response_format={type:"json_object"};
+  if(alTrozo) cuerpo.stream=true;
+  const cab={"Content-Type":"application/json",Authorization:"Bearer "+laClave()};
+
+  let r=await fetch(API+"/chat/completions",{method:"POST",headers:cab,body:JSON.stringify(cuerpo)});
+  if(!r.ok && json){
+    delete cuerpo.response_format;
+    r=await fetch(API+"/chat/completions",{method:"POST",headers:cab,body:JSON.stringify(cuerpo)});
+  }
+  if(!r.ok) throw new Error("La API respondió "+r.status+": "+(await r.text()).slice(0,300));
+
+  if(!alTrozo) return (await r.json()).choices[0].message.content;
+
+  const lector=r.body.getReader(), dec=new TextDecoder();
+  let resto="",texto="";
+  for(;;){
+    const {done,value}=await lector.read();
+    if(done) break;
+    resto+=dec.decode(value,{stream:true});
+    const lineas=resto.split("\n"); resto=lineas.pop();
+    for(const l of lineas){
+      if(!l.startsWith("data: ")) continue;
+      const carga=l.slice(6).trim();
+      if(carga==="[DONE]") continue;
+      try{ const t=JSON.parse(carga).choices?.[0]?.delta?.content; if(t){ texto+=t; alTrozo(texto); } }catch(e){}
+    }
+  }
+  return texto;
+}
+
+function extraerJson(crudo){
+  let t = crudo.trim().replace(/^```(?:json)?/i,"").replace(/```\s*$/,"").trim();
+  const i=t.indexOf("{"), j=t.lastIndexOf("}");
+  if(i>0||j<t.length-1) t=t.slice(i, j+1);
+  return JSON.parse(t);
+}
+
+async function locutar(texto){
+  const modelo=$("modeloVoz").value;
+  const cuerpo={ model:modelo, voice:$("voz").value, input:texto, response_format:"mp3" };
+  if(modelo==="gpt-4o-mini-tts")
+    cuerpo.instructions="Read as a university lecturer explaining to students: warm, confident and unhurried. Mark the pauses between sentences and do not rush the ending. Use the natural pronunciation of the language the text is written in.";
+  const r=await fetch(API+"/audio/speech",{method:"POST",
+    headers:{"Content-Type":"application/json",Authorization:"Bearer "+laClave()},body:JSON.stringify(cuerpo)});
+  if(!r.ok) throw new Error("Voz: "+r.status+" "+(await r.text()).slice(0,200));
+  return await r.blob();
+}
+
+/* ===================== lectura del documento ===================== */
+const textoCelda = c => Array.isArray(c.source)?c.source.join(""):(c.source||"");
+
+async function leerFichero(f){
+  const ext=(f.name.split(".").pop()||"").toLowerCase();
+  S.nombre=limpiarNombre(f.name);
+  if(ext==="ipynb"){
+    const nb=JSON.parse(await f.text()); S.tipo="ipynb";
+    return nb.cells.map(c=>c.cell_type==="code"
+      ? "```python\n"+textoCelda(c).trim()+"\n```" : textoCelda(c).trim()).filter(Boolean).join("\n\n");
+  }
+  if(ext==="docx"){
+    S.tipo="docx";
+    return (await window.mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value;
+  }
+  if(ext==="pdf"){
+    S.tipo="pdf";
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    const p=[];
+    for(let i=1;i<=doc.numPages;i++){
+      const pg=await doc.getPage(i);
+      p.push((await pg.getTextContent()).items.map(t=>t.str).join(" "));
+      $("notaDoc").textContent=`Leyendo el PDF: página ${i} de ${doc.numPages}.`;
+    }
+    return p.join("\n\n");
+  }
+  S.tipo="md";
+  return await f.text();
+}
+
+async function recibirFichero(f){
+  if(!f) return;
+  $("notaDoc").textContent="Leyendo…";
+  try{
+    S.bruto=(await leerFichero(f)).trim();
+    if(S.bruto.length<200) throw new Error("Casi no hay texto. Si es un PDF escaneado, necesita un OCR antes.");
+    $("notaDoc").textContent=`${f.name} · ${S.bruto.split(/\s+/).length.toLocaleString("es")} palabras leídas.`;
+    marcar(2,S.tipo); abrirPaso(3);
+  }catch(e){
+    $("notaDoc").innerHTML='<div class="alerta">'+esc(e.message)+"</div>";
+  }
+}
+$("zona").onclick=()=>$("fichero").click();
+$("zona").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();$("fichero").click();} };
+$("fichero").onchange=e=>recibirFichero(e.target.files[0]);
+["dragenter","dragover"].forEach(ev=>$("zona").addEventListener(ev,e=>{e.preventDefault();$("zona").classList.add("encima");}));
+["dragleave","drop"].forEach(ev=>$("zona").addEventListener(ev,e=>{e.preventDefault();$("zona").classList.remove("encima");}));
+$("zona").addEventListener("drop",e=>recibirFichero(e.dataTransfer.files[0]));
+
+/* ===================== evaluación didáctica ===================== */
+const RECORTE=60000;
+const DIMENSIONES=[
+  ["objetivos","Objetivos observables"],
+  ["previos","Requisitos previos declarados"],
+  ["estructura","Estructura y progresión"],
+  ["andamiaje","Entrada y salida de cada bloque"],
+  ["comprobaciones","Comprobaciones de comprensión"],
+  ["ejemplos","Ejemplos concretos"],
+  ["lenguaje","Claridad del lenguaje"],
+  ["cierre","Resumen, glosario, errores y ejercicios"]
+];
+
+const SISTEMA_EVAL = `Evalúas material docente universitario con criterio y sin complacencia. Un documento correcto pero sin objetivos ni comprobaciones no pasa de un cinco: la nota mide cuánto ayuda a aprender solo, no cuánto sabe quien lo escribió.
+
+Puntúa de 0 a 10 estas ocho dimensiones, exactamente con estas claves:
+${DIMENSIONES.map(([k,t])=>`- ${k}: ${t}`).join("\n")}
+
+Escribe la evaluación en el mismo idioma que el documento evaluado.
+
+Devuelve solo JSON:
+{"veredicto":"una frase sobre en qué estado está el documento",
+ "dimensiones":[{"clave":"objetivos","nota":0,"comentario":"una línea concreta, citando lo que falta"}],
+ "fortalezas":["..."],"carencias":["..."],
+ "prioridad":"el único cambio que más mejoraría el documento"}`;
+
+async function evaluar(texto){
+  return extraerJson(await chat(
+    [{role:"system",content:SISTEMA_EVAL},{role:"user",content:texto.slice(0,RECORTE)}],
+    {json:true}));
+}
+
+function media(ev){
+  const n=ev.dimensiones.map(d=>+d.nota).filter(x=>!isNaN(x));
+  return n.length ? n.reduce((a,b)=>a+b,0)/n.length : 0;
+}
+function notaDe(ev,clave){
+  const d=(ev?.dimensiones||[]).find(x=>x.clave===clave);
+  return d ? +d.nota : null;
+}
+function comentarioDe(ev,clave){
+  return (ev?.dimensiones||[]).find(x=>x.clave===clave)?.comentario || "";
+}
+
+function pintarEvaluacion(destino, ini, fin){
+  const ev = fin || ini;
+  const comparando = !!fin;
+  let h = `<div class="veredicto">${esc(ev.veredicto||"")}</div>`;
+  h += `<table class="rubrica"><thead><tr>
+    <th>Dimensión</th><th class="num">${comparando?"Antes":"Nota"}</th>
+    ${comparando?'<th class="num">Después</th><th class="num">Cambio</th>':""}
+    <th>Qué dice</th></tr></thead><tbody>`;
+
+  for(const [k,t] of DIMENSIONES){
+    const a=notaDe(ini,k), b=notaDe(fin,k);
+    const mostrada = comparando ? b : a;
+    let celdaCambio="";
+    if(comparando){
+      const d = (b!=null && a!=null) ? b-a : null;
+      const cls = d==null ? "igual" : d>0 ? "sube" : d<0 ? "baja" : "igual";
+      const txt = d==null ? "—" : (d>0?"+":"")+d.toFixed(1).replace(/\.0$/,"");
+      celdaCambio=`<td class="num"><span class="delta ${cls}">${txt}</span></td>`;
+    }
+    h += `<tr>
+      <td>${esc(t)}<span class="medida"><i style="width:${(mostrada||0)*10}%"></i></span></td>
+      <td class="num">${a==null?"—":a}</td>
+      ${comparando?`<td class="num">${b==null?"—":b}</td>${celdaCambio}`:""}
+      <td>${esc(comentarioDe(ev,k))}</td></tr>`;
+  }
+
+  const ma=media(ini), mb=fin?media(fin):null;
+  h += `<tr><td><strong>Media</strong></td><td class="num"><strong>${ma.toFixed(1)}</strong></td>`;
+  if(comparando){
+    const d=mb-ma;
+    h += `<td class="num"><strong>${mb.toFixed(1)}</strong></td>
+      <td class="num"><span class="delta ${d>0?"sube":d<0?"baja":"igual"}">${(d>0?"+":"")+d.toFixed(1)}</span></td>`;
+  }
+  h += `<td></td></tr></tbody></table>`;
+
+  h += `<div class="listas">
+    <div><h4>Lo que ya funciona</h4><ul>${(ev.fortalezas||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div><h4>Lo que falta</h4><ul>${(ev.carencias||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+  </div>`;
+  if(ev.prioridad) h += `<div class="veredicto" style="border-left:3px solid var(--acento)"><strong>Lo primero:</strong> ${esc(ev.prioridad)}</div>`;
+
+  $(destino).innerHTML=h;
+}
+
+$("btnEvalInicial").onclick=async()=>{
+  const b=$("btnEvalInicial"); b.disabled=true; b.textContent="Evaluando…"; barra("barra3",0.3);
+  try{
+    S.evalIni=await evaluar(S.bruto);
+    barra("barra3",1);
+    pintarEvaluacion("evalInicial",S.evalIni,null);
+    marcar(3,"media "+media(S.evalIni).toFixed(1));
+    abrirPaso(4);
+  }catch(e){ $("evalInicial").innerHTML='<div class="alerta">No se pudo evaluar. '+esc(e.message)+"</div>"; }
+  finally{ b.disabled=false; b.textContent="Volver a evaluar el documento"; }
+};
+
+$("btnEvalFinal").onclick=async()=>{
+  const b=$("btnEvalFinal"); b.disabled=true; b.textContent="Evaluando…"; barra("barra5",0.3);
+  try{
+    S.evalFin=await evaluar($("mejorado").value);
+    barra("barra5",1);
+    pintarEvaluacion("evalFinal",S.evalIni,S.evalFin);
+    marcar(5,`${media(S.evalIni).toFixed(1)} → ${media(S.evalFin).toFixed(1)}`);
+    abrirPaso(6);
+  }catch(e){ $("evalFinal").innerHTML='<div class="alerta">No se pudo evaluar. '+esc(e.message)+"</div>"; }
+  finally{ b.disabled=false; b.textContent="Volver a evaluar"; }
+};
+
+/* ===================== reescritura ===================== */
+$("btnSaltarMejora").onclick=()=>{
+  S.mejorado=S.bruto; $("mejorado").value=S.bruto;
+  $("btnDescargarMd").disabled=false; $("btnDescargarIpynb").disabled=false;
+  marcar(4,"sin reescribir"); abrirPaso(5); abrirPaso(6);
+};
+
+$("btnMejorar").onclick=async()=>{
+  const b=$("btnMejorar"); b.disabled=true; b.textContent="Escribiendo…"; barra("barra4",0.05);
+  const esIpynb=S.tipo==="ipynb";
+  const pistas = S.evalIni
+    ? `\n\nLa evaluación de partida señala esto, y tu reescritura tiene que resolverlo:\n- Prioridad: ${S.evalIni.prioridad}\n- Carencias: ${(S.evalIni.carencias||[]).join("; ")}`
+    : "";
+
+  const sistema=`Eres profesor universitario y editor de material docente. Reescribes documentos para que se entiendan sin nadie al lado.
+
+Devuelve SOLO Markdown, sin comentarios tuyos ni vallas alrededor del documento entero.
+
+Estructura obligatoria:
+- Título.
+- "Qué vas a aprender": objetivos numerados, cada uno con un verbo observable.
+- "Qué necesitas saber antes" y "Qué necesitas tener listo".
+- El cuerpo, en secciones numeradas. ${esIpynb
+  ? "Conserva TODOS los bloques de código tal cual, entre vallas ```python. Antes de cada bloque escribe qué va a hacer; después, qué mirar en el resultado."
+  : "Antes de cada parte densa, di qué se va a explicar; después, qué conviene retener."}
+- Cada dos o tres secciones, una comprobación con la respuesta plegada en <details><summary>Ver respuesta</summary> … </details>.
+- Cierre: "Resumen: las ideas que hay que llevarse", glosario en tabla, tabla de errores frecuentes y ejercicios propuestos con nivel.
+
+Reglas: no inventes contenido que no esté en el original; si algo está mal explicado, explícalo mejor, no lo sustituyas. Frases cortas, voz activa, sin superlativos. ${instruccionIdioma()}${pistas}`;
+
+  try{
+    S.mejorado=await chat(
+      [{role:"system",content:sistema},{role:"user",content:"Documento original:\n\n"+S.bruto.slice(0,RECORTE)}],
+      {alTrozo:t=>{ $("mejorado").value=t; barra("barra4",Math.min(0.95,t.length/12000)); }});
+    barra("barra4",1);
+    $("btnDescargarMd").disabled=false; $("btnDescargarIpynb").disabled=false;
+    marcar(4,"reescrito"); abrirPaso(5);
+  }catch(e){ $("mejorado").value="No se pudo reescribir.\n\n"+e.message; }
+  finally{ b.disabled=false; b.textContent="Reescribir el documento"; }
+};
+
+$("mejorado").addEventListener("input",e=>{ S.mejorado=e.target.value; });
+$("btnDescargarMd").onclick=()=>descargar(new Blob([$("mejorado").value],{type:"text/markdown"}),S.nombre+"_nanoclase.md");
+$("btnDescargarIpynb").onclick=()=>{
+  const celdas=[];
+  $("mejorado").value.split(/```(?:python|py)?\n([\s\S]*?)```/g).forEach((p,i)=>{
+    const t=p.trim(); if(!t) return;
+    const src=t.split("\n").map((l,j,a)=>j<a.length-1?l+"\n":l);
+    celdas.push(i%2
+      ? {cell_type:"code",metadata:{},source:src,outputs:[],execution_count:null}
+      : {cell_type:"markdown",metadata:{},source:src});
+  });
+  const nb={cells:celdas,metadata:{kernelspec:{display_name:"Python 3",language:"python",name:"python3"},
+    language_info:{name:"python"}},nbformat:4,nbformat_minor:5};
+  descargar(new Blob([JSON.stringify(nb,null,1)],{type:"application/json"}),S.nombre+"_nanoclase.ipynb");
+};
+
+/* ===================== número de diapositivas ===================== */
+const SEG_POR_DIAPO=22;
+function refrescarLectura(){
+  const n=+$("nDiapos").value, seg=n*SEG_POR_DIAPO;
+  $("lecturaN").textContent=n;
+  $("lecturaT").textContent=Math.floor(seg/60)+":"+String(seg%60).padStart(2,"0");
+  $("lecturaP").textContent=Math.round(seg/60*150);
+  pintarTira();
+}
+$("nDiapos").oninput=refrescarLectura;
+
+function pintarTira(){
+  const n=S.guion?S.guion.escenas.length:+$("nDiapos").value;
+  const t=$("tira"); t.innerHTML="";
+  for(let i=0;i<n;i++){
+    const d=document.createElement("div");
+    d.className="frame"+(S.imagenes[i]?"":" vacio");
+    if(S.imagenes[i]){
+      const im=document.createElement("img"); im.src=S.imagenes[i]; im.alt="Diapositiva "+(i+1); d.appendChild(im);
+    } else d.textContent=i+1;
+    t.appendChild(d);
+  }
+  const seg=S.audios.length
+    ? S.audios.reduce((a,x)=>a+x.duracion,0)+0.35*(S.audios.length-1)
+    : n*SEG_POR_DIAPO;
+  $("tiraEstado").textContent=S.imagenes.length?`${n} diapositivas dibujadas`:`${n} diapositivas previstas`;
+  $("tiraDuracion").textContent=(S.audios.length?"duración real ":"duración estimada ")+
+    Math.floor(seg/60)+":"+String(Math.round(seg%60)).padStart(2,"0");
+}
+
+/* ===================== guion ===================== */
+$("btnGuion").onclick=async()=>{
+  const b=$("btnGuion"); b.disabled=true; b.textContent="Escribiendo…"; barra("barra6",0.1);
+  const n=+$("nDiapos").value, palabras=Math.round(n*SEG_POR_DIAPO/60*150);
+
+  const sistema=`Eres guionista de vídeos docentes universitarios.
+
+A partir de un documento, escribe el guion de un vídeo de presentación de ${n} escenas y ${palabras} palabras de narración en total.
+
+Reparto: escena 1, qué es el documento y qué NO es; escena 2, qué sabrá hacer quien lo recorra; escena 3, qué necesita antes; escenas intermedias, el recorrido priorizando lo que más cambia la comprensión; última escena, cómo recorrerlo y qué hay al final.
+
+Reglas que no se negocian:
+- La diapositiva ancla y la voz explica: NUNCA dicen lo mismo. Los puntos son telegráficos, no frases.
+- Frases cortas, voz activa, sin superlativos. Suena a profesor, no a folleto.
+- Concreto antes que abstracto.
+- Los identificadores técnicos, escritos como se pronuncian.
+- Cifras redondas. Nada que solo se entienda con el código delante.
+${instruccionIdioma()}
+
+Devuelve solo JSON con esta forma exacta:
+{"titulo":"...","escenas":[{"titulo":"texto grande","subtitulo":"una línea","puntos":["máx 4"],"narracion":"lo que se oye"}]}
+Exactamente ${n} escenas. La suma de las narraciones, cerca de ${palabras} palabras.`;
+
+  try{
+    const g=extraerJson(await chat(
+      [{role:"system",content:sistema},{role:"user",content:(S.mejorado||S.bruto).slice(0,RECORTE)}],
+      {json:true}));
+    if(!Array.isArray(g.escenas)||!g.escenas.length) throw new Error("El guion no trae escenas.");
+    S.guion=g;
+    barra("barra6",1);
+    $("zonaGuion").style.display="";
+    pintarEscenas(); volcarJson();
+    await dibujarTodas();
+    marcar(6,S.guion.escenas.length+" escenas");
+    abrirPaso(7);
+  }catch(e){ $("escenas").innerHTML='<div class="alerta">No se pudo escribir el guion. '+esc(e.message)+"</div>"; }
+  finally{ b.disabled=false; b.textContent="Reescribir el guion"; }
+};
+
+function pintarEscenas(){
+  const cont=$("escenas"); cont.innerHTML="";
+  S.guion.escenas.forEach((e,i)=>{
+    const d=document.createElement("div"); d.className="escena";
+    d.innerHTML=`<h3>${i+1}. <span></span></h3>
+      <label>Título de la diapositiva</label><input type="text" data-campo="titulo" data-i="${i}">
+      <label style="margin-top:8px">Subtítulo</label><input type="text" data-campo="subtitulo" data-i="${i}">
+      <label style="margin-top:8px">Puntos, uno por línea (máximo 4)</label>
+      <textarea data-campo="puntos" data-i="${i}" style="min-height:70px"></textarea>
+      <label style="margin-top:8px">Narración, que es lo que se oye y lo que se escribe debajo</label>
+      <textarea data-campo="narracion" data-i="${i}"></textarea>
+      <div class="meta"></div>`;
+    d.querySelector("h3 span").textContent=e.titulo||"";
+    d.querySelector('[data-campo="titulo"]').value=e.titulo||"";
+    d.querySelector('[data-campo="subtitulo"]').value=e.subtitulo||"";
+    d.querySelector('[data-campo="puntos"]').value=(e.puntos||[]).join("\n");
+    d.querySelector('[data-campo="narracion"]').value=e.narracion||"";
+    cont.appendChild(d);
+    actualizarMeta(d,e.narracion||"");
+  });
+  if(!cont.dataset.escuchando){ cont.addEventListener("input",alEditarEscena); cont.dataset.escuchando="1"; }
+}
+function actualizarMeta(nodo,narracion){
+  const p=narracion.trim()?narracion.trim().split(/\s+/).length:0;
+  nodo.querySelector(".meta").textContent=`${p} palabras · unos ${Math.round(p/150*60)} s`;
+}
+function alEditarEscena(ev){
+  const t=ev.target, i=t.dataset.i;
+  if(i===undefined) return;
+  const e=S.guion.escenas[+i], campo=t.dataset.campo;
+  if(campo==="puntos") e.puntos=t.value.split("\n").map(s=>s.trim()).filter(Boolean).slice(0,4);
+  else e[campo]=t.value;
+  if(campo==="narracion") actualizarMeta(t.closest(".escena"),t.value);
+  if(campo==="titulo") t.closest(".escena").querySelector("h3 span").textContent=t.value;
+  volcarJson();
+}
+
+/* --- pestañas y edición del JSON --- */
+function pestana(cual){
+  const json = cual==="json";
+  $("tabJson").setAttribute("aria-selected",json);
+  $("tabFichas").setAttribute("aria-selected",!json);
+  $("panelJson").classList.toggle("visible",json);
+  $("panelFichas").classList.toggle("visible",!json);
+  if(json) volcarJson();
+}
+$("tabFichas").onclick=()=>pestana("fichas");
+$("tabJson").onclick=()=>pestana("json");
+
+function volcarJson(){
+  if(document.activeElement===$("jsonGuion")) return;   // no pisar lo que se está escribiendo
+  $("jsonGuion").value=JSON.stringify(S.guion,null,2);
+}
+$("btnRevertirJson").onclick=()=>{ $("jsonGuion").blur(); volcarJson(); $("avisoJson").innerHTML=""; };
+
+$("btnAplicarJson").onclick=async()=>{
+  const av=$("avisoJson");
+  try{
+    const g=JSON.parse($("jsonGuion").value);
+    if(!Array.isArray(g.escenas)||!g.escenas.length) throw new Error("Falta la lista \"escenas\" o está vacía.");
+    g.escenas.forEach((e,i)=>{
+      if(typeof e.titulo!=="string") throw new Error(`La escena ${i+1} no tiene "titulo" de texto.`);
+      if(typeof e.narracion!=="string") throw new Error(`La escena ${i+1} no tiene "narracion" de texto.`);
+      if(e.puntos && !Array.isArray(e.puntos)) throw new Error(`Los "puntos" de la escena ${i+1} deben ser una lista.`);
+    });
+    S.guion=g;
+    pintarEscenas();
+    await dibujarTodas();
+    av.innerHTML=`<div class="nota">Aplicado: ${g.escenas.length} escenas redibujadas.</div>`;
+    S.audios=[]; S.cues=[]; $("btnMontar").disabled=true;
+    marcar(7,"");
+  }catch(e){
+    av.innerHTML='<div class="alerta">El JSON no se pudo aplicar. '+esc(e.message)+"</div>";
+  }
+};
+
+$("btnDescargarGuion").onclick=()=>descargar(new Blob([JSON.stringify(S.guion,null,2)],{type:"application/json"}),S.nombre+"_guion.json");
+$("btnRedibujar").onclick=()=>dibujarTodas();
+
+/* ===================== segmentación del texto leído ===================== */
+const MAX_CAR=95;
+function segmentar(texto){
+  const frases=(texto.match(/[^.!?…]+[.!?…]*/g)||[texto]).map(s=>s.trim()).filter(Boolean);
+  const trozos=[];
+  for(const f of frases){
+    if(f.length<=MAX_CAR){ trozos.push(f); continue; }
+    let actual="";
+    for(const p of f.split(/\s+/)){
+      if((actual+" "+p).trim().length>MAX_CAR && actual){ trozos.push(actual.trim()); actual=p; }
+      else actual=(actual+" "+p).trim();
+    }
+    if(actual) trozos.push(actual.trim());
+  }
+  return trozos.length?trozos:[texto];
+}
+
+/* ===================== diapositivas ===================== */
+const W=1920,H=1080;
+const FONDO="#0E1B2A",ACENTO="#4690C2",TEXTO="#F0F4F8",APAGADO="#96A8BA";
+const BANDA_Y=852, BANDA_ALTO=220;            // franja del texto leído
+const PIE_Y=BANDA_Y-72;
+const CONTENIDO=BANDA_Y-40;
+
+function envolver(ctx,texto,ancho){
+  const lineas=[]; let actual="";
+  for(const p of String(texto).split(/\s+/)){
+    const prueba=actual?actual+" "+p:p;
+    if(ctx.measureText(prueba).width<=ancho) actual=prueba;
+    else{ if(actual) lineas.push(actual); actual=p; }
+  }
+  if(actual) lineas.push(actual);
+  return lineas;
+}
+
+function dibujarBase(escena,i,total){
+  const ctx=$("lienzo").getContext("2d");
+  const portada=i===0, marca=$("marca").value.trim();
+  const conBanda=$("subtituloDentro").value==="si";
+
+  ctx.fillStyle=FONDO; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=ACENTO; ctx.fillRect(0,0,12,H);
+
+  const m=150, ancho=W-300;
+  const alturaUtil = conBanda ? CONTENIDO : H-140;
+  const fTit=`600 ${portada?86:72}px "IBM Plex Sans", sans-serif`;
+  const fSub=`400 ${portada?48:42}px "IBM Plex Sans", sans-serif`;
+  const puntos=(escena.puntos||[]).slice(0,4);
+  const tamPun=puntos.length<=3?40:35;
+  const fPun=`400 ${tamPun}px "IBM Plex Sans", sans-serif`;
+  const altoTit=portada?98:86, altoSub=portada?66:58, altoPun=tamPun+14;
+
+  ctx.font=fTit; const lTit=envolver(ctx,escena.titulo||"",ancho);
+  ctx.font=fSub; const lSub=escena.subtitulo?envolver(ctx,escena.subtitulo,ancho):[];
+  ctx.font=fPun; const lPun=puntos.map(p=>envolver(ctx,p,ancho-56));
+
+  let alto=lTit.length*altoTit+36+lSub.length*altoSub;
+  if(lPun.length) alto+=40+lPun.reduce((a,x)=>a+x.length*altoPun+22,0);
+  let y=Math.max(120,(alturaUtil-alto)/2-10);
+
+  ctx.textBaseline="top";
+  ctx.fillStyle=TEXTO; ctx.font=fTit;
+  for(const l of lTit){ ctx.fillText(l,m,y); y+=altoTit; }
+  y+=22;
+  ctx.fillStyle=ACENTO; ctx.fillRect(m,y,96,6);
+  y+=30;
+  ctx.font=fSub;
+  for(const l of lSub){ ctx.fillText(l,m,y); y+=altoSub; }
+
+  if(lPun.length){
+    y+=40; ctx.font=fPun;
+    for(const lineas of lPun){
+      ctx.fillStyle=ACENTO; ctx.fillRect(m,y+tamPun*0.42,14,14);
+      ctx.fillStyle=TEXTO;
+      for(const l of lineas){ ctx.fillText(l,m+44,y); y+=altoPun; }
+      y+=22;
+    }
+  }
+
+  ctx.font='400 25px "IBM Plex Sans", sans-serif';
+  ctx.fillStyle=APAGADO;
+  const pieY = conBanda ? PIE_Y : H-100;
+  if(marca) ctx.fillText(marca,m,pieY);
+  const cont=`${i+1} / ${total}`;
+  ctx.fillText(cont,W-m-ctx.measureText(cont).width,pieY);
+
+  if(conBanda){
+    ctx.fillStyle="#13273A"; ctx.fillRect(0,BANDA_Y,W,BANDA_ALTO-8);
+    ctx.fillStyle="rgba(70,144,194,.35)"; ctx.fillRect(0,BANDA_Y,W,2);
+  }
+
+  ctx.fillStyle="#1E2D3E"; ctx.fillRect(0,H-8,W,8);
+  ctx.fillStyle=ACENTO; ctx.fillRect(0,H-8,W*(i+1)/total,8);
+}
+
+/* Escribe el texto leído dentro de la franja, sobre la base ya dibujada. */
+function dibujarTextoLeido(ctx,texto){
+  if($("subtituloDentro").value!=="si" || !texto) return;
+  ctx.font='400 38px "IBM Plex Sans", sans-serif';
+  const lineas=envolver(ctx,texto,W-300).slice(0,3);
+  const altoLinea=50;
+  let y=BANDA_Y+(BANDA_ALTO-8-lineas.length*altoLinea)/2;
+  ctx.textBaseline="top";
+  ctx.fillStyle="#DCE6EF";
+  for(const l of lineas){ ctx.fillText(l,150,y); y+=altoLinea; }
+}
+
+async function dibujarTodas(){
+  await document.fonts.ready;
+  try{ await document.fonts.load('600 86px "IBM Plex Sans"'); await document.fonts.load('400 38px "IBM Plex Sans"'); }catch(e){}
+  const c=$("lienzo"), ctx=c.getContext("2d"), n=S.guion.escenas.length;
+  S.imagenes=[]; S.basesLimpias=[];
+  S.guion.escenas.forEach((e,i)=>{
+    dibujarBase(e,i,n);
+    S.basesLimpias.push(c.toDataURL("image/png"));      // sin texto leído: para el zip y ffmpeg
+    dibujarTextoLeido(ctx,segmentar(e.narracion||"")[0]);
+    S.imagenes.push(c.toDataURL("image/png"));          // con la primera línea: para la vista previa
+  });
+  pintarTira();
+}
+
+/* ===================== voz ===================== */
+let ac=null;
+const audioCtx=()=>(ac||=new (window.AudioContext||window.webkitAudioContext)());
+
+$("btnVoz").onclick=async()=>{
+  const b=$("btnVoz"); b.disabled=true; b.textContent="Locutando…";
+  S.audios=[]; $("registro").textContent="";
+  const esc_=S.guion.escenas;
+  try{
+    for(let i=0;i<esc_.length;i++){
+      log(`Escena ${i+1} de ${esc_.length}: ${esc_[i].titulo}`);
+      const blob=await locutar(esc_[i].narracion);
+      const buf=await audioCtx().decodeAudioData(await blob.arrayBuffer());
+      S.audios.push({blob,buffer:buf,duracion:buf.duration});
+      log(`   ${buf.duration.toFixed(1)} s`);
+      barra("barra7",(i+1)/esc_.length);
+    }
+    construirCues();
+    S.srt=generarSrt();
+    const total=S.audios.reduce((a,x)=>a+x.duracion,0)+0.35*(S.audios.length-1);
+    log(`\nDuración total: ${Math.floor(total/60)}:${String(Math.round(total%60)).padStart(2,"0")}`);
+    $("btnMontar").disabled=false; $("btnDescargarSrt").disabled=false; $("btnDescargarZip").disabled=false;
+    marcar(7,"voz lista"); pintarTira();
+  }catch(e){ log("ERROR · "+e.message); }
+  finally{ b.disabled=false; b.textContent="Volver a locutar"; }
+};
+
+/* ===================== subtítulos ===================== */
+function construirCues(){
+  S.cues=[]; let t=0;
+  S.guion.escenas.forEach((e,i)=>{
+    const dur=S.audios[i].duracion;
+    const trozos=segmentar(e.narracion||"");
+    const chars=trozos.reduce((a,f)=>a+f.length,0)||1;
+    let ini=t;
+    trozos.forEach(f=>{
+      const d=dur*f.length/chars;
+      S.cues.push({escena:i,ini,fin:ini+d,texto:f});
+      ini+=d;
+    });
+    t+=dur+0.35;
+  });
+}
+function reloj(s){
+  const h=Math.floor(s/3600),m=Math.floor(s%3600/60),g=Math.floor(s%60);
+  const ms=Math.round((s-Math.floor(s))*1000);
+  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(g).padStart(2,"0")},${String(ms).padStart(3,"0")}`;
+}
+function generarSrt(){
+  return S.cues.map((c,i)=>`${i+1}\n${reloj(c.ini)} --> ${reloj(c.fin)}\n${c.texto}\n`).join("\n");
+}
+$("btnDescargarSrt").onclick=()=>descargar(new Blob([S.srt],{type:"text/plain"}),S.nombre+".srt");
+
+/* ===================== montaje ===================== */
+function formatoSoportado(){
+  return ["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm","video/mp4"]
+    .find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t))||null;
+}
+(function avisar(){
+  const f=formatoSoportado(), c=$("avisoFormato");
+  if(!f) c.innerHTML='<div class="alerta">Este navegador no sabe grabar vídeo. Usa Chrome, Edge o Firefox, o genera la voz igualmente y descarga el zip para montarlo por tu cuenta.</div>';
+  else if(!f.startsWith("video/mp4")) c.innerHTML='<div class="alerta">El vídeo sale en WebM, que es lo que un navegador puede grabar sin servidor. Se ve en cualquier navegador y en Moodle. Si lo necesitas en MP4, descarga el zip y móntalo con ffmpeg.</div>';
+})();
+
+$("btnMontar").onclick=async()=>{
+  const b=$("btnMontar"), mime=formatoSoportado();
+  if(!mime){ log("Sin grabador de vídeo en este navegador."); return; }
+  b.disabled=true; b.textContent="Grabando…";
+
+  const ctx=audioCtx(); await ctx.resume();
+  const sr=ctx.sampleRate, hueco=Math.round(0.35*sr);
+  const total=S.audios.reduce((a,x)=>a+x.buffer.length,0)+hueco*(S.audios.length-1);
+  const mezcla=ctx.createBuffer(1,total,sr), canalSalida=mezcla.getChannelData(0);
+  const arranques=[]; let cursor=0;
+  for(const a of S.audios){
+    arranques.push(cursor/sr);
+    canalSalida.set(a.buffer.getChannelData(0),cursor);
+    cursor+=a.buffer.length+hueco;
+  }
+  const duracion=total/sr;
+
+  const bases=await Promise.all(S.basesLimpias.map(src=>new Promise(res=>{
+    const im=new Image(); im.onload=()=>res(im); im.src=src;
+  })));
+
+  const lienzo=$("lienzo"), ctx2d=lienzo.getContext("2d");
+  ctx2d.drawImage(bases[0],0,0,W,H);
+  dibujarTextoLeido(ctx2d,S.cues[0]?.texto||"");
+
+  const flujo=lienzo.captureStream(30);
+  const destino=ctx.createMediaStreamDestination();
+  const fuente=ctx.createBufferSource();
+  fuente.buffer=mezcla; fuente.connect(destino);
+  flujo.addTrack(destino.stream.getAudioTracks()[0]);
+
+  const trozos=[];
+  const grabador=new MediaRecorder(flujo,{mimeType:mime,videoBitsPerSecond:4000000});
+  grabador.ondataavailable=e=>{ if(e.data.size) trozos.push(e.data); };
+  const terminado=new Promise(res=>{ grabador.onstop=res; });
+
+  grabador.start(1000);
+  const t0=ctx.currentTime+0.15;
+  fuente.start(t0);
+
+  let cuadros=0, ultimaEscena=-1, ultimoTexto=null;
+  await new Promise(res=>{
+    function paso(){
+      const t=ctx.currentTime-t0;
+      if(t>=duracion){ res(); return; }
+      let i=0; while(i<arranques.length-1 && t>=arranques[i+1]) i++;
+      const cue=S.cues.find(c=>t>=c.ini && t<c.fin);
+      const texto=cue?cue.texto:"";
+      if(i!==ultimaEscena || texto!==ultimoTexto){
+        ctx2d.drawImage(bases[i],0,0,W,H);
+        dibujarTextoLeido(ctx2d,texto);
+        ultimaEscena=i; ultimoTexto=texto;
+      } else {
+        ctx2d.drawImage(bases[i],0,0,W,H);   // refresco para que captureStream reciba fotograma
+        dibujarTextoLeido(ctx2d,texto);
+      }
+      if((cuadros++%15)===0){
+        const pct=Math.max(0,Math.min(1,t/duracion));
+        barra("barra7",pct); b.textContent=`Grabando… ${Math.round(pct*100)}%`;
+      }
+      requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+  });
+
+  ctx2d.drawImage(bases[bases.length-1],0,0,W,H);
+  await new Promise(r=>setTimeout(r,400));
+  grabador.stop();
+  try{ fuente.stop(); }catch(e){}
+  await terminado;
+
+  S.videoBlob=new Blob(trozos,{type:mime});
+  const v=$("salida"); v.src=URL.createObjectURL(S.videoBlob); v.classList.add("visible");
+  $("btnDescargarVideo").disabled=false;
+  b.disabled=false; b.textContent="Volver a montar";
+  marcar(7,"vídeo listo");
+  log(`Vídeo montado: ${(S.videoBlob.size/1e6).toFixed(1)} MB`);
+};
+
+$("btnDescargarVideo").onclick=()=>{
+  const ext=S.videoBlob.type.includes("mp4")?"mp4":"webm";
+  descargar(S.videoBlob,S.nombre+"_nanoclase."+ext);
+};
+
+/* ===================== zip ===================== */
+$("btnDescargarZip").onclick=async()=>{
+  const zip=new JSZip();
+  zip.file("guion.json",JSON.stringify(S.guion,null,2));
+  zip.file("subtitulos.srt",S.srt);
+  if($("mejorado").value) zip.file("documento_nanoclase.md",$("mejorado").value);
+  if(S.evalIni) zip.file("evaluacion_inicial.json",JSON.stringify(S.evalIni,null,2));
+  if(S.evalFin) zip.file("evaluacion_final.json",JSON.stringify(S.evalFin,null,2));
+
+  (S.basesLimpias||S.imagenes).forEach((src,i)=>
+    zip.file(`diapositivas/slide_${String(i).padStart(2,"0")}.png`,src.split(",")[1],{base64:true}));
+  for(let i=0;i<S.audios.length;i++)
+    zip.file(`audio/voz_${String(i).padStart(2,"0")}.mp3`,S.audios[i].blob);
+
+  const ultima=String(Math.max(0,S.audios.length-1)).padStart(2,"0");
+  zip.file("lista_imagenes.txt",
+    S.audios.map((a,i)=>`file 'diapositivas/slide_${String(i).padStart(2,"0")}.png'\nduration ${a.duracion.toFixed(3)}`).join("\n")
+    +`\nfile 'diapositivas/slide_${ultima}.png'\n`);
+  zip.file("lista_audios.txt",
+    S.audios.map((a,i)=>`file 'audio/voz_${String(i).padStart(2,"0")}.mp3'`).join("\n")+"\n");
+
+  zip.file("montar_mp4.txt",
+`Montar un MP4 con este material. Necesitas ffmpeg y estar en esta carpeta.
+
+1) Unir los audios:
+
+   ffmpeg -f concat -safe 0 -i lista_audios.txt -c copy voz.mp3
+
+2) Montar el vídeo con el texto leído incrustado en la franja inferior:
+
+   ffmpeg -f concat -safe 0 -i lista_imagenes.txt -i voz.mp3 \\
+     -vf "subtitles=subtitulos.srt:force_style='FontName=DejaVu Sans,FontSize=15,PrimaryColour=&H00EFE6DC,Outline=0,Shadow=0,Alignment=2,MarginV=28'" \\
+     -c:v libx264 -pix_fmt yuv420p -r 30 -c:a aac -b:a 192k -shortest nanoclase.mp4
+
+   Las diapositivas del zip llevan la franja vacía: ffmpeg escribe el texto encima.
+
+3) Sin texto incrustado, solo como pista de subtítulos activable:
+
+   ffmpeg -f concat -safe 0 -i lista_imagenes.txt -i voz.mp3 -i subtitulos.srt \\
+     -c:v libx264 -pix_fmt yuv420p -c:a aac -c:s mov_text -shortest nanoclase.mp4
+
+Los tiempos de lista_imagenes.txt son las duraciones reales de cada audio,
+así que todo cae sincronizado sin ajustar nada a mano.
+`);
+
+  descargar(await zip.generateAsync({type:"blob"}),S.nombre+"_material.zip");
+};
+
+refrescarLectura();
+</script>
+</body>
+</html>
