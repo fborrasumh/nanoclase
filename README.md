@@ -1,71 +1,44 @@
 # NanoClase
 
-Convierte un documento docente en una clase de tres minutos. Evalúa el material,
-lo reescribe, vuelve a evaluarlo para que veas qué ha cambiado, y monta un vídeo
-locutado con el texto leído escrito debajo de cada diapositiva. Puede empezar en un
-idioma y terminar en otro.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22300395.svg)](https://doi.org/10.5281/zenodo.22300395)
 
-Todo ocurre en el navegador. No hay servidor: el documento no sale del ordenador salvo
-en las llamadas a la API de OpenAI.
+**Aplicación:** https://fborrasumh.github.io/nanoclase/
 
-**Aplicación**: https://fborrasumh.github.io/nanoclase/
+Crea o mejora un **material docente** y genera, a partir de él, todo lo que necesita una clase universitaria. Está pensada para el profesorado universitario iberoamericano. Aplicación de un solo fichero, sin servidor: todo ocurre en el navegador con tu clave de OpenAI.
 
-## El recorrido
+## Novedades de la versión 2.0
 
-1. **Clave, modelos e idiomas.** El idioma de entrada se detecta solo; el de salida lo
-   eliges de una lista de treinta y dos, o lo escribes. El documento reescrito y el
-   vídeo salen en ese idioma.
-2. **El documento.** `.ipynb`, `.docx`, `.pdf` con texto seleccionable, `.md`, `.txt`.
-3. **Cómo está ahora.** Ocho dimensiones puntuadas de 0 a 10: objetivos observables,
-   requisitos previos, estructura, entrada y salida de cada bloque, comprobaciones de
-   comprensión, ejemplos, claridad y cierre. Con lo que falta, lo que funciona y la
-   única cosa que más mejoraría el documento.
-4. **La reescritura.** Toma como encargo las carencias de la evaluación anterior. Sale
-   en Markdown y, si la entrada era un cuaderno, también en `.ipynb`.
-5. **Qué ha cambiado.** La misma rúbrica sobre el resultado, junto a la de partida y
-   con la diferencia por dimensión. Una dimensión que no sube es una que la reescritura
-   no ha tocado.
-6. **El guion y las diapositivas.** Eliges el número de diapositivas, que es lo que fija
-   la duración: unos 22 segundos cada una. Se retoca escena a escena o editando el JSON
-   entero, que se valida antes de redibujar.
-7. **La voz y el montaje.** Una llamada de voz por escena, y las duraciones reales de
-   cada audio son las que sincronizan diapositivas y texto.
+- Interfaz guiada con el estilo de Forja y un apunte de ejemplo.
+- **Dos puntos de partida**: mejorar un material que ya tienes (Word, PDF, Markdown o cuaderno Jupyter) o **crearlo desde cero** a partir del tema, el nivel, la extensión y el enfoque.
+- **Revisores**:
+  - de **fidelidad**, que señala lo añadido que no estaba en el original, lo que se ha perdido y los errores introducidos, con corrección aplicable con un clic;
+  - **disciplinar**, para el material creado desde cero;
+  - de **preguntas**, que comprueba cada respuesta contra el material.
+- **Cinco productos**:
+  - el material en Word, Markdown y `.ipynb`;
+  - un nanovídeo locutado con subtítulos `.srt`;
+  - un **PowerPoint editable** con la narración en las notas;
+  - un **banco de preguntas en formato GIFT** para Moodle;
+  - un **plan de clase** presencial, en línea o de clase invertida.
+- **Variantes lingüísticas**: español de España, latinoamericano neutro, rioplatense o de México, y portugués de Brasil o de Portugal, con el acento correspondiente en la voz.
+- Color institucional en las diapositivas y un paquete `.zip` con todo, incluidas las órdenes de ffmpeg para montar un MP4.
 
-## El texto bajo la diapositiva
+## El vídeo
 
-La franja inferior de cada diapositiva lleva escrito lo que se está oyendo, troceado en
-fragmentos de menos de cien caracteres para que quepa en dos líneas. Está pensado para
-quien no oye, para quien ve el vídeo sin sonido y para quien sigue una clase en un
-idioma que no es el suyo. Se puede desactivar y dejar el texto solo en el `.srt`.
+El navegador graba en **WebM**, que se ve en cualquier navegador y en Moodle. Para MP4, el `.zip` trae las diapositivas, los audios, los subtítulos y las órdenes de `ffmpeg`. Mientras se graba, la pestaña debe quedarse delante. Chrome, Edge y Firefox montan el vídeo; en Safari conviene la ruta del `.zip`.
 
-## El formato del vídeo
+## Privacidad
 
-El navegador graba en **WebM**. Es lo que se puede montar sin servidor: el MP4 exigiría
-`ffmpeg.wasm` con `SharedArrayBuffer`, que necesita cabeceras HTTP que GitHub Pages no
-permite fijar. WebM se ve en cualquier navegador y en Moodle.
+La clave se guarda en `localStorage` (`ia_openai_key`) y solo viaja a `api.openai.com`. No la uses en un ordenador compartido: el botón «Olvidarla» la borra.
 
-Para MP4, descarga el zip y ejecuta las órdenes de `montar_mp4.txt`. Las diapositivas
-del zip llevan la franja vacía y ffmpeg escribe el texto encima desde el `.srt`, así que
-el resultado es equivalente. Las duraciones vienen calculadas: sale sincronizado sin
-tocar nada.
+## Cómo citar
 
-## Coste
+Borrás Rocher, F. (2026). *NanoClase* (versión 2.0.0) [Software]. Universidad Miguel Hernández de Elche. https://doi.org/10.5281/zenodo.22300395
 
-Con `gpt-4.1-mini` y `gpt-4o-mini-tts`, las dos evaluaciones, la reescritura, el guion y
-un vídeo de tres minutos rondan los **quince céntimos**. Se factura en tu cuenta de OpenAI.
+El DOI anterior es el de concepto: apunta siempre a la última versión. El DOI de cada versión concreta está en [Zenodo](https://doi.org/10.5281/zenodo.22300395). GitHub ofrece la cita en formato APA y BibTeX con el botón *Cite this repository*, a partir de `CITATION.cff`.
 
-## La clave
-
-Se guarda en `localStorage` con la llave `ia_openai_key` y viaja solo a `api.openai.com`.
-No la uses en un ordenador compartido; el botón «Olvidarla» la borra.
-
-## Navegadores
-
-Chrome, Edge y Firefox montan el vídeo. Safari lee documentos y genera la voz, pero su
-grabador es irregular: ahí conviene la ruta del zip. Mientras se graba, la pestaña tiene
-que quedarse delante: el navegador congela el dibujado en segundo plano y el vídeo
-saldría a saltos.
+Forma parte del catálogo [Herramientas IA para la academia](https://fborrasumh.github.io/ia/).
 
 ## Licencia
 
-CC BY-SA 4.0.
+MIT © 2026 Fernando Borrás Rocher · Universidad Miguel Hernández de Elche.
