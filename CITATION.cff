@@ -1,6 +1,7 @@
 cff-version: 1.2.0
 message: "Si usas este software, cítalo con estos metadatos."
 title: "NanoClase"
+abstract: "Generación de contenido docente para el profesorado universitario iberoamericano: crea o mejora un material, lo evalúa con una rúbrica de ocho dimensiones, comprueba que no invente contenido y produce vídeo locutado, PowerPoint editable, banco de preguntas para Moodle y plan de clase."
 type: software
 authors:
   - family-names: "Borrás Rocher"
@@ -8,8 +9,15 @@ authors:
     affiliation: "Universidad Miguel Hernández de Elche"
     orcid: "https://orcid.org/0000-0002-5519-4573"
 doi: "10.5281/zenodo.22300395"
-version: "1.0.0"
-date-released: "2026-09-04"
+version: "2.0.0"
+date-released: "2026-09-26"
 url: "https://fborrasumh.github.io/nanoclase/"
 repository-code: "https://github.com/fborrasumh/nanoclase"
 license: MIT
+keywords:
+  - "material docente"
+  - "vídeo educativo"
+  - "Moodle GIFT"
+  - "banco de preguntas"
+  - "educación superior"
+  - "inteligencia artificial"
