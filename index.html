@@ -654,6 +654,49 @@ video#salida.visible{display:block}
 .fid .g{font-weight:800;font-size:11px;border-radius:999px;padding:1px 7px;margin-right:6px}
 .fid .g.alta{background:var(--brasa-suave);color:var(--brasa)}.fid .g.media{background:#FFF1D6;color:#8A5A00}.fid .g.baja{background:var(--linea-2);color:var(--gris)}
 canvas#lienzo{display:none}
+
+/* ══ 2.1 · figuras y fórmulas ══ */
+.galbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.galbar label.btn{margin:0}
+.galbar .seg{margin-left:auto}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,470px),1fr));gap:12px;margin-top:10px}
+.rc{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;border:1px solid var(--linea);border-radius:14px;padding:12px;background:#fff}
+.rc.off{opacity:.62;background:var(--papel)}
+.rc.imp{border-color:#F3C24B;box-shadow:0 0 0 2px #FCE8B2}
+.rc-vis{display:flex;flex-direction:column;gap:6px}
+.rc-vis img{width:100%;max-height:170px;object-fit:contain;background:#fff;border:1px solid var(--linea-2);border-radius:8px}
+.rc-tex{background:var(--papel);border-radius:8px;padding:8px;overflow-x:auto;text-align:center;font-size:14px}
+.rc-cab{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.rc-id{font:700 13px var(--mono)}
+.rc-mandos{margin-left:auto;display:flex;gap:4px;align-items:center}
+.rc-mandos .iconbtn{width:30px;height:30px}
+.rc-mandos .iconbtn[aria-pressed="true"]{background:#FFF1D6;border-color:#F3C24B;color:#8A5A00}
+.rc label{font-size:12px;margin:6px 0 3px}
+.rc label.rc-usar{display:flex;gap:5px;align-items:center;margin:0 4px 0 0;font-size:12.5px;color:var(--tinta)}
+.rc input[type=text],.rc textarea{padding:7px 9px;font-size:13.5px;border-radius:8px}
+.rc textarea{min-height:50px}
+.rc .rc-mono{font-family:var(--mono);font-size:12.5px}
+.rc .rev{font-size:12.5px}
+.rc-msg{margin:2px 0 4px!important}
+@media(max-width:560px){.rc{grid-template-columns:1fr}}
+.rc-zona{position:relative;display:inline-block;touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair;line-height:0;max-width:100%}
+.rc-zona img{max-width:100%;max-height:72vh;display:block;border:1px solid var(--linea);-webkit-user-drag:none}
+.rc-sel,.rc-caja{position:absolute;border:2px solid var(--brasa);background:rgba(228,87,46,.12);pointer-events:none}
+.rc-caja{border-style:dashed;border-color:var(--forjado);background:rgba(14,124,107,.08)}
+.rc-caja.f{border-color:#6B4FD8;background:rgba(107,79,216,.08)}
+.rc-caja span{position:absolute;top:-1px;left:-1px;background:var(--forjado);color:#fff;font:700 11px var(--mono);padding:1px 5px;line-height:1.4}
+.rc-caja.f span{background:#6B4FD8}
+.mj svg{vertical-align:middle;max-width:100%}
+.mj-err{color:var(--brasa);font-family:var(--mono);font-size:.85em}
+.mjb{display:flex;align-items:center;justify-content:center;gap:12px;margin:12px 0;overflow-x:auto}
+.mj-id{font:700 11px var(--mono);color:var(--acero-claro)}
+.mdfig{margin:16px 0;text-align:center}
+.mdfig img{max-width:100%;max-height:460px;border:1px solid var(--linea-2);border-radius:8px;background:#fff}
+.mdfig figcaption{font-size:13.5px;color:var(--gris);margin-top:6px}
+.mdfig .fuente{display:block;font-size:12px;color:var(--acero-claro)}
+.esc-rec{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.esc-rec img{height:64px;border:1px solid var(--linea);border-radius:6px;background:#fff}
+.esc-rec .rc-tex{padding:4px 8px}
 </style>
 </head>
 <body>
@@ -733,16 +776,16 @@ canvas#lienzo{display:none}
   <h2 class="sec-title">Qué obtienes</h2>
   <p class="sec-sub">Un solo material de partida, cinco productos coherentes entre sí.</p>
   <div class="agentes">
-    <div class="ag" style="--c:#1F6FB2"><span class="kind">documento</span><span class="pi"><svg class="i"><use href="#i-doc"/></svg></span><b>Material didáctico</b><span>Objetivos observables, requisitos, bloques con entrada y salida, comprobaciones con la respuesta plegada, glosario, errores frecuentes y ejercicios. En Word, Markdown o cuaderno Jupyter.</span></div>
+    <div class="ag" style="--c:#1F6FB2"><span class="kind">documento</span><span class="pi"><svg class="i"><use href="#i-doc"/></svg></span><b>Material didáctico</b><span>Objetivos observables, requisitos, bloques con entrada y salida, comprobaciones con la respuesta plegada, glosario, errores frecuentes y ejercicios, con las figuras y las fórmulas del original. En Word, Markdown o cuaderno Jupyter.</span></div>
     <div class="ag" style="--c:#E4572E"><span class="kind">vídeo</span><span class="pi"><svg class="i"><use href="#i-play"/></svg></span><b>Nanovídeo locutado</b><span>De dos a cuatro minutos, con voz en el acento que elijas y el texto leído bajo cada diapositiva. Con subtítulos .srt.</span></div>
-    <div class="ag" style="--c:#C98200"><span class="kind">diapositivas</span><span class="pi"><svg class="i"><use href="#i-grid"/></svg></span><b>PowerPoint editable</b><span>Las mismas diapositivas del vídeo, con la narración en las notas del orador.</span></div>
+    <div class="ag" style="--c:#C98200"><span class="kind">diapositivas</span><span class="pi"><svg class="i"><use href="#i-grid"/></svg></span><b>Diapositivas editables</b><span>Las mismas diapositivas del vídeo, con figuras y fórmulas, en PowerPoint con la narración en las notas o en LaTeX Beamer con las fórmulas en LaTeX real.</span></div>
     <div class="ag" style="--c:#0E8C7A"><span class="kind">evaluación</span><span class="pi"><svg class="i"><use href="#i-check"/></svg></span><b>Banco de preguntas</b><span>Opción múltiple, verdadero o falso y respuesta corta, con retroalimentación. Se importa en Moodle en formato GIFT.</span></div>
     <div class="ag" style="--c:#6B4FD8"><span class="kind">sesión</span><span class="pi"><svg class="i"><use href="#i-calendar"/></svg></span><b>Plan de clase</b><span>Presencial, en línea o de clase invertida, con los tiempos, las actividades y cómo comprobar lo aprendido.</span></div>
-    <div class="ag det" style="--c:#0F2237"><span class="kind">control</span><span class="pi"><svg class="i"><use href="#i-shield"/></svg></span><b>Revisores</b><span>Uno compara la reescritura con el original y señala lo añadido. Otro busca errores conceptuales. Un tercero comprueba cada pregunta.</span></div>
+    <div class="ag det" style="--c:#0F2237"><span class="kind">control</span><span class="pi"><svg class="i"><use href="#i-shield"/></svg></span><b>Revisores</b><span>Uno compara la reescritura con el original y señala lo añadido. Otro busca errores conceptuales. Otro compara cada fórmula en LaTeX con su recorte. Un último comprueba cada pregunta.</span></div>
   </div>
   <h2 class="sec-title">Cómo funciona</h2>
   <div class="journey" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-    <div class="jstop" style="--c:#1F6FB2"><span class="jn">1</span><div class="ji"><svg class="i"><use href="#i-upload"/></svg></div><b>Punto de partida</b><span>Sube un material (Word, PDF, cuaderno, Markdown) o describe el tema.</span></div>
+    <div class="jstop" style="--c:#1F6FB2"><span class="jn">1</span><div class="ji"><svg class="i"><use href="#i-upload"/></svg></div><b>Punto de partida</b><span>Sube un material (Word, PDF, PowerPoint, cuaderno, Markdown) o describe el tema. Revisa sus figuras y fórmulas.</span></div>
     <div class="jstop" style="--c:#6B4FD8"><span class="jn">2</span><div class="ji"><svg class="i"><use href="#i-scale"/></svg></div><b>Diagnóstico</b><span>Ocho dimensiones de calidad docente, de 0 a 10.</span></div>
     <div class="jstop" style="--c:#0E8C7A"><span class="jn">3</span><div class="ji"><svg class="i"><use href="#i-pencil"/></svg></div><b>Material</b><span>Reescrito o creado, revisado y reevaluado. Lo corriges tú.</span></div>
     <div class="jstop" style="--c:#E4572E"><span class="jn">4</span><div class="ji"><svg class="i"><use href="#i-sparkles"/></svg></div><b>Productos</b><span>Vídeo, diapositivas, preguntas y plan de clase.</span></div>
@@ -776,12 +819,13 @@ canvas#lienzo{display:none}
           <div class="field"><label for="modeloVoz">Modelo que locuta</label><select id="modeloVoz"><option value="gpt-4o-mini-tts">gpt-4o-mini-tts (con acento y tono)</option><option value="tts-1">tts-1 (más barato, plano)</option><option value="tts-1-hd">tts-1-hd</option></select></div>
           <div class="field"><label for="voz">Voz</label><select id="voz"><option value="onyx">onyx · grave</option><option value="alloy">alloy · neutra</option><option value="nova">nova · clara</option><option value="shimmer">shimmer · suave</option><option value="coral">coral · cálida</option><option value="echo">echo</option><option value="fable">fable</option><option value="ballad">ballad</option></select></div>
         </div>
+        <div class="field" style="margin:0"><label for="modeloVision">Modelo que mira las figuras y las fórmulas <small>(con visión; vacío = el que escribe)</small></label><input type="text" id="modeloVision" list="mlist" placeholder="el mismo que escribe"></div>
       </div>
     </div>
     <div class="card sticky">
       <h3><svg class="i"><use href="#i-help"/></svg>¿Cuánto cuesta?</h3>
       <p class="sub">Todo se factura en tu cuenta de OpenAI.</p>
-      <ol class="olsteps"><li><span>Evaluar y reescribir un apunte de 10 páginas: unos céntimos.</span></li><li><span>Un nanovídeo de tres minutos: unos 10 céntimos de voz.</span></li><li><span>Banco de preguntas y plan de clase: unos céntimos cada uno.</span></li></ol>
+      <ol class="olsteps"><li><span>Evaluar y reescribir un apunte de 10 páginas: unos céntimos.</span></li><li><span>Un nanovídeo de tres minutos: unos 10 céntimos de voz.</span></li><li><span>Banco de preguntas y plan de clase: unos céntimos cada uno.</span></li><li><span>Describir una figura o pasar una fórmula a LaTeX: menos de un céntimo cada una.</span></li></ol>
       <div class="tip" style="margin:16px 0 0"><svg class="i"><use href="#i-bulb"/></svg><span>La clave es la misma que usan el resto de herramientas del catálogo.</span></div>
     </div>
   </div>
@@ -792,12 +836,12 @@ canvas#lienzo{display:none}
   <header class="sh" style="--c:#1F6FB2"><div class="sh-ico"><svg class="i"><use href="#i-upload"/></svg></div>
     <div><p class="sh-step">Paso 1 de 4</p><h2>Punto de partida</h2><p class="sh-lede">¿Mejoramos un material que ya tienes o lo creamos desde cero?</p></div></header>
   <div class="modo">
-    <button type="button" data-modo="mejorar" style="--c:#1F6FB2"><span class="pi"><svg class="i"><use href="#i-upload"/></svg></span><span><b>Tengo un material</b><span>Apuntes, un tema en Word o PDF, un cuaderno Jupyter o una presentación exportada a texto. Se evalúa y se reescribe sin inventar contenido.</span></span></button>
+    <button type="button" data-modo="mejorar" style="--c:#1F6FB2"><span class="pi"><svg class="i"><use href="#i-upload"/></svg></span><span><b>Tengo un material</b><span>Apuntes, un tema en Word o PDF, unas diapositivas en PowerPoint o un cuaderno Jupyter, con sus figuras y fórmulas. Se evalúa y se reescribe sin inventar contenido.</span></span></button>
     <button type="button" data-modo="crear" style="--c:#0E8C7A"><span class="pi"><svg class="i"><use href="#i-sparkles"/></svg></span><span><b>Empiezo de cero</b><span>Describe el tema y el nivel. NanoClase escribe el material y un revisor disciplinar busca errores conceptuales.</span></span></button>
   </div>
   <div id="boxMejorar" class="card hidden">
     <h3><span class="num">1</span>Tu material</h3>
-    <label class="drop" id="zona" tabindex="0"><svg class="i"><use href="#i-upload"/></svg><b id="zonaT">Arrastra el documento aquí o pulsa para elegirlo</b><span id="notaDoc">Cuaderno Jupyter, Word, PDF con texto seleccionable, Markdown o texto</span><input type="file" id="fichero" accept=".ipynb,.docx,.pdf,.md,.txt" hidden></label>
+    <label class="drop" id="zona" tabindex="0"><svg class="i"><use href="#i-upload"/></svg><b id="zonaT">Arrastra el documento aquí o pulsa para elegirlo</b><span id="notaDoc">Word, PDF con texto seleccionable, PowerPoint, cuaderno Jupyter, Markdown o texto. Las imágenes y las ecuaciones se conservan.</span><input type="file" id="fichero" accept=".ipynb,.docx,.pdf,.pptx,.md,.txt" hidden></label>
     <details class="inacc" style="margin-top:12px"><summary><svg class="i"><use href="#i-pencil"/></svg><span>…o pega el texto</span><svg class="i chev"><use href="#i-down"/></svg></summary><textarea id="pegado" style="margin-top:10px;min-height:160px" placeholder="Pega aquí el contenido del material"></textarea><button class="btn btn-dark btn-sm" id="btnPegado" type="button" style="margin-top:8px">Usar este texto</button></details>
     <p class="help" style="margin-top:10px">¿Sin material a mano? <a href="#" id="lnkEj">Carga el apunte de ejemplo</a>.</p>
   </div>
@@ -814,6 +858,20 @@ canvas#lienzo{display:none}
       <div class="field"><label for="cEnfoque">Enfoque</label><select id="cEnfoque"><option>Conceptual, con ejemplos de la disciplina</option><option>Práctico, con casos resueltos</option><option>Con código Python ejecutable</option><option>Con cálculos paso a paso</option></select></div>
     </div>
     <div class="field" style="margin:0"><label for="cNotas">Lo que no puede faltar <small>(opcional)</small></label><textarea id="cNotas" style="min-height:70px" placeholder="Que se entienda la diferencia entre desviación típica y error estándar. Ejemplos clínicos."></textarea></div>
+  </div>
+  <div id="boxRecursos" class="card">
+    <h3><span class="num">2</span>Figuras y fórmulas</h3>
+    <p class="sub" id="galSub">Las imágenes y las ecuaciones del material. Marca cuáles usar, corrige el pie y comprueba el LaTeX: de aquí salen las figuras del material, del vídeo y de las diapositivas.</p>
+    <div class="galbar">
+      <button class="btn btn-primary btn-sm" id="btnAnalizar" type="button"><svg class="i"><use href="#i-sparkles"/></svg>Analizar con IA</button>
+      <button class="btn btn-dark btn-sm" id="btnRecortar" type="button"><svg class="i"><use href="#i-target"/></svg>Recortar de una página</button>
+      <label class="btn btn-ghost btn-sm" tabindex="0"><svg class="i"><use href="#i-plus"/></svg>Añadir imagen<input type="file" id="ficheroImg" accept="image/*" multiple hidden></label>
+      <button class="btn btn-ghost btn-sm" id="btnVerificar" type="button"><svg class="i"><use href="#i-shield"/></svg>Verificar fórmulas</button>
+      <div class="seg" id="galFiltro"><button type="button" data-f="todas" aria-pressed="true">Todas</button><button type="button" data-f="uso" aria-pressed="false">En uso</button><button type="button" data-f="fuera" aria-pressed="false">Descartadas</button></div>
+    </div>
+    <p class="help" id="galInfo"></p>
+    <div class="galeria" id="galeria"></div>
+    <p class="help" style="margin-top:12px">En un PDF, las figuras vectoriales y casi todas las fórmulas no son imágenes: márcalas con <b>Recortar de una página</b>. También puedes pegar una captura con Ctrl+V. Al analizarlas, las imágenes viajan a OpenAI tal cual, sin anonimizar: descarta antes las que tengan datos personales.</p>
   </div>
 </section>
 
@@ -875,9 +933,10 @@ canvas#lienzo{display:none}
     <div class="tira" id="tira"></div><p class="help"><span id="tiraEstado"></span> · <span id="tiraDuracion"></span></p>
     <div id="zonaGuion" style="display:none">
       <div class="tabs" style="display:flex;gap:6px;margin:10px 0"><button type="button" class="chip" id="tabFichas" aria-pressed="true">Escena a escena</button><button type="button" class="chip" id="tabJson" aria-pressed="false">JSON completo</button></div>
+      <div id="avisoRecursos"></div>
       <div id="panelFichas"><div id="escenas"></div></div>
       <div id="panelJson" class="hidden"><textarea id="jsonGuion" class="doc" style="min-height:360px"></textarea><div class="actions" style="margin-top:8px"><button class="btn btn-dark btn-sm" id="btnAplicarJson" type="button">Aplicar el JSON</button><button class="btn btn-ghost btn-sm" id="btnRevertirJson" type="button">Descartar mis cambios</button></div><div id="avisoJson"></div></div>
-      <div class="actions" style="margin:10px 0 18px"><button class="btn btn-ghost btn-sm" id="btnRedibujar" type="button"><svg class="i"><use href="#i-refresh"/></svg>Redibujar las diapositivas</button><button class="btn btn-ghost btn-sm" id="btnPptx" type="button"><svg class="i"><use href="#i-download"/></svg>PowerPoint editable (.pptx)</button><button class="btn btn-ghost btn-sm" id="btnDescargarGuion" type="button"><svg class="i"><use href="#i-download"/></svg>Guion (.json)</button></div>
+      <div class="actions" style="margin:10px 0 18px"><button class="btn btn-ghost btn-sm" id="btnRedibujar" type="button"><svg class="i"><use href="#i-refresh"/></svg>Redibujar las diapositivas</button><button class="btn btn-ghost btn-sm" id="btnPptx" type="button"><svg class="i"><use href="#i-download"/></svg>PowerPoint editable (.pptx)</button><button class="btn btn-ghost btn-sm" id="btnBeamer" type="button"><svg class="i"><use href="#i-download"/></svg>LaTeX Beamer (.zip)</button><button class="btn btn-ghost btn-sm" id="btnDescargarGuion" type="button"><svg class="i"><use href="#i-download"/></svg>Guion (.json)</button></div>
       <div class="card">
         <h3><span class="num">2</span>La voz y el montaje</h3>
         <p class="sub">Una llamada de voz por escena. El montaje se graba en tiempo real: un vídeo de tres minutos tarda tres minutos y la pestaña debe quedarse delante.</p>
@@ -920,7 +979,7 @@ canvas#lienzo{display:none}
   <div class="ppanel" id="pp-pack">
     <div class="card">
       <h3><svg class="i"><use href="#i-archive"/></svg>Todo en un paquete</h3>
-      <p class="sub">Material en Word y Markdown, informe de revisión, guion, diapositivas en PNG y PowerPoint, audios, subtítulos, banco de preguntas para Moodle y plan de clase. Incluye las órdenes de ffmpeg para montar un MP4.</p>
+      <p class="sub">Material en Word y Markdown, figuras y fórmulas, informe de revisión, guion, diapositivas en PNG, PowerPoint y LaTeX Beamer, audios, subtítulos, banco de preguntas para Moodle y plan de clase. Incluye las órdenes de ffmpeg para montar un MP4.</p>
       <ul class="checks" id="packChecks"></ul>
       <div class="actions" style="margin-top:12px"><button class="btn btn-primary" id="btnDescargarZip" type="button"><svg class="i"><use href="#i-download"/></svg>Descargar el paquete (.zip)</button></div>
     </div>
@@ -929,7 +988,7 @@ canvas#lienzo{display:none}
 </main>
 <canvas id="lienzo" width="1920" height="1080"></canvas>
 
-<footer><hr><p>NanoClase 2.0 · Herramientas IA para la academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Todo ocurre en tu navegador con tu clave de OpenAI. Revisa siempre el material antes de usarlo con estudiantes: los revisores reducen errores, no los eliminan.</p></footer>
+<footer><hr><p>NanoClase 2.1 · Herramientas IA para la academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Todo ocurre en tu navegador con tu clave de OpenAI. Revisa siempre el material antes de usarlo con estudiantes: los revisores reducen errores, no los eliminan.</p></footer>
 
 <div class="bottomnav"><div class="bn-in">
   <button class="btn btn-ghost" id="navBack" type="button"><svg class="i"><use href="#i-left"/></svg>Atrás</button>
@@ -940,6 +999,13 @@ canvas#lienzo{display:none}
 <div class="modal" id="mHelp" role="dialog" aria-modal="true" aria-labelledby="mHelpT"><div class="modal-box">
   <div class="modal-head"><h2 id="mHelpT">Ayuda</h2><button type="button" data-close>Cerrar</button></div>
   <div class="modal-body"><div class="glos" id="glos"></div></div></div></div>
+<div class="modal" id="mRecorte" role="dialog" aria-modal="true" aria-labelledby="mRecorteT"><div class="modal-box" style="max-width:1100px">
+  <div class="modal-head"><h2 id="mRecorteT">Recortar una figura o una fórmula</h2><button type="button" data-close>Cerrar</button></div>
+  <div class="modal-body">
+    <div class="actions" style="margin-bottom:10px"><button class="iconbtn" id="rcPrev" type="button" aria-label="Anterior"><svg class="i"><use href="#i-left"/></svg></button><select id="rcFuente" style="width:auto;max-width:60vw"></select><button class="iconbtn" id="rcNext" type="button" aria-label="Siguiente"><svg class="i"><use href="#i-right"/></svg></button><span class="help" id="rcInfo" style="margin:0"></span></div>
+    <div style="text-align:center"><div class="rc-zona" id="rcZona"><img id="rcImg" alt="Página para recortar" draggable="false"><div id="rcCajas"></div><div id="rcSel" class="rc-sel hidden"></div></div></div>
+    <div class="actions" style="margin-top:12px"><button class="btn btn-primary" id="rcFigura" type="button" disabled><svg class="i"><use href="#i-grid"/></svg>Guardar como figura</button><button class="btn btn-dark" id="rcFormula" type="button" disabled><svg class="i"><use href="#i-pencil"/></svg>Guardar como fórmula</button><span class="help" style="margin:0">Una fórmula se envía a OpenAI para pasarla a LaTeX. El texto que quede dentro del recorte deja de leerse como texto.</span></div>
+  </div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 
@@ -1016,8 +1082,8 @@ $("btnOlvidarClave").onclick=()=>{ localStorage.removeItem(CLAVE); $("clave").va
 const laClave=()=>$("clave").value.trim();
 
 /* ===================== OpenAI ===================== */
-async function chat(mensajes,{json=false,alTrozo=null}={}){
-  const modelo=$("modeloTexto").value.trim()||"gpt-6-luna";
+async function chat(mensajes,{json=false,alTrozo=null,modelo=null}={}){
+  modelo=modelo||$("modeloTexto").value.trim()||"gpt-6-luna";
   const cuerpo={ model:modelo, messages:mensajes };
   if(json) cuerpo.response_format={type:"json_object"};
   if(alTrozo) cuerpo.stream=true;
@@ -1081,44 +1147,28 @@ const textoCelda = c => Array.isArray(c.source)?c.source.join(""):(c.source||"")
 async function leerFichero(f){
   const ext=(f.name.split(".").pop()||"").toLowerCase();
   S.nombre=limpiarNombre(f.name);
-  if(ext==="ipynb"){
-    const nb=JSON.parse(await f.text()); S.tipo="ipynb";
-    return nb.cells.map(c=>c.cell_type==="code"
-      ? "```python\n"+textoCelda(c).trim()+"\n```" : textoCelda(c).trim()).filter(Boolean).join("\n\n");
-  }
-  if(ext==="docx"){
-    S.tipo="docx";
-    if(!window.mammoth) await cargaLib(LIBS.mammoth);
-    return (await window.mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value;
-  }
-  if(ext==="pdf"){
-    S.tipo="pdf";
-    if(!window.pdfjsLib) await cargaLib(LIBS.pdf);
-    pdfjsLib.GlobalWorkerOptions.workerSrc=await cargaLib(LIBS.pdfw).catch(()=>LIBS.pdfw[0]);
-    const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
-    const p=[];
-    for(let i=1;i<=doc.numPages;i++){
-      const pg=await doc.getPage(i);
-      p.push((await pg.getTextContent()).items.map(t=>t.str).join(" "));
-      $("notaDoc").textContent=`Leyendo el PDF: página ${i} de ${doc.numPages}.`;
-    }
-    return p.join("\n\n");
-  }
-  S.tipo="md";
-  return await f.text();
+  if(ext==="ipynb"){ S.tipo="ipynb"; await leerIpynb(f); }
+  else if(ext==="docx"){ S.tipo="docx"; await leerDocx(f); }
+  else if(ext==="pptx"){ S.tipo="pptx"; await leerPptx(f); }
+  else if(ext==="pdf"){ S.tipo="pdf"; await leerPdf(f); }
+  else { S.tipo="md"; S.fuente={tipo:"texto",base:await f.text()}; }
+  return componerBruto();
 }
 
 async function recibirFichero(f){
   if(!f) return;
   $("notaDoc").textContent="Leyendo…";
+  reiniciarRecursos(); pintaGaleria();
   try{
     S.bruto=(await leerFichero(f)).trim();
-    if(S.bruto.length<200) throw new Error("Casi no hay texto. Si es un PDF escaneado, necesita un OCR antes.");
-    $("notaDoc").textContent=`${f.name} · ${S.bruto.split(/\s+/).length.toLocaleString("es")} palabras leídas.`;
+    if(S.bruto.replace(/\[\[[FE]\d+\]\]/g,"").length<200) throw new Error("Casi no hay texto. Si es un PDF escaneado, necesita un OCR antes.");
+    const nF=S.recursos.filter(r=>r.tipo==="figura"&&r.usar).length, nE=S.recursos.filter(r=>r.tipo==="formula").length;
+    $("notaDoc").textContent=`${f.name} · ${S.bruto.split(/\s+/).length.toLocaleString("es")} palabras leídas${nF||nE?` · ${nF} figura${nF===1?"":"s"} y ${nE} fórmula${nE===1?"":"s"}`:""}.`;
     tras_cargar(f.name);
   }catch(e){
-    $("notaDoc").innerHTML='<div class="alerta">'+esc(e.message)+"</div>";
+    $("notaDoc").innerHTML='<div class="aviso">'+esc(e.message)+"</div>";
   }
+  pintaGaleria();
 }
 $("zona").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();$("fichero").click();} };
 $("fichero").onchange=e=>recibirFichero(e.target.files[0]);
@@ -1218,7 +1268,7 @@ $("btnEvalInicial").onclick=async()=>{
   if(!S.bruto) return toast("Carga antes el material");
   const b=$("btnEvalInicial"); b.disabled=true; b.textContent="Evaluando…"; barra("barra3",0.3);
   try{
-    S.evalIni=await evaluar(S.bruto);
+    S.evalIni=await evaluar(paraIA(S.bruto));
     barra("barra3",1);
     pintarEvaluacion("evalInicial",S.evalIni,null);
     $("evalInicialBox").classList.remove("hidden");
@@ -1230,14 +1280,16 @@ $("btnEvalInicial").onclick=async()=>{
 /* ===================== reescritura ===================== */
 $("btnSaltarMejora").onclick=()=>{
   if(!S.bruto) return toast("No hay material de partida");
-  S.mejorado=S.bruto; $("mejorado").value=S.bruto; material_listo(false);
+  S.mejorado=paraIA(S.bruto); $("mejorado").value=S.mejorado; material_listo(false);
 };
 
 async function reescribir(){
   if(S.modo==="crear") return crearMaterial();
   if(!S.bruto) return toast("Carga antes el material");
   const b=$("btnMejorar"); b.disabled=true; $("btnMejorarTxt").textContent="Escribiendo…"; barra("barra4",0.05); verEditar(true);
+  await esperarAnalisis("matInfo"); $("matInfo").textContent="";
   const esIpynb=S.tipo==="ipynb";
+  const inv=inventarioIA();
   const pistas = S.evalIni
     ? `\n\nLa evaluación de partida señala esto, y tu reescritura tiene que resolverlo:\n- Prioridad: ${S.evalIni.prioridad}\n- Carencias: ${(S.evalIni.carencias||[]).join("; ")}`
     : "";
@@ -1256,11 +1308,13 @@ Estructura obligatoria:
 - Cada dos o tres secciones, una comprobación con la respuesta plegada en <details><summary>Ver respuesta</summary> … </details>.
 - Cierre: "Resumen: las ideas que hay que llevarse", glosario en tabla, tabla de errores frecuentes y ejercicios propuestos con nivel.
 
-Reglas: no inventes contenido que no esté en el original: ni datos, ni cifras, ni referencias, ni afirmaciones nuevas. Los ejemplos, comprobaciones y ejercicios deben salir del propio contenido. Si algo está mal explicado, explícalo mejor, no lo sustituyas. Frases cortas, voz activa, sin superlativos. ${instruccionIdioma()}${pistas}`;
+Reglas: no inventes contenido que no esté en el original: ni datos, ni cifras, ni referencias, ni afirmaciones nuevas. Los ejemplos, comprobaciones y ejercicios deben salir del propio contenido. Si algo está mal explicado, explícalo mejor, no lo sustituyas. Frases cortas, voz activa, sin superlativos. ${instruccionIdioma()}${pistas}
+
+${REGLAS_RECURSOS}${inv?`\n\nInventario de figuras y fórmulas del original (la descripción de cada figura sale de mirarla):\n${inv}`:""}`;
 
   try{
     S.mejorado=await chat(
-      [{role:"system",content:sistema},{role:"user",content:"Documento original:\n\n"+S.bruto.slice(0,RECORTE)}],
+      [{role:"system",content:sistema},{role:"user",content:"Documento original:\n\n"+paraIA(S.bruto).slice(0,RECORTE)}],
       {alTrozo:t=>{ $("mejorado").value=t; barra("barra4",Math.min(0.95,t.length/12000)); }});
     barra("barra4",1);
     await material_listo(true);
@@ -1270,21 +1324,6 @@ Reglas: no inventes contenido que no esté en el original: ni datos, ni cifras, 
 $("btnMejorar").onclick=reescribir;
 
 $("mejorado").addEventListener("input",e=>{ S.mejorado=e.target.value; S.materialEditado=true; });
-$("btnDescargarMd").onclick=()=>descargar(new Blob([$("mejorado").value],{type:"text/markdown"}),S.nombre+"_nanoclase.md");
-$("btnDescargarIpynb").onclick=()=>{
-  const celdas=[];
-  $("mejorado").value.split(/```(?:python|py)?\n([\s\S]*?)```/g).forEach((p,i)=>{
-    const t=p.trim(); if(!t) return;
-    const src=t.split("\n").map((l,j,a)=>j<a.length-1?l+"\n":l);
-    celdas.push(i%2
-      ? {cell_type:"code",metadata:{},source:src,outputs:[],execution_count:null}
-      : {cell_type:"markdown",metadata:{},source:src});
-  });
-  const nb={cells:celdas,metadata:{kernelspec:{display_name:"Python 3",language:"python",name:"python3"},
-    language_info:{name:"python"}},nbformat:4,nbformat_minor:5};
-  descargar(new Blob([JSON.stringify(nb,null,1)],{type:"application/json"}),S.nombre+"_nanoclase.ipynb");
-};
-
 /* ===================== número de diapositivas ===================== */
 const SEG_POR_DIAPO=22;
 function refrescarLectura(){
@@ -1319,7 +1358,21 @@ function pintarTira(){
 $("btnGuion").onclick=async()=>{
   if(!(S.mejorado||S.bruto)) return toast("Primero prepara el material");
   const b=$("btnGuion"); b.disabled=true; b.textContent="Escribiendo…"; barra("barra6",0.1);
+  await esperarAnalisis();
   const n=+$("nDiapos").value, palabras=Math.round(n*SEG_POR_DIAPO/60*150);
+  const inv=inventarioIA();
+  const bloqueRec=inv?`
+
+Figuras y fórmulas disponibles (una diapositiva con una buena figura explica más que cuatro puntos):
+${inv}
+
+Plantillas de escena: "texto" (título, subtítulo y puntos), "texto_figura" (puntos a la izquierda y una figura a la derecha), "figura" (una figura grande, para gráficas con detalle), "comparacion" (dos figuras lado a lado), "formula" (una fórmula destacada y hasta dos puntos).
+- Cada figura o fórmula marcada como IMPORTANTE sale en alguna escena. Usa solo identificadores de la lista.
+- En "figuras" van identificadores de figura (F…); en "formula", un identificador de fórmula (E…) o, si la fórmula está en el material pero no en la lista, su LaTeX.
+- La narración explica lo que se ve: qué hay en los ejes, qué patrón mirar, qué significa cada término de la fórmula.
+- La voz no sabe leer LaTeX ni símbolos. En "narracion" NUNCA escribas LaTeX, símbolos matemáticos ni identificadores como F3 o E2: di la fórmula con palabras, como la leerías en clase, y copia esa lectura en "formula_hablada".`:`
+
+Plantillas de escena: "texto" (título, subtítulo y puntos) o "formula" (una fórmula destacada, en LaTeX, y hasta dos puntos) si el material tiene una fórmula central. La voz no sabe leer LaTeX ni símbolos: en "narracion" di las fórmulas con palabras y copia esa lectura en "formula_hablada".`;
 
   const sistema=`Eres guionista de vídeos docentes universitarios.
 
@@ -1335,8 +1388,10 @@ Reglas que no se negocian:
 - Cifras redondas. Nada que solo se entienda con el código delante.
 ${instruccionIdioma()}
 
+${bloqueRec}
+
 Devuelve solo JSON con esta forma exacta:
-{"titulo":"...","escenas":[{"titulo":"texto grande","subtitulo":"una línea","puntos":["máx 4"],"narracion":"lo que se oye"}]}
+{"titulo":"...","escenas":[{"plantilla":"texto|texto_figura|figura|comparacion|formula","titulo":"texto grande","subtitulo":"una línea","puntos":["máx 4"],"figuras":[],"formula":"","formula_hablada":"","narracion":"lo que se oye"}]}
 Exactamente ${n} escenas. La suma de las narraciones, cerca de ${palabras} palabras.`;
 
   try{
@@ -1344,10 +1399,11 @@ Exactamente ${n} escenas. La suma de las narraciones, cerca de ${palabras} palab
       [{role:"system",content:sistema},{role:"user",content:(S.mejorado||S.bruto).slice(0,RECORTE)}],
       {json:true}));
     if(!Array.isArray(g.escenas)||!g.escenas.length) throw new Error("El guion no trae escenas.");
+    S._avisosGuion=normalizarGuion(g);
     S.guion=g;
     barra("barra6",1);
     $("zonaGuion").style.display="";
-    pintarEscenas(); volcarJson();
+    pintarEscenas(); volcarJson(); pintaAvisosGuion();
     await dibujarTodas();
     $("okVideo").classList.remove("hidden");
   }catch(e){ $("escenas").innerHTML='<div class="alerta">No se pudo escribir el guion. '+esc(e.message)+"</div>"; }
@@ -1363,6 +1419,13 @@ function pintarEscenas(){
       <label style="margin-top:8px">Subtítulo</label><input type="text" data-campo="subtitulo" data-i="${i}">
       <label style="margin-top:8px">Puntos, uno por línea (máximo 4)</label>
       <textarea data-campo="puntos" data-i="${i}" style="min-height:70px"></textarea>
+      <div class="grid3" style="margin-top:8px">
+        <div><label>Plantilla</label><select data-campo="plantilla" data-i="${i}">${Object.entries(PLANTILLAS).map(([k,t])=>`<option value="${k}">${t}</option>`).join("")}</select></div>
+        <div><label>Figuras <small>(F1, F2)</small></label><input type="text" data-campo="figuras" data-i="${i}" placeholder="${escA(usados().filter(r=>r.tipo==="figura").map(r=>r.id).slice(0,6).join(", "))}"></div>
+        <div><label>Fórmula <small>(E1 o LaTeX)</small></label><input type="text" data-campo="formula" data-i="${i}" spellcheck="false"></div>
+      </div>
+      <label style="margin-top:8px">Cómo se lee la fórmula en voz alta</label><input type="text" data-campo="formula_hablada" data-i="${i}">
+      <div class="esc-rec"></div>
       <label style="margin-top:8px">Narración, que es lo que se oye y lo que se escribe debajo</label>
       <textarea data-campo="narracion" data-i="${i}"></textarea>
       <div class="meta"></div>`;
@@ -1371,10 +1434,16 @@ function pintarEscenas(){
     d.querySelector('[data-campo="subtitulo"]').value=e.subtitulo||"";
     d.querySelector('[data-campo="puntos"]').value=(e.puntos||[]).join("\n");
     d.querySelector('[data-campo="narracion"]').value=e.narracion||"";
+    d.querySelector('[data-campo="plantilla"]').value=e.plantilla||"texto";
+    d.querySelector('[data-campo="figuras"]').value=(e.figuras||[]).join(", ");
+    d.querySelector('[data-campo="formula"]').value=e.formula||"";
+    d.querySelector('[data-campo="formula_hablada"]').value=e.formula_hablada||"";
+    d.querySelector(".esc-rec").innerHTML=recEscenaHtml(e);
     cont.appendChild(d);
     actualizarMeta(d,e.narracion||"");
   });
-  if(!cont.dataset.escuchando){ cont.addEventListener("input",alEditarEscena); cont.dataset.escuchando="1"; }
+  if(!cont.dataset.escuchando){ cont.addEventListener("input",alEditarEscena); cont.addEventListener("change",alEditarEscena); cont.dataset.escuchando="1"; }
+  tipografiar(cont);
 }
 function actualizarMeta(nodo,narracion){
   const p=narracion.trim()?narracion.trim().split(/\s+/).length:0;
@@ -1385,10 +1454,13 @@ function alEditarEscena(ev){
   if(i===undefined) return;
   const e=S.guion.escenas[+i], campo=t.dataset.campo;
   if(campo==="puntos") e.puntos=t.value.split("\n").map(s=>s.trim()).filter(Boolean).slice(0,4);
+  else if(campo==="figuras") e.figuras=t.value.split(/[,\s]+/).map(s=>s.trim().toUpperCase()).filter(Boolean).slice(0,2);
   else e[campo]=t.value;
   if(campo==="narracion") actualizarMeta(t.closest(".escena"),t.value);
   if(campo==="titulo") t.closest(".escena").querySelector("h3 span").textContent=t.value;
+  if(campo==="figuras"||campo==="formula"){ const box=t.closest(".escena").querySelector(".esc-rec"); box.innerHTML=recEscenaHtml(e); tipografiar(box); }
   volcarJson();
+  clearTimeout(alEditarEscena._t); alEditarEscena._t=setTimeout(pintaAvisosGuion,500);
 }
 
 /* --- pestañas y edición del JSON --- */
@@ -1419,10 +1491,11 @@ $("btnAplicarJson").onclick=async()=>{
       if(typeof e.narracion!=="string") throw new Error(`La escena ${i+1} no tiene "narracion" de texto.`);
       if(e.puntos && !Array.isArray(e.puntos)) throw new Error(`Los "puntos" de la escena ${i+1} deben ser una lista.`);
     });
-    S.guion=g;
-    pintarEscenas();
+    const avisos=normalizarGuion(g);
+    S.guion=g; S._avisosGuion=avisos;
+    pintarEscenas(); pintaAvisosGuion();
     await dibujarTodas();
-    av.innerHTML=`<div class="nota">Aplicado: ${g.escenas.length} escenas redibujadas.</div>`;
+    av.innerHTML=`<div class="okbox">Aplicado: ${g.escenas.length} escenas redibujadas.</div>`;
     S.audios=[]; S.cues=[]; $("btnMontar").disabled=true;
   }catch(e){
     av.innerHTML='<div class="alerta">El JSON no se pudo aplicar. '+esc(e.message)+"</div>";
@@ -1430,7 +1503,7 @@ $("btnAplicarJson").onclick=async()=>{
 };
 
 $("btnDescargarGuion").onclick=()=>descargar(new Blob([JSON.stringify(S.guion,null,2)],{type:"application/json"}),S.nombre+"_guion.json");
-$("btnRedibujar").onclick=()=>dibujarTodas();
+$("btnRedibujar").onclick=async()=>{ if(!S.guion) return; S._avisosGuion=normalizarGuion(S.guion); pintarEscenas(); pintaAvisosGuion(); volcarJson(); await dibujarTodas(); };
 
 /* ===================== segmentación del texto leído ===================== */
 const MAX_CAR=95;
@@ -1474,12 +1547,14 @@ function dibujarBase(escena,i,total){
   const portada=i===0, marca=$("marca").value.trim();
   const conBanda=$("subtituloDentro").value==="si";
 
+  ACENTO=$("colorAcento").value||"#E4572E";
   ctx.fillStyle=FONDO; ctx.fillRect(0,0,W,H);
   ctx.fillStyle=ACENTO; ctx.fillRect(0,0,12,H);
 
   const m=150, ancho=W-300;
   const alturaUtil = conBanda ? CONTENIDO : H-140;
-  ACENTO=$("colorAcento").value||"#E4572E";
+  if(escena.plantilla && escena.plantilla!=="texto") dibujarConRecursos(ctx,escena,(conBanda ? PIE_Y : H-100)-10);
+  else{
   const fTit=`800 ${portada?86:72}px ${FT}`;
   const fSub=`400 ${portada?48:42}px ${FB}`;
   const puntos=(escena.puntos||[]).slice(0,4);
@@ -1513,6 +1588,7 @@ function dibujarBase(escena,i,total){
       y+=22;
     }
   }
+  }
 
   ctx.font=`400 25px ${FB}`;
   ctx.fillStyle=APAGADO;
@@ -1545,6 +1621,7 @@ function dibujarTextoLeido(ctx,texto){
 async function dibujarTodas(){
   await document.fonts.ready;
   try{ await document.fonts.load('800 86px "Bricolage Grotesque"'); await document.fonts.load('400 38px "Instrument Sans"'); }catch(e){}
+  try{ await prepararVisuales(); }catch(e){ toast("No se pudieron preparar las figuras: "+e.message); }
   const c=$("lienzo"), ctx=c.getContext("2d"), n=S.guion.escenas.length;
   S.imagenes=[]; S.basesLimpias=[];
   S.guion.escenas.forEach((e,i)=>{
@@ -1712,12 +1789,16 @@ $("btnDescargarZip").onclick=async()=>{
   if(S.guion) zip.file("guion.json",JSON.stringify(S.guion,null,2));
   if(S.srt) zip.file("subtitulos.srt",S.srt);
   if(S.videoBlob) zip.file(S.nombre+"_nanoclase."+(S.videoBlob.type.includes("mp4")?"mp4":"webm"), S.videoBlob);
-  if($("mejorado").value) zip.file("material/"+S.nombre+".md",$("mejorado").value);
+  if($("mejorado").value) zip.file("material/"+S.nombre+".md",mdExport($("mejorado").value,r=>`../figuras/${r.id}.${extDe(r.src)}`));
+  usados().filter(r=>r.src).forEach(r=>zip.file(`figuras/${r.id}.${extDe(r.src)}`,b64De(r.src),{base64:true}));
+  const fz=usados().filter(r=>r.tipo==="formula"&&r.latex);
+  if(fz.length) zip.file("figuras/formulas.tex",fz.map(r=>`% ${r.id}${r.hablada?" · "+r.hablada:""}${r.fuente?" · Fuente: "+r.fuente:""}\n\\[ ${r.latex} \\]`).join("\n\n")+"\n");
+  if(usados().length) zip.file("figuras/inventario.json",JSON.stringify(usados().map(({src,caja,...r})=>r),null,2));
   try{ if($("mejorado").value) zip.file("material/"+S.nombre+".docx", await mdADocx($("mejorado").value, tituloMat())); }catch(e){}
   if(S.revision) zip.file("material/informe_de_revision.md", informeRevisionMd());
   if(S.preguntas) { zip.file("preguntas/banco_moodle.gift.txt", gift()); zip.file("preguntas/preguntas.md", preguntasMd()); zip.file("preguntas/preguntas.json", JSON.stringify(S.preguntas,null,2)); }
   if(S.plan) { zip.file("plan_de_clase/plan.md", S.plan); try{ zip.file("plan_de_clase/plan.docx", await mdADocx(S.plan,"Plan de clase")); }catch(e){} }
-  if(S.guion) { try{ zip.file("diapositivas/"+S.nombre+".pptx", await pptxBlob()); }catch(e){} }
+  if(S.guion) { try{ zip.file("diapositivas/"+S.nombre+".pptx", await pptxBlob()); }catch(e){} try{ await beamerEn(zip.folder("beamer")); }catch(e){} }
   if(S.evalIni) zip.file("evaluacion_inicial.json",JSON.stringify(S.evalIni,null,2));
   if(S.evalFin) zip.file("evaluacion_final.json",JSON.stringify(S.evalFin,null,2));
 
@@ -1775,6 +1856,7 @@ const LIBS = {
   jszip:["https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js","https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"],
   docx:["https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js","https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"],
   pptx:["https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js","https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"],
+  mathjax:["https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js","https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"],
 };
 function cargaLib(urls){
   return urls.reduce((p,u) => p.catch(() => new Promise((ok,ko) => { const s = document.createElement("script"); s.src = u; s.onload = () => ok(u); s.onerror = () => { s.remove(); ko(); }; document.head.appendChild(s); })), Promise.reject())
@@ -1804,6 +1886,7 @@ function go(i){
   $("progBar").style.width = (i / 5 * 100) + "%";
   buildStepper(); updateNav();
   if(i === 1) refreshKeyLight();
+  if(i === 2) pintaGaleria();
   if(i === 4) pintaMat();
   if(i === 5){ refrescarLectura(); pintaPack(); }
   window.scrollTo({top:0, behavior:"instant"});
@@ -1820,8 +1903,9 @@ $("navNext").onclick = () => {
   if(step === 0) return go(laClave() ? 2 : 1);
   if(step === 1) return go(2);
   if(step === 2){
-    if(S.modo === "crear"){ if(!$("cTema").value.trim()){ $("cTema").classList.add("bad"); $("cTema").focus(); return toast("Escribe el tema de la clase"); } go(4); if(!S.mejorado || S.creadoPara !== claveCrear()) crearMaterial(); return; }
+    if(S.modo === "crear"){ avisoPendientes(); if(!$("cTema").value.trim()){ $("cTema").classList.add("bad"); $("cTema").focus(); return toast("Escribe el tema de la clase"); } go(4); if(!S.mejorado || S.creadoPara !== claveCrear()) crearMaterial(); return; }
     if(!S.bruto) return toast("Carga o pega antes el material");
+    avisoPendientes();
     go(3); if(!S.evalIni) $("btnEvalInicial").click(); return;
   }
   if(step === 3){ go(4); if(!S.mejorado) reescribir(); return; }
@@ -1829,7 +1913,13 @@ $("navNext").onclick = () => {
   if(step === 5) return verProducto("pack");
 };
 $("goHome").onclick = () => go(0);
-function setModo(m){ S.modo = m; $$(".modo [data-modo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modo === m))); $("boxMejorar").classList.toggle("hidden", m !== "mejorar"); $("boxCrear").classList.toggle("hidden", m !== "crear"); $("btnSaltarMejora").classList.toggle("hidden", m === "crear"); $("btnMejorarTxt").textContent = m === "crear" ? "Crear el material" : "Reescribir el material"; updateNav(); }
+function avisoPendientes(){
+  const pend = pendientesIA(); if(!pend.length || S._analisis || S._avisadoPend) return;
+  S._avisadoPend = true;
+  if(!laClave()) return toast(`Hay ${pend.length} figuras o fórmulas sin analizar: pega tu clave y pulsa «Analizar con IA»`, 5000);
+  if(confirm(`Hay ${pend.length} figura(s) o fórmula(s) sin analizar. ¿Las analizo ahora con IA?\n\nLas imágenes se envían a OpenAI tal cual. Mientras tanto, puedes seguir.`)) analizarTodo(pend);
+}
+function setModo(m){ S.modo = m; $$(".modo [data-modo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modo === m))); $("boxMejorar").classList.toggle("hidden", m !== "mejorar"); $("boxCrear").classList.toggle("hidden", m !== "crear"); $("btnSaltarMejora").classList.toggle("hidden", m === "crear"); $("btnMejorarTxt").textContent = m === "crear" ? "Crear el material" : "Reescribir el material"; $("galSub").textContent = m === "crear" ? "Opcional: imágenes tuyas que quieras que use el material. Marca las importantes para que salgan en el vídeo." : "Las imágenes y las ecuaciones del material. Marca cuáles usar, corrige el pie y comprueba el LaTeX: de aquí salen las figuras del material, del vídeo y de las diapositivas."; pintaGaleria(); updateNav(); }
 $$(".modo [data-modo]").forEach(b => b.onclick = () => setModo(b.dataset.modo));
 
 /* ══════════ AJUSTES ══════════ */
@@ -1842,7 +1932,7 @@ $("btnTest").onclick = async () => {
   try{ const r = await fetch(API + "/models", {headers:{Authorization:"Bearer " + k}}); r.ok ? setLight("ok", "Clave válida.") : setLight("err", r.status === 401 ? "OpenAI no reconoce esta clave." : "Error " + r.status); }
   catch(e){ setLight("err", "No hay conexión con OpenAI."); }
 };
-const PREFS = ["modeloTexto","modeloVoz","voz","idiomaSalida","marca","colorAcento","subtituloDentro"];
+const PREFS = ["modeloTexto","modeloVision","modeloVoz","voz","idiomaSalida","marca","colorAcento","subtituloDentro"];
 function cargaPrefs(){ try{ const p = JSON.parse(localStorage.getItem("nanoclase_prefs") || "{}"); PREFS.forEach(k => { if(p[k] != null && $(k)) $(k).value = p[k]; }); }catch(e){} if(!$("modeloTexto").value) $("modeloTexto").value = "gpt-6-luna"; $("cajaOtroIdioma").style.display = $("idiomaSalida").value === "otro" ? "" : "none"; }
 PREFS.forEach(k => $(k).addEventListener("change", () => { const p = {}; PREFS.forEach(x => p[x] = $(x).value); localStorage.setItem("nanoclase_prefs", JSON.stringify(p)); }));
 
@@ -1853,7 +1943,7 @@ function tras_cargar(nombre){
   $("evalInicialBox").classList.add("hidden"); $("evalFinalBox").classList.add("hidden");
   toast("Material cargado. Pulsa «Siguiente» para diagnosticarlo.");
 }
-$("btnPegado").onclick = () => { const t = $("pegado").value.trim(); if(t.length < 200) return toast("Pega un texto algo más largo (al menos un par de párrafos)"); S.bruto = t; S.tipo = "md"; S.nombre = "material"; $("notaDoc").textContent = `Texto pegado · ${t.split(/\s+/).length.toLocaleString("es")} palabras.`; tras_cargar("Texto pegado"); };
+$("btnPegado").onclick = () => { const t = $("pegado").value.trim(); if(t.length < 200) return toast("Pega un texto algo más largo (al menos un par de párrafos)"); reiniciarRecursos(); S.fuente = {tipo:"texto", base:t}; S.bruto = t; pintaGaleria(); S.tipo = "md"; S.nombre = "material"; $("notaDoc").textContent = `Texto pegado · ${t.split(/\s+/).length.toLocaleString("es")} palabras.`; tras_cargar("Texto pegado"); };
 const TEMAS_EJ = [["Bioestadística","Intervalos de confianza para una media"],["Bioestadística","Contraste de hipótesis y valor p"],["Derecho Civil","El contrato: elementos esenciales"],["Biología Celular","La célula eucariota y sus orgánulos"],["Economía","Elasticidad precio de la demanda"],["Programación","Bucles y funciones en Python"]];
 $("temasEj").innerHTML = TEMAS_EJ.map(([a,t],i) => `<button type="button" class="chip mini-ex" data-t="${i}">${esc(t)}</button>`).join("");
 $$("#temasEj [data-t]").forEach(b => b.onclick = () => { const [a,t] = TEMAS_EJ[+b.dataset.t]; $("cTema").value = t; if(!$("cAsig").value) $("cAsig").value = a; $("cTema").classList.remove("bad"); });
@@ -1873,6 +1963,8 @@ async function crearMaterial(){
   const tema = $("cTema").value.trim(); if(!tema){ go(2); return toast("Escribe el tema"); }
   if(!laClave()){ toast("Pega antes tu clave"); return go(1); }
   const b = $("btnMejorar"); b.disabled = true; $("btnMejorarTxt").textContent = "Escribiendo…"; barra("barra4", .05); verEditar(true);
+  await esperarAnalisis("matInfo"); $("matInfo").textContent = "";
+  const inv = inventarioIA();
   S.nombre = limpiarNombre(tema); S.bruto = ""; S.evalIni = null; S.preguntas = null; S.plan = null;
   ["okVideo","okPreg","okPlan"].forEach(id => $(id).classList.add("hidden")); $("pregList").innerHTML = ""; $("pregExp").style.display = "none"; $("planBox").classList.add("hidden");
   const sistema = `Eres profesor universitario experto en la materia y en diseño de materiales para aprender de forma autónoma. Escribes material docente para ${$("cNivel").value.toLowerCase()} de ${$("cTitu").value.trim() || "una titulación universitaria"}.
@@ -1887,7 +1979,11 @@ Reglas que no se negocian:
 - Ejemplos concretos y cercanos al estudiantado iberoamericano, verosímiles pero marcados como ilustrativos si los números son inventados.
 - Frases cortas, voz activa, sin superlativos.
 - Extensión ${$("cExt").value}. Enfoque: ${$("cEnfoque").value.toLowerCase()}.
-${instruccionIdioma()}`;
+- Las fórmulas, en LaTeX: en una línea propia entre $$ … $$, o entre $ … $ dentro de una frase.
+${instruccionIdioma()}${inv ? `
+
+El profesor aporta estas figuras y fórmulas. Inclúyelas donde encajen, cada una en una línea propia: las figuras con la forma ![pie](F3) y las fórmulas con la forma $$ LaTeX $$ {#E2}. Explica qué muestra cada figura usando solo su descripción.
+${inv}` : ""}`;
   const user = `Asignatura: ${$("cAsig").value.trim() || "(no indicada)"}\nTema: ${tema}\nLo que no puede faltar: ${$("cNotas").value.trim() || "(nada en particular)"}`;
   try{
     S.mejorado = await chat([{role:"system", content:sistema}, {role:"user", content:user}], {alTrozo:t => { $("mejorado").value = t; barra("barra4", Math.min(.95, t.length / 16000)); }});
@@ -1902,9 +1998,12 @@ function verEditar(ed){ $$("#matTabs [data-mt]").forEach(x => x.setAttribute("ar
 $$("#matTabs [data-mt]").forEach(b => b.onclick = () => verEditar(b.dataset.mt === "editar"));
 function mdAHtml(md){
   const out = []; const L = String(md || "").split("\n"); let i = 0;
-  const inl = t => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<i>$2</i>").replace(/`([^`]+)`/g, "<code>$1</code>");
+  const inl = t => { const mt = []; const h = esc(String(t).replace(/\$(?!\s)([^$\n]+?)(?<!\s)\$/g, (m, x) => (mt.push(x), "\u0000" + (mt.length - 1) + "\u0000"))).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<i>$2</i>").replace(/`([^`]+)`/g, "<code>$1</code>"); return h.replace(/\u0000(\d+)\u0000/g, (m, k) => mathHtml(mt[+k], false)); };
   while(i < L.length){
-    const l = L[i];
+    const l = L[i]; let f;
+    if((f = l.match(/^\s*!\[([^\]]*)\]\(([^)\s]+)\)\s*$/))){ out.push(figuraHtml(f[2], f[1])); i++; continue; }
+    if((f = l.match(/^\s*\$\$(.+?)\$\$\s*(?:\{#(E\d+)\})?\s*$/))){ out.push(`<div class="mjb">${mathHtml(f[1].trim(), true)}${f[2] ? `<span class="mj-id">${f[2]}</span>` : ""}</div>`); i++; continue; }
+    if(/^\s*\$\$\s*$/.test(l)){ const c = []; i++; while(i < L.length && !/^\s*\$\$/.test(L[i])) c.push(L[i++]); const id = ((L[i] || "").match(/\{#(E\d+)\}/) || [])[1]; i++; out.push(`<div class="mjb">${mathHtml(c.join("\n"), true)}${id ? `<span class="mj-id">${id}</span>` : ""}</div>`); continue; }
     if(/^```/.test(l)){ const c = []; i++; while(i < L.length && !/^```/.test(L[i])) c.push(L[i++]); i++; out.push(`<pre>${esc(c.join("\n"))}</pre>`); continue; }
     if(/^\s*\|/.test(l)){ const rows = []; while(i < L.length && /^\s*\|/.test(L[i])){ if(!/^\s*\|\s*:?-{2,}/.test(L[i])) rows.push(L[i].trim().replace(/^\||\|$/g, "").split("|").map(x => x.trim())); i++; } out.push("<table>" + rows.map((r,k) => "<tr>" + r.map(x => k ? `<td>${inl(x)}</td>` : `<th>${inl(x)}</th>`).join("") + "</tr>").join("") + "</table>"); continue; }
     let m;
@@ -1918,7 +2017,7 @@ function mdAHtml(md){
   }
   return out.join("\n");
 }
-function pintaMd(){ $("mdview").innerHTML = S.mejorado ? mdAHtml(S.mejorado) : '<p class="help">Aún no hay material.</p>'; }
+function pintaMd(){ $("mdview").innerHTML = S.mejorado ? mdAHtml(S.mejorado) : '<p class="help">Aún no hay material.</p>'; tipografiar($("mdview")); }
 function pintaMat(){
   $("matTitle").textContent = S.modo === "crear" ? "El material creado" : "El material reescrito";
   $("matLede").textContent = S.modo === "crear" ? "Escrito desde cero y revisado por un revisor disciplinar. Léelo y corrígelo: todo lo demás sale de aquí." : "Reescrito sin inventar contenido y comparado con el original. Léelo y corrígelo: todo lo demás sale de aquí.";
@@ -1936,9 +2035,10 @@ Devuelve solo JSON: {"veredicto":"una frase","errores":[{"gravedad":"alta|media|
   const r = extraerJson(await chat([{role:"system", content:`Eres un revisor de fidelidad. Comparas un material docente ORIGINAL con su versión REESCRITA. La reescritura debía mejorar la didáctica SIN inventar contenido. Detectas:
 - "anadidos": afirmaciones, datos, cifras, ejemplos con datos, referencias o conceptos de la versión reescrita que NO están en el original ni se deducen directamente de él. Los objetivos, comprobaciones, glosario y ejercicios que reformulan contenido del original NO son añadidos.
 - "omisiones": contenido importante del original que ha desaparecido.
-- "errores": cambios que alteran el significado o introducen un error conceptual.
+- "errores": cambios que alteran el significado o introducen un error conceptual, incluida cualquier fórmula en LaTeX que no sea idéntica a la del original.
+Las figuras van como ![pie](F3) y las fórmulas como $$ LaTeX $$ {#E2}. Explicar lo que muestra una figura según su descripción del inventario NO es un añadido. Una figura o fórmula del original que falta en la reescritura es una omisión.
 Escribe en el idioma del material.
-Devuelve solo JSON: {"veredicto":"una frase","anadidos":[{"gravedad":"alta|media|baja","texto":"cita LITERAL y breve de la versión reescrita","comentario":"por qué no procede del original"}],"omisiones":[{"texto":"idea del original que falta","comentario":"..."}],"errores":[{"gravedad":"alta|media|baja","texto":"cita LITERAL de la versión reescrita","comentario":"...","correccion":"texto que sustituye literalmente a la cita"}]}`}, {role:"user", content:`ORIGINAL:\n${S.bruto.slice(0, 28000)}\n\nREESCRITO:\n${txt.slice(0, 28000)}`}], {json:true}));
+Devuelve solo JSON: {"veredicto":"una frase","anadidos":[{"gravedad":"alta|media|baja","texto":"cita LITERAL y breve de la versión reescrita","comentario":"por qué no procede del original"}],"omisiones":[{"texto":"idea del original que falta","comentario":"..."}],"errores":[{"gravedad":"alta|media|baja","texto":"cita LITERAL de la versión reescrita","comentario":"...","correccion":"texto que sustituye literalmente a la cita"}]}`}, {role:"user", content:`ORIGINAL:\n${paraIA(S.bruto).slice(0, 28000)}${usados().length ? `\n\nINVENTARIO DE FIGURAS Y FÓRMULAS DEL ORIGINAL:\n${inventarioIA()}` : ""}\n\nREESCRITO:\n${txt.slice(0, 28000)}`}], {json:true}));
   return {tipo:"fidelidad", veredicto:r.veredicto || "", anadidos:r.anadidos || [], omisiones:r.omisiones || [], errores:r.errores || []};
 }
 async function material_listo(revisar, reiniciar = true){
@@ -1949,7 +2049,7 @@ async function material_listo(revisar, reiniciar = true){
   if(!revisar){ S.revision = null; pintaQA(); return; }
   S.revision = {cargando:true}; pintaQA();
   $("matInfo").textContent = S.modo === "crear" ? "Revisando el contenido y evaluando…" : "Comparando con el original y evaluando…";
-  const [rev, ev] = await Promise.allSettled([revisarMaterial(), evaluar(S.mejorado)]);
+  const [rev, ev] = await Promise.allSettled([revisarMaterial(), evaluar(S.mejorado), verificarFormulas()]);
   S.revision = rev.status === "fulfilled" ? rev.value : {tipo:"error", veredicto:"El revisor no respondió: " + rev.reason.message, errores:[], anadidos:[], omisiones:[]};
   if(ev.status === "fulfilled"){ S.evalFin = ev.value; pintarEvaluacion("evalFinal", S.evalIni || S.evalFin, S.evalIni ? S.evalFin : null); $("evalFinalBox").classList.remove("hidden"); $("evalFinalT").textContent = S.evalIni ? "Qué ha cambiado" : "Cómo ha quedado"; $("evalFinalSub").textContent = S.evalIni ? "La misma rúbrica sobre el material nuevo. Si una dimensión no ha subido, conviene mirarla a mano." : "La rúbrica de calidad docente sobre el material creado."; }
   $("matInfo").textContent = ""; pintaQA();
@@ -1971,12 +2071,13 @@ function pintaQA(){
     if((R.omisiones || []).length) h += `<p class="sublab">Se ha perdido del original</p><ul style="margin:0;padding-left:18px;font-size:13.5px">${R.omisiones.map(o => `<li>${esc(o.texto)}${o.comentario ? ` <small style="color:var(--gris)">— ${esc(o.comentario)}</small>` : ""}</li>`).join("")}</ul>`;
     S._items = items;
   }
+  if(R && !R.cargando) h += seccionRecursosQA();
   h += `</div><div class="qa-foot"><button type="button" class="btn btn-ghost btn-sm" id="btnReRev">${ico("refresh")} Revisar de nuevo tras editar</button><span>Los revisores reducen errores, no los eliminan.</span></div>`;
   box.innerHTML = h;
   $$("#qa [data-fix]").forEach(b => b.onclick = () => { const x = S._items[+b.dataset.fix]; const t = $("mejorado").value; if(x.aplicada) return; if(!t.includes(x.texto)) return toast("No encuentro ese texto literal; corrígelo a mano en «Editar el texto»"); $("mejorado").value = t.replace(x.texto, x.correccion); S.mejorado = $("mejorado").value; x.aplicada = true; pintaMd(); pintaQA(); toast("Corrección aplicada"); });
+  $$("#qa [data-verif]").forEach(b => b.onclick = () => { const x = S.recursos.find(q => q.id === b.dataset.verif); if(x){ aplicarVerif(x); toast("LaTeX corregido en la galería y en el material"); } });
   $("btnReRev").onclick = () => material_listo(true, false);
 }
-$("btnDescargarMd").onclick = () => descargar(new Blob([$("mejorado").value], {type:"text/markdown"}), S.nombre + "_nanoclase.md");
 $("btnDescargarDocx").onclick = async () => { try{ descargar(await mdADocx($("mejorado").value, tituloMat()), S.nombre + "_nanoclase.docx"); }catch(e){ toast(e.message); } };
 function informeRevisionMd(){
   const R = S.revision || {}; let m = `# Informe de revisión · ${tituloMat()}\n\n`;
@@ -1985,6 +2086,11 @@ function informeRevisionMd(){
   (R.errores || []).forEach(x => m += `- **Error (${x.gravedad})** «${x.texto}»: ${x.comentario}${x.correccion ? ` → ${x.correccion}` : ""}${x.aplicada ? " _(aplicada)_" : ""}\n`);
   (R.anadidos || []).forEach(x => m += `- **Añadido (${x.gravedad})** «${x.texto}»: ${x.comentario}\n`);
   (R.omisiones || []).forEach(x => m += `- **Omisión** ${x.texto}: ${x.comentario || ""}\n`);
+  if(usados().length){
+    m += `\n## Figuras y fórmulas\n\n`;
+    const faltan = S.mejorado ? faltanEnMaterial(S.mejorado) : [];
+    usados().forEach(r => m += `- **${r.id}** (${r.tipo === "formula" ? "fórmula" : "figura"}${r.importante ? ", importante" : ""}) ${r.tipo === "formula" ? "`" + (r.latex || "sin LaTeX") + "`" : r.pie || ""}${r.fuente ? ` · Fuente: ${r.fuente}` : ""}${r.verif ? (r.verif.coincide ? " · coincide con el recorte" : ` · **no coincide con el recorte**: ${r.verif.diferencias}`) : ""}${faltan.includes(r) ? " · **no aparece en el material**" : ""}\n`);
+  }
   return m;
 }
 
@@ -1992,24 +2098,39 @@ function informeRevisionMd(){
 async function mdADocx(md, titulo){
   if(!window.docx) await cargaLib(LIBS.docx);
   const D = window.docx, F = "Arial", kids = [];
-  const runs = (t, o = {}) => { const out = []; String(t).split(/(\*\*[^*]+\*\*|`[^`]+`)/).forEach(p => { if(!p) return; if(/^\*\*/.test(p)) out.push(new D.TextRun({text:p.slice(2, -2), bold:true, font:F, size:o.size || 22})); else if(/^`/.test(p)) out.push(new D.TextRun({text:p.slice(1, -1), font:"Consolas", size:20})); else out.push(new D.TextRun({text:p, font:F, size:o.size || 22, italics:o.it, bold:o.b})); }); return out; };
-  const P = (t, o = {}) => new D.Paragraph({children:runs(t, o), spacing:{after:o.after ?? 120}, heading:o.h, indent:o.ind ? {left:o.ind} : undefined, bullet:o.bullet ? {level:0} : undefined, shading:o.shade ? {fill:o.shade, type:D.ShadingType.CLEAR} : undefined});
+  const imgRun = (src, w, h, alt) => new D.ImageRun({data:bytesDe(src), transformation:{width:Math.max(1, Math.round(w)), height:Math.max(1, Math.round(h))}, altText:{title:String(alt || "").slice(0, 80), description:String(alt || ""), name:String(alt || "imagen").slice(0, 40)}});
+  const formulaRun = async (lat, display) => { try{ const p = await texAPng(lat, {color:"#000000", ex:display ? 19 : 16, display}); return imgRun(p.src, p.w / 2, p.h / 2, lat); }catch(e){ return new D.TextRun({text:lat, font:"Cambria Math", size:22}); } };
+  const texto = (p, o) => { const out = []; p.split(/(\*\*[^*]+\*\*|`[^`]+`)/).forEach(q => { if(!q) return; if(/^\*\*/.test(q)) out.push(new D.TextRun({text:q.slice(2, -2), bold:true, font:F, size:o.size || 22})); else if(/^`/.test(q)) out.push(new D.TextRun({text:q.slice(1, -1), font:"Consolas", size:20})); else out.push(new D.TextRun({text:q, font:F, size:o.size || 22, italics:o.it, bold:o.b})); }); return out; };
+  const runs = async (t, o = {}) => { const out = []; for(const q of String(t).split(/(\$(?!\s)[^$\n]+?(?<!\s)\$)/)){ if(!q) continue; if(q.length > 2 && /^\$[^$]+\$$/.test(q)) out.push(await formulaRun(q.slice(1, -1), false)); else out.push(...texto(q, o)); } return out; };
+  const P = async (t, o = {}) => new D.Paragraph({children:await runs(t, o), spacing:{after:o.after ?? 120}, heading:o.h, alignment:o.centro ? D.AlignmentType.CENTER : undefined, indent:o.ind ? {left:o.ind} : undefined, bullet:o.bullet ? {level:0} : undefined, shading:o.shade ? {fill:o.shade, type:D.ShadingType.CLEAR} : undefined});
+  const centrado = (hijos, after = 80) => new D.Paragraph({alignment:D.AlignmentType.CENTER, children:hijos, spacing:{before:80, after}});
   const L = String(md).split("\n"); let i = 0, enDet = false;
   while(i < L.length){
     const l = L[i]; let m;
-    if(/^```/.test(l)){ i++; while(i < L.length && !/^```/.test(L[i])) kids.push(new D.Paragraph({children:[new D.TextRun({text:L[i++], font:"Consolas", size:19})], shading:{fill:"F3F6FA", type:D.ShadingType.CLEAR}, spacing:{after:0}})); i++; kids.push(P("", {after:80})); continue; }
+    if((m = l.match(/^\s*!\[([^\]]*)\]\(([FE]\d+)\)\s*$/))){
+      const r = S.recursos.find(x => x.id === m[2]); i++;
+      if(r && r.tipo === "formula" && r.latex){ kids.push(centrado([await formulaRun(r.latex, true)])); continue; }
+      if(!r || !r.src){ kids.push(await P(`[Falta la figura ${m[2]}]`, {it:true})); continue; }
+      const t = encajar(r.w, r.h, 600, 460, 1);
+      kids.push(centrado([imgRun(r.src, t.w, t.h, r.alt || r.pie || r.id)], 40));
+      kids.push(centrado(texto([`Figura ${r.id}.`, r.pie || m[1], r.fuente ? `Fuente: ${r.fuente}.` : ""].filter(Boolean).join(" "), {it:true, size:18}), 160));
+      continue;
+    }
+    if((m = l.match(/^\s*\$\$(.+?)\$\$\s*(?:\{#E\d+\})?\s*$/))){ kids.push(centrado([await formulaRun(m[1].trim(), true)])); i++; continue; }
+    if(/^\s*\$\$\s*$/.test(l)){ const c = []; i++; while(i < L.length && !/^\s*\$\$/.test(L[i])) c.push(L[i++]); i++; kids.push(centrado([await formulaRun(c.join(" "), true)])); continue; }
+    if(/^```/.test(l)){ i++; while(i < L.length && !/^```/.test(L[i])) kids.push(new D.Paragraph({children:[new D.TextRun({text:L[i++], font:"Consolas", size:19})], shading:{fill:"F3F6FA", type:D.ShadingType.CLEAR}, spacing:{after:0}})); i++; kids.push(await P("", {after:80})); continue; }
     if(/^\s*\|/.test(l)){ const rows = []; while(i < L.length && /^\s*\|/.test(L[i])){ if(!/^\s*\|\s*:?-{2,}/.test(L[i])) rows.push(L[i].trim().replace(/^\||\|$/g, "").split("|").map(x => x.trim())); i++; }
       const w = Math.max(...rows.map(r => r.length)); const bd = {style:D.BorderStyle.SINGLE, size:1, color:"D8E0E9"};
       kids.push(new D.Table({width:{size:100, type:D.WidthType.PERCENTAGE}, rows:rows.map((r,k) => new D.TableRow({children:Array.from({length:w}, (_,j) => new D.TableCell({borders:{top:bd,bottom:bd,left:bd,right:bd}, shading:k ? undefined : {fill:"0F2237", type:D.ShadingType.CLEAR}, children:[new D.Paragraph({children:[new D.TextRun({text:String(r[j] ?? "").replace(/\*\*/g, ""), bold:!k, color:k ? undefined : "FFFFFF", font:F, size:19})]})]}))}))}));
-      kids.push(P("", {after:80})); continue; }
+      kids.push(await P("", {after:80})); continue; }
     if((m = l.match(/^(#{1,4})\s+(.*)/))){ kids.push(new D.Paragraph({text:m[2].replace(/\*\*/g, ""), heading:[D.HeadingLevel.TITLE, D.HeadingLevel.HEADING_1, D.HeadingLevel.HEADING_2, D.HeadingLevel.HEADING_3][m[1].length - 1], spacing:{before:200, after:100}})); i++; continue; }
     if(/<details>/i.test(l)){ enDet = true; i++; continue; }
-    if(/<summary>/i.test(l)){ kids.push(P("▸ " + l.replace(/<\/?summary>|<\/?details>/gi, "").trim(), {b:true, shade:"FFF8E6", after:40})); i++; continue; }
-    if(/<\/details>/i.test(l)){ const r = l.replace(/<\/details>/i, "").trim(); if(r) kids.push(P(r, {it:true, shade:"FFF8E6"})); enDet = false; i++; continue; }
-    if((m = l.match(/^\s*[-*]\s+(.*)/))){ kids.push(P(m[1], {bullet:true, after:40})); i++; continue; }
-    if((m = l.match(/^\s*(\d+)[.)]\s+(.*)/))){ kids.push(P(m[1] + ". " + m[2], {ind:360, after:40})); i++; continue; }
+    if(/<summary>/i.test(l)){ kids.push(await P("▸ " + l.replace(/<\/?summary>|<\/?details>/gi, "").trim(), {b:true, shade:"FFF8E6", after:40})); i++; continue; }
+    if(/<\/details>/i.test(l)){ const r = l.replace(/<\/details>/i, "").trim(); if(r) kids.push(await P(r, {it:true, shade:"FFF8E6"})); enDet = false; i++; continue; }
+    if((m = l.match(/^\s*[-*]\s+(.*)/))){ kids.push(await P(m[1], {bullet:true, after:40})); i++; continue; }
+    if((m = l.match(/^\s*(\d+)[.)]\s+(.*)/))){ kids.push(await P(m[1] + ". " + m[2], {ind:360, after:40})); i++; continue; }
     if(!l.trim()){ i++; continue; }
-    kids.push(P(l, enDet ? {it:true, shade:"FFF8E6"} : {})); i++;
+    kids.push(await P(l, enDet ? {it:true, shade:"FFF8E6"} : {})); i++;
   }
   return await D.Packer.toBlob(new D.Document({creator:"NanoClase", title:titulo, styles:{default:{document:{run:{font:F, size:22}}}}, sections:[{properties:{}, children:kids}]}));
 }
@@ -2018,19 +2139,21 @@ async function mdADocx(md, titulo){
 async function pptxBlob(){
   if(!S.guion) throw new Error("Escribe antes el guion");
   if(!window.PptxGenJS) await cargaLib(LIBS.pptx);
+  await prepararVisuales().catch(() => {});
   const pres = new PptxGenJS(); pres.layout = "LAYOUT_WIDE"; pres.title = S.guion.titulo || tituloMat();
   const ac = ($("colorAcento").value || "#E4572E").replace("#", ""), marca = $("marca").value.trim(), n = S.guion.escenas.length;
   S.guion.escenas.forEach((e, i) => {
     const s = pres.addSlide(); s.background = {color:"0F2237"};
     s.addShape(pres.ShapeType.rect, {x:0, y:0, w:0.08, h:7.5, fill:{color:ac}, line:{color:ac}});
     const portada = i === 0;
+    if(e.plantilla && e.plantilla !== "texto"){ pptxConRecursos(pres, s, e, ac); s.addText(`${marca ? marca + "   ·   " : ""}${i + 1} / ${n}`, {x:0.9, y:6.85, w:11.5, h:0.4, fontFace:"Arial", fontSize:11, color:"8FA7BE"}); s.addNotes(notasEscena(e)); return; }
     s.addText(e.titulo || "", {x:0.9, y:portada ? 2.0 : 0.7, w:11.5, h:portada ? 1.6 : 1.1, fontFace:"Arial", fontSize:portada ? 40 : 32, bold:true, color:"F3F6FA", valign:"bottom"});
     s.addShape(pres.ShapeType.rect, {x:0.9, y:portada ? 3.75 : 1.9, w:0.7, h:0.06, fill:{color:ac}, line:{color:ac}});
     if(e.subtitulo) s.addText(e.subtitulo, {x:0.9, y:portada ? 3.95 : 2.05, w:11.5, h:0.7, fontFace:"Arial", fontSize:portada ? 22 : 19, color:"C3D3E2"});
     const pts = (e.puntos || []).slice(0, 4);
     if(pts.length) s.addText(pts.map(p => ({text:p, options:{bullet:{code:"25A0"}, paraSpaceAfter:10}})), {x:0.9, y:portada ? 4.8 : 2.9, w:11.5, h:portada ? 2 : 3.6, fontFace:"Arial", fontSize:20, color:"F3F6FA", valign:"top"});
     s.addText(`${marca ? marca + "   ·   " : ""}${i + 1} / ${n}`, {x:0.9, y:6.85, w:11.5, h:0.4, fontFace:"Arial", fontSize:11, color:"8FA7BE"});
-    if(e.narracion) s.addNotes(e.narracion);
+    if(e.narracion) s.addNotes(notasEscena(e));
   });
   return await pres.write({outputType:"blob"});
 }
@@ -2133,7 +2256,7 @@ Devuelve SOLO Markdown con:
 - Adaptaciones (grupo numeroso, estudiantado con necesidades específicas, en línea).
 - Después de la clase.
 Usa solo contenido del material. ${instruccionIdioma()}`}, {role:"user", content:S.mejorado.slice(0, RECORTE)}], {alTrozo:t => { $("planView").innerHTML = mdAHtml(t); barra("barraP", Math.min(.95, t.length / 5000)); }});
-    $("planView").innerHTML = mdAHtml(S.plan); barra("barraP", 1); $("okPlan").classList.remove("hidden"); pintaPack();
+    $("planView").innerHTML = mdAHtml(S.plan); tipografiar($("planView")); barra("barraP", 1); $("okPlan").classList.remove("hidden"); pintaPack();
   }catch(e){ toast(e.message, 6000); }
   finally{ b.disabled = false; }
 };
@@ -2144,7 +2267,7 @@ $("btnPlanDocx").onclick = async () => { if(!S.plan) return; try{ descargar(awai
 function verProducto(p){ $$("#ptabs [data-p]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.p === p))); $$(".ppanel").forEach(x => x.classList.toggle("on", x.id === "pp-" + p)); if(p === "pack") pintaPack(); }
 $$("#ptabs [data-p]").forEach(b => b.onclick = () => verProducto(b.dataset.p));
 function pintaPack(){
-  const it = [[!!S.mejorado,"Material (Word y Markdown)"],[!!S.revision && !S.revision.cargando,"Informe de revisión"],[!!S.guion,"Guion, diapositivas PNG y PowerPoint"],[S.audios.length > 0,"Audios y subtítulos"],[!!S.videoBlob,"Vídeo"],[!!S.preguntas,"Banco de preguntas (GIFT para Moodle)"],[!!S.plan,"Plan de clase"]];
+  const it = [[!!S.mejorado,"Material (Word y Markdown)"],[!!S.revision && !S.revision.cargando,"Informe de revisión"],[usados().length > 0,"Figuras y fórmulas (imágenes y LaTeX)"],[!!S.guion,"Guion, diapositivas PNG, PowerPoint y LaTeX Beamer"],[S.audios.length > 0,"Audios y subtítulos"],[!!S.videoBlob,"Vídeo"],[!!S.preguntas,"Banco de preguntas (GIFT para Moodle)"],[!!S.plan,"Plan de clase"]];
   $("packChecks").innerHTML = it.map(([on,t]) => `<li class="${on ? "on" : ""}"><span class="ck">${on ? ico("check") : ""}</span>${t}</li>`).join("");
 }
 
@@ -2158,27 +2281,1026 @@ const GLOS = [
   ["Revisor de preguntas","Comprueba que la respuesta marcada sea correcta según el material y que no haya otra defendible. Corrige o descarta."],
   ["PowerPoint editable","Las diapositivas del vídeo como texto editable, con la narración en las notas del orador."],
   ["Clase invertida","El estudiantado ve el vídeo antes; la sesión se dedica a practicar y resolver dudas."],
+  ["Figuras y fórmulas","Se extraen las imágenes del PDF, el Word, el PowerPoint o el cuaderno. Las ecuaciones de Word y PowerPoint pasan a LaTeX sin IA. Lo vectorial de un PDF se recorta sobre la página."],
+  ["Recorte","Marca un rectángulo sobre una página del PDF o sobre una imagen. El texto que queda dentro deja de leerse como texto, así una fórmula rota no confunde a la IA."],
+  ["Fórmula en LaTeX","La IA con visión transcribe cada recorte a LaTeX. Lo ves al lado del original y lo corriges; un revisor compara después el LaTeX compilado con el recorte."],
+  ["Lectura hablada","La voz no puede leer LaTeX: el guion dice cada fórmula con palabras, como en clase, y la diapositiva la muestra escrita."],
+  ["Plantillas de diapositiva","Texto, texto con figura, figura grande, dos figuras y fórmula destacada. El guion elige y tú puedes cambiarla en cada escena."],
+  ["LaTeX Beamer","Las diapositivas en un .tex con las fórmulas en LaTeX real y las figuras en una carpeta. Se compila con pdflatex o en Overleaf."],
+  ["Fuente y texto alternativo","Cada figura lleva su fuente o licencia, que sale en la diapositiva, y un texto alternativo para lectores de pantalla, en Word, PowerPoint y HTML."],
 ];
 $("glos").innerHTML = GLOS.map(g => `<div><b>${esc(g[0])}</b><span>${esc(g[1])}</span></div>`).join("");
 $("btnHelp").onclick = () => $("mHelp").classList.add("on");
-$$(".modal").forEach(m => m.addEventListener("click", e => { if(e.target === m || e.target.hasAttribute("data-close")) m.classList.remove("on"); }));
+$$(".modal").forEach(m => m.addEventListener("click", e => { if(m.dataset.arrastre) return; if(e.target === m || e.target.hasAttribute("data-close")) m.classList.remove("on"); }));
 const EJEMPLO = `Intervalos de confianza para una media
 
 Cuando estimamos la media de una población a partir de una muestra, la media muestral no coincide exactamente con la poblacional. El intervalo de confianza da un rango de valores plausibles para la media poblacional.
 
-Para una muestra de tamaño n con media x̄ y desviación típica s, si la población es aproximadamente normal o n es grande, el intervalo al 95 % es x̄ ± t · s/√n, donde t es el valor de la distribución t de Student con n − 1 grados de libertad que deja un 2,5 % en cada cola. El cociente s/√n es el error estándar de la media.
+Para una muestra de tamaño n con media x̄ y desviación típica s, si la población es aproximadamente normal o n es grande, el intervalo al 95 % es
+
+[[E1]]
+
+donde t es el valor de la distribución t de Student con n − 1 grados de libertad que deja un 2,5 % en cada cola. El cociente s/√n es el error estándar de la media.
 
 Ejemplo: en 25 pacientes la presión sistólica media es 128 mmHg con s = 15. El error estándar es 15/5 = 3. Con 24 grados de libertad, t = 2,064. El intervalo es 128 ± 6,19, es decir, de 121,8 a 134,2 mmHg.
 
 La interpretación correcta es que, si repitiéramos el muestreo muchas veces, el 95 % de los intervalos así construidos contendrían la media poblacional. No es correcto decir que hay un 95 % de probabilidad de que la media esté en este intervalo concreto.
 
+[[F1]]
+
 Al aumentar n el intervalo se estrecha, porque el error estándar disminuye con la raíz de n. Al aumentar el nivel de confianza, por ejemplo al 99 %, el intervalo se ensancha.
 
 No hay que confundir la desviación típica, que mide la dispersión de los datos, con el error estándar, que mide la precisión de la media estimada.`;
-function cargaEjemplo(){ setModo("mejorar"); S.bruto = EJEMPLO; S.tipo = "md"; S.nombre = "intervalos_de_confianza"; $("notaDoc").textContent = `Apunte de ejemplo · ${EJEMPLO.split(/\s+/).length} palabras. Tiene buen contenido pero poca didáctica: sin objetivos, sin comprobaciones, sin ejercicios.`; tras_cargar("apunte_intervalos_de_confianza.txt"); go(2); }
+function cargaEjemplo(){
+  setModo("mejorar"); reiniciarRecursos();
+  nuevoRecurso({tipo:"formula", latex:"\\bar{x} \\pm t_{n-1} \\cdot \\frac{s}{\\sqrt{n}}", hablada:"x barra más menos t con n menos uno grados de libertad, por s partido por la raíz de n", origen:"Ejemplo · ecuación", nativa:true, importante:true});
+  nuevoRecurso({tipo:"figura", src:figuraEjemplo(), w:1200, h:760, origen:"Ejemplo", importante:true, ia:"hecho", fuente:"Elaboración propia con datos simulados", pie:"Veinte intervalos al 95 % calculados con veinte muestras distintas", alt:"Veinte segmentos horizontales, uno por muestra, alrededor de una línea vertical discontinua que marca la media poblacional μ. Diecinueve segmentos la cortan; uno, en rojo, queda entero a la derecha y no la contiene."});
+  S.fuente = {tipo:"texto", base:EJEMPLO}; S.bruto = componerBruto(); S.tipo = "md"; S.nombre = "intervalos_de_confianza";
+  $("notaDoc").textContent = `Apunte de ejemplo · ${EJEMPLO.split(/\s+/).length} palabras, una fórmula y una figura. Tiene buen contenido pero poca didáctica: sin objetivos, sin comprobaciones, sin ejercicios.`;
+  tras_cargar("apunte_intervalos_de_confianza.txt"); go(2);
+}
 $("btnEj").onclick = cargaEjemplo;
 $("lnkEj").onclick = e => { e.preventDefault(); cargaEjemplo(); };
 $("btnStart").onclick = () => go(laClave() ? 2 : 1);
+
+/* ══════════════════════════════════════════════════════════
+   NanoClase 2.1 · figuras y fórmulas
+   Cada figura o fórmula del material es un «recurso» con identificador (F1, E1).
+   En el texto de partida va como marcador [[F1]]; al enviarlo a la IA se expande a
+   ![pie](F1) o a $$ LaTeX $$ {#E1}, y así lo conserva el material reescrito.
+   ══════════════════════════════════════════════════════════ */
+S.recursos = []; S.fuente = null; S.cuenta = {F:0, E:0}; S._analisis = null;
+const R = id => S.recursos.find(r => r.id === id);
+const usados = () => S.recursos.filter(r => r.usar);
+const escA = s => esc(s).replace(/"/g, "&quot;");
+const RS = 2;   // escala a la que se dibujan las páginas del PDF (recortes nítidos para la IA)
+const DIB = {};  // imágenes ya cargadas para dibujar las diapositivas
+
+function nuevoId(tipo){ const k = tipo === "formula" ? "E" : "F"; return k + (++S.cuenta[k]); }
+function nuevoRecurso(o){
+  const r = Object.assign({tipo:"figura", src:null, w:0, h:0, pie:"", alt:"", fuente:"", latex:"", hablada:"", usar:true, importante:false, clase:"", origen:"", ia:"pendiente", msg:"", verif:null, tocado:false}, o);
+  r.id = nuevoId(r.tipo);
+  if(r.tipo === "formula" && r.latex && !r.src) r.ia = "hecho";
+  S.recursos.push(r); return r;
+}
+function quitarRecurso(id){ S.recursos = S.recursos.filter(r => r.id !== id); S.recursos.forEach(r => { if(r.tras === id) delete r.tras; }); }
+function reiniciarRecursos(){ S.recursos = []; S.fuente = null; S.cuenta = {F:0, E:0}; S._analisis = null; S._avisadoPend = false; S.avisoLectura = ""; for(const k in DIB) delete DIB[k]; }
+
+/* ── imágenes ── */
+const IMGC = new Map();
+function cargaImg(src){
+  if(IMGC.has(src)) return IMGC.get(src);
+  const p = new Promise((ok, ko) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => ko(new Error("No se pudo leer una imagen")); im.src = src; });
+  IMGC.set(src, p); p.catch(() => IMGC.delete(src)); return p;
+}
+const leerDataUrl = blob => new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = () => ko(new Error("No se pudo leer el fichero")); r.readAsDataURL(blob); });
+async function normalizar(src, max = 1600){
+  const im = await cargaImg(src); IMGC.delete(src);
+  const k = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+  const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(im.naturalWidth * k)); c.height = Math.max(1, Math.round(im.naturalHeight * k));
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0, c.width, c.height);
+  const png = c.width * c.height < 1.3e6 && !/^data:image\/jpe?g/.test(src);
+  return {src: png ? c.toDataURL("image/png") : c.toDataURL("image/jpeg", .9), w: c.width, h: c.height};
+}
+function recortar(im, caja){
+  const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(caja.w)); c.height = Math.max(1, Math.round(caja.h));
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+  x.drawImage(im, caja.x, caja.y, caja.w, caja.h, 0, 0, c.width, c.height); return c;
+}
+function huella(c){
+  const t = document.createElement("canvas"); t.width = t.height = 12; const x = t.getContext("2d"); x.drawImage(c, 0, 0, 12, 12);
+  const d = x.getImageData(0, 0, 12, 12).data, g = []; for(let i = 0; i < d.length; i += 4) g.push(d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11);
+  const m = g.reduce((a, b) => a + b, 0) / g.length; return g.map(v => v > m ? 1 : 0);
+}
+const parecidas = (a, b) => a.reduce((s, v, i) => s + (v !== b[i]), 0) <= 10;
+const mimeDe = src => (String(src).match(/^data:([^;,]+)/) || [])[1] || "image/png";
+const extDe = src => /jpe?g/.test(mimeDe(src)) ? "jpg" : "png";
+const b64De = src => String(src).split(",")[1] || "";
+const bytesDe = src => Uint8Array.from(atob(b64De(src)), c => c.charCodeAt(0));
+async function sobreBlanco(src){ const im = await cargaImg(src), c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight; const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0); return c.toDataURL("image/png"); }
+/* Para la IA: las fórmulas pequeñas se amplían (lee mejor los subíndices) y las grandes se reducen. */
+async function paraVision(src){
+  const im = await cargaImg(src), w = im.naturalWidth, h = im.naturalHeight;
+  const k = h < 90 ? Math.min(3, 90 / h) : Math.min(1, 1536 / Math.max(w, h));
+  if(k === 1) return src;
+  const c = document.createElement("canvas"); c.width = Math.round(w * k); c.height = Math.round(h * k);
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.imageSmoothingQuality = "high"; x.drawImage(im, 0, 0, c.width, c.height);
+  return k > 1 ? c.toDataURL("image/png") : c.toDataURL("image/jpeg", .88);
+}
+
+/* ── LaTeX con MathJax (salida SVG: se ve en pantalla y se convierte en PNG sin fuentes externas) ── */
+let _mj = null;
+function cargaMathJax(){
+  if(_mj) return _mj;
+  window.MathJax = {svg:{fontCache:"none"}, startup:{typeset:false}, options:{enableMenu:false}};
+  return _mj = cargaLib(LIBS.mathjax).then(() => MathJax.startup.promise).catch(e => { _mj = null; throw e; });
+}
+async function texSvg(latex, display = true){
+  await cargaMathJax();
+  const nodo = MathJax.tex2svg(String(latex), {display});
+  const err = nodo.querySelector('[data-mml-node="merror"]');
+  return {svg: nodo.querySelector("svg"), error: err ? (err.getAttribute("data-mjx-error") || "LaTeX no válido") : ""};
+}
+const PNGC = new Map();
+async function texAPng(latex, {color = "#0F2237", ex = 22, display = true} = {}){
+  const k = [latex, color, ex, display].join("|"); if(PNGC.has(k)) return PNGC.get(k);
+  const {svg, error} = await texSvg(latex, display);
+  if(error) throw new Error(error);
+  const s = svg.cloneNode(true);
+  const w = parseFloat(s.getAttribute("width")) * ex, h = parseFloat(s.getAttribute("height")) * ex;
+  s.setAttribute("width", w); s.setAttribute("height", h); s.setAttribute("xmlns", "http://www.w3.org/2000/svg"); s.removeAttribute("style");
+  const xml = new XMLSerializer().serializeToString(s).replace(/currentColor/g, color);
+  const im = await cargaImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml));
+  const z = 2, c = document.createElement("canvas"); c.width = Math.ceil(w * z) + 8; c.height = Math.ceil(h * z) + 8;
+  c.getContext("2d").drawImage(im, 4, 4, w * z, h * z);
+  const out = {src: c.toDataURL("image/png"), w: c.width, h: c.height};
+  PNGC.set(k, out); return out;
+}
+const mathHtml = (latex, display) => `<span class="mj" data-tex="${escA(latex)}" data-d="${display ? 1 : 0}"></span>`;
+async function tipografiar(raiz){
+  const nodos = [...raiz.querySelectorAll(".mj:not([data-ok])")]; if(!nodos.length) return;
+  try{ await cargaMathJax(); }catch(e){ nodos.forEach(n => { n.textContent = n.dataset.tex; n.classList.add("mj-err"); }); return; }
+  for(const n of nodos){
+    n.dataset.ok = "1";
+    try{ const {svg, error} = await texSvg(n.dataset.tex, n.dataset.d === "1"); n.innerHTML = ""; n.appendChild(svg.cloneNode(true)); if(error){ n.classList.add("mj-err"); n.title = error; } }
+    catch(e){ n.textContent = n.dataset.tex; }
+  }
+}
+
+/* ── ecuaciones de Word y PowerPoint (OMML) a LaTeX, sin IA ── */
+const NS_M = "http://schemas.openxmlformats.org/officeDocument/2006/math";
+const NS_W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+const NS_A = "http://schemas.openxmlformats.org/drawingml/2006/main";
+const NS_R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+const NS_P = "http://schemas.openxmlformats.org/presentationml/2006/main";
+const SIMB = {
+  "α":"\\alpha","β":"\\beta","γ":"\\gamma","δ":"\\delta","ε":"\\varepsilon","ϵ":"\\epsilon","ζ":"\\zeta","η":"\\eta","θ":"\\theta","ϑ":"\\vartheta","ι":"\\iota","κ":"\\kappa","λ":"\\lambda","μ":"\\mu","ν":"\\nu","ξ":"\\xi","π":"\\pi","ϖ":"\\varpi","ρ":"\\rho","ϱ":"\\varrho","σ":"\\sigma","ς":"\\varsigma","τ":"\\tau","υ":"\\upsilon","φ":"\\varphi","ϕ":"\\phi","χ":"\\chi","ψ":"\\psi","ω":"\\omega",
+  "Γ":"\\Gamma","Δ":"\\Delta","Θ":"\\Theta","Λ":"\\Lambda","Ξ":"\\Xi","Π":"\\Pi","Σ":"\\Sigma","Υ":"\\Upsilon","Φ":"\\Phi","Ψ":"\\Psi","Ω":"\\Omega",
+  "±":"\\pm","∓":"\\mp","×":"\\times","÷":"\\div","·":"\\cdot","⋅":"\\cdot","∙":"\\cdot","∗":"\\ast","∘":"\\circ","−":"-","–":"-",
+  "≤":"\\leq","≥":"\\geq","≦":"\\leq","≧":"\\geq","≠":"\\neq","≈":"\\approx","≃":"\\simeq","≅":"\\cong","≡":"\\equiv","∼":"\\sim","∝":"\\propto","≪":"\\ll","≫":"\\gg",
+  "→":"\\to","←":"\\leftarrow","↔":"\\leftrightarrow","⇒":"\\Rightarrow","⇐":"\\Leftarrow","⇔":"\\Leftrightarrow","↦":"\\mapsto","↑":"\\uparrow","↓":"\\downarrow",
+  "∈":"\\in","∉":"\\notin","∋":"\\ni","⊂":"\\subset","⊃":"\\supset","⊆":"\\subseteq","⊇":"\\supseteq","∪":"\\cup","∩":"\\cap","∅":"\\emptyset","∖":"\\setminus",
+  "∀":"\\forall","∃":"\\exists","∄":"\\nexists","¬":"\\neg","∧":"\\wedge","∨":"\\vee","⊕":"\\oplus","⊗":"\\otimes","⊥":"\\perp","∥":"\\parallel","∠":"\\angle","△":"\\triangle",
+  "∂":"\\partial","∇":"\\nabla","∞":"\\infty","ℏ":"\\hbar","ℓ":"\\ell","ℜ":"\\Re","ℑ":"\\Im","℘":"\\wp","ℵ":"\\aleph",
+  "ℝ":"\\mathbb{R}","ℕ":"\\mathbb{N}","ℤ":"\\mathbb{Z}","ℚ":"\\mathbb{Q}","ℂ":"\\mathbb{C}","ℙ":"\\mathbb{P}","𝔼":"\\mathbb{E}",
+  "…":"\\ldots","⋯":"\\cdots","⋮":"\\vdots","⋱":"\\ddots","′":"'","″":"''","°":"^{\\circ}","√":"\\surd","∑":"\\sum","∏":"\\prod","∫":"\\int","∬":"\\iint","∮":"\\oint",
+  "⟨":"\\langle","⟩":"\\rangle","‖":"\\|","⌊":"\\lfloor","⌋":"\\rfloor","⌈":"\\lceil","⌉":"\\rceil",
+  "{":"\\{","}":"\\}","%":"\\%","#":"\\#","&":"\\&","_":"\\_","$":"\\$","\\":"\\backslash",
+  "\u2009":"\\,","\u200a":"\\,","\u2006":"\\,","\u2005":"\\;","\u2004":"\\;","\u2003":"\\quad","\u2002":"\\enspace","\u00a0":"~","\u200b":"","\u2061":"","\u2062":"","\u2063":","
+};
+const NARY = {"∑":"\\sum","∏":"\\prod","∐":"\\coprod","∫":"\\int","∬":"\\iint","∭":"\\iiint","∮":"\\oint","∯":"\\oiint","⋃":"\\bigcup","⋂":"\\bigcap","⋁":"\\bigvee","⋀":"\\bigwedge","⨁":"\\bigoplus","⨂":"\\bigotimes"};
+const ACC = {"\u0302":"\\hat","\u0303":"\\tilde","\u0304":"\\bar","\u0305":"\\bar","\u20D7":"\\vec","\u20D6":"\\overleftarrow","\u0307":"\\dot","\u0308":"\\ddot","\u030C":"\\check","\u0301":"\\acute","\u0300":"\\grave","\u0306":"\\breve","^":"\\hat","~":"\\tilde","¯":"\\bar"};
+const DELIM = {"(":"(",")":")","[":"[","]":"]","{":"\\{","}":"\\}","⟨":"\\langle","⟩":"\\rangle","〈":"\\langle","〉":"\\rangle","|":"|","‖":"\\|","⌊":"\\lfloor","⌋":"\\rfloor","⌈":"\\lceil","⌉":"\\rceil","":"."};
+const FUNCS = ["sin","cos","tan","cot","sec","csc","arcsin","arccos","arctan","sinh","cosh","tanh","coth","log","ln","lg","exp","lim","liminf","limsup","max","min","sup","inf","det","dim","ker","arg","deg","gcd","hom","Pr"];
+function simbolo(ch){
+  const cp = ch.codePointAt(0);
+  if(cp >= 0x1D400 && cp <= 0x1D6A3){ const i = (cp - 0x1D400) % 52; return String.fromCharCode(i < 26 ? 65 + i : 97 + i - 26); }
+  if(cp >= 0x1D6A8 && cp <= 0x1D7C9){ const i = (cp - 0x1D6A8) % 58; return simbolo(i < 25 ? String.fromCharCode(0x391 + i) : i === 25 ? "∇" : i < 51 ? String.fromCharCode(0x3B1 + i - 26) : ["∂","ϵ","ϑ","ϰ","ϕ","ϱ","ϖ"][i - 51]); }
+  if(cp >= 0x1D7CE && cp <= 0x1D7FF) return String((cp - 0x1D7CE) % 10);
+  if(cp === 0x210E) return "h";
+  const s = SIMB[ch]; if(s != null) return /^\\[a-zA-Z]+$/.test(s) ? s + " " : s;
+  return ch;
+}
+const textoMat = s => [...String(s)].map(simbolo).join("");
+const hijosM = (el, n) => [...el.children].filter(c => c.localName === n);
+const hijoM = (el, n) => [...el.children].find(c => c.localName === n);
+function valPr(el, pr, prop){
+  const p = el && hijoM(el, pr), q = p && hijoM(p, prop); if(!q) return null;
+  return q.hasAttributeNS(NS_M, "val") ? q.getAttributeNS(NS_M, "val") : q.hasAttribute("m:val") ? q.getAttribute("m:val") : "on";
+}
+const on = v => v != null && !/^(0|off|false)$/i.test(v);
+const sinRoman = s => s.trim().replace(/^\\mathrm\{(.+)\}$/, "$1").trim();
+function omml(el){
+  if(!el) return "";
+  const k = el.localName, g = n => omml(hijoM(el, n)), b = s => "{" + s + "}";
+  switch(k){
+    case "oMathPara": { const ps = hijosM(el, "oMath").map(omml); return ps.length > 1 ? "\\begin{gathered}" + ps.join(" \\\\ ") + "\\end{gathered}" : ps.join(""); }
+    case "r": {
+      const t = [...el.children].filter(c => c.localName === "t").map(c => c.textContent).join("");
+      if(on(valPr(el, "rPr", "nor"))) return "\\text{" + t + "}";
+      if(valPr(el, "rPr", "sty") === "p" && /^[A-Za-z]{2,}$/.test(t)) return "\\mathrm{" + t + "}";
+      return textoMat(t);
+    }
+    case "t": return textoMat(el.textContent);
+    case "f": { const ty = valPr(el, "fPr", "type"), n = g("num"), d = g("den"); if(ty === "lin") return b(n) + "/" + b(d); if(ty === "noBar") return "\\genfrac{}{}{0pt}{}" + b(n) + b(d); return "\\frac" + b(n) + b(d); }
+    case "sSup": return b(g("e")) + "^" + b(g("sup"));
+    case "sSub": return b(g("e")) + "_" + b(g("sub"));
+    case "sSubSup": return b(g("e")) + "_" + b(g("sub")) + "^" + b(g("sup"));
+    case "sPre": return "{}_" + b(g("sub")) + "^" + b(g("sup")) + b(g("e"));
+    case "rad": { const d = g("deg"); return on(valPr(el, "radPr", "degHide")) || !d.trim() ? "\\sqrt" + b(g("e")) : "\\sqrt[" + d + "]" + b(g("e")); }
+    case "nary": {
+      const ch = valPr(el, "naryPr", "chr") ?? "∫", op = NARY[ch] || textoMat(ch);
+      const sub = on(valPr(el, "naryPr", "subHide")) ? "" : g("sub"), sup = on(valPr(el, "naryPr", "supHide")) ? "" : g("sup");
+      return op + (sub.trim() ? "_" + b(sub) : "") + (sup.trim() ? "^" + b(sup) : "") + " " + g("e");
+    }
+    case "d": {
+      const bg = valPr(el, "dPr", "begChr") ?? "(", en = valPr(el, "dPr", "endChr") ?? ")", sp = valPr(el, "dPr", "sepChr") ?? "|";
+      return "\\left" + (DELIM[bg] ?? ".") + " " + hijosM(el, "e").map(omml).join(" " + (DELIM[sp] ?? textoMat(sp)) + " ") + " \\right" + (DELIM[en] ?? ".");
+    }
+    case "func": { const n = g("fName"), nm = sinRoman(n); return (FUNCS.includes(nm) ? "\\" + nm : /^\\/.test(n.trim()) ? n.trim() : "\\operatorname{" + nm + "}") + " " + b(g("e")); }
+    case "limLow": { const e = g("e"), nm = sinRoman(e), l = g("lim"); return ["lim","max","min","sup","inf","liminf","limsup"].includes(nm) ? "\\" + nm + "_" + b(l) : "\\underset" + b(l) + b(e); }
+    case "limUpp": return "\\overset" + b(g("lim")) + b(g("e"));
+    case "acc": return (ACC[valPr(el, "accPr", "chr") ?? "\u0302"] || "\\hat") + b(g("e"));
+    case "bar": return (valPr(el, "barPr", "pos") === "top" ? "\\overline" : "\\underline") + b(g("e"));
+    case "groupChr": { const ch = valPr(el, "groupChrPr", "chr") ?? "⏟", pos = valPr(el, "groupChrPr", "pos") ?? "bot"; return (ch === "⏞" || pos === "top" ? "\\overbrace" : "\\underbrace") + b(g("e")); }
+    case "borderBox": return "\\boxed" + b(g("e"));
+    case "m": return "\\begin{matrix}" + hijosM(el, "mr").map(f => hijosM(f, "e").map(omml).join(" & ")).join(" \\\\ ") + "\\end{matrix}";
+    case "eqArr": return "\\begin{aligned}" + hijosM(el, "e").map(omml).join(" \\\\ ") + "\\end{aligned}";
+    case "phant": return "\\phantom" + b(g("e"));
+    default: return /Pr$/.test(k) ? "" : [...el.children].map(omml).join("");
+  }
+}
+const limpiaTex = s => String(s).replace(/\s+/g, " ").replace(/\{\s+/g, "{").replace(/\s+\}/g, "}").trim();
+/* Una ecuación corta en línea se queda como $…$ dentro del texto; el resto pasa a ser un recurso. */
+function ecuacion(el, origen){
+  const latex = limpiaTex(omml(el)); if(!latex) return "";
+  if(el.localName !== "oMathPara" && latex.length <= 14) return `$${latex}$`;
+  const r = nuevoRecurso({tipo:"formula", latex, origen, nativa:true});
+  return `\n\n[[${r.id}]]\n\n`;
+}
+const raicesMat = d => [...d.getElementsByTagNameNS(NS_M, "oMathPara"), ...d.getElementsByTagNameNS(NS_M, "oMath")]
+  .filter(el => { for(let p = el.parentNode; p && p.nodeType === 1; p = p.parentNode) if(p.namespaceURI === NS_M && /^oMath(Para)?$/.test(p.localName)) return false; return true; })
+  .sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+
+/* ── lectura por formatos ── */
+const marcadoresEnLinea = t => t.replace(/[ \t]*\[\[([FE]\d+)\]\][ \t]*/g, "\n\n[[$1]]\n\n").replace(/\n{3,}/g, "\n\n").trim();
+function marcaRepetidas(){
+  S.recursos.filter(r => (r.veces || 0) >= 3).forEach(r => { r.usar = false; r.ia = "omitida"; r.clase = "repetida"; r.msg = `Aparece ${r.veces} veces: probablemente un logotipo o un adorno.`; });
+}
+const altVacio = a => !a || /^(imagen|image|picture|grafik|figura|foto)\s*\d*$/i.test(String(a).trim());
+
+async function leerDocx(f){
+  if(!window.mammoth) await cargaLib(LIBS.mammoth);
+  if(!window.JSZip) await cargaLib(LIBS.jszip);
+  let ab = await f.arrayBuffer();
+  try{ ab = await ecuacionesWord(ab); }catch(e){ console.warn("Ecuaciones de Word", e); }
+  const omitidas = [], vistas = [];
+  const res = await mammoth.convertToHtml({arrayBuffer: ab}, {convertImage: mammoth.images.imgElement(async im => {
+    if(!/png|jpe?g|gif|webp|bmp/i.test(im.contentType)){ omitidas.push(im.contentType); return {src: ""}; }
+    const r = nuevoRecurso({tipo:"figura", origen:"Word", alt: altVacio(im.altText) ? "" : im.altText});
+    try{
+      Object.assign(r, await normalizar(`data:${im.contentType};base64,${await im.read("base64")}`));
+      const hu = huella(await cargaImg(r.src));
+      const igual = vistas.find(v => parecidas(v.hu, hu) && Math.abs(v.r.w - r.w) < 6);
+      if(igual){ quitarRecurso(r.id); igual.r.veces = (igual.r.veces || 1) + 1; return {src: "nc:" + igual.r.id}; }
+      vistas.push({r, hu}); r.veces = 1;
+      return {src: "nc:" + r.id};
+    }catch(e){ quitarRecurso(r.id); return {src: ""}; }
+  })});
+  marcaRepetidas();
+  S.fuente = {tipo:"texto", base: marcadoresEnLinea(htmlATexto(res.value))};
+  S.avisoLectura = omitidas.length ? `${omitidas.length} imagen(es) en EMF o WMF no se pueden mostrar en el navegador: guarda el documento como PDF y recórtalas desde ahí.` : "";
+}
+async function ecuacionesWord(ab){
+  const z = await JSZip.loadAsync(ab), f = z.file("word/document.xml"); if(!f) return ab;
+  const xml = await f.async("string"); if(!/oMath/.test(xml)) return ab;
+  const d = new DOMParser().parseFromString(xml, "application/xml");
+  for(const el of raicesMat(d)){
+    const txt = ecuacion(el, "Word · ecuación");
+    const run = d.createElementNS(NS_W, "w:r"), t = d.createElementNS(NS_W, "w:t");
+    t.setAttributeNS("http://www.w3.org/XML/1998/namespace", "xml:space", "preserve"); t.textContent = txt.replace(/\n/g, " ");
+    run.appendChild(t); el.parentNode.replaceChild(run, el);
+  }
+  z.file("word/document.xml", new XMLSerializer().serializeToString(d));
+  return await z.generateAsync({type:"arraybuffer"});
+}
+function htmlATexto(html){
+  const d = new DOMParser().parseFromString("<body>" + html + "</body>", "text/html");
+  d.querySelectorAll("img").forEach(im => { const id = (im.getAttribute("src") || "").replace(/^nc:/, ""); im.replaceWith(d.createTextNode(R(id) ? ` [[${id}]] ` : "")); });
+  const out = [], linea = el => el.textContent.replace(/[ \t\u00a0]+/g, " ").trim();
+  (function recorre(el){
+    for(const n of el.children){
+      const t = n.tagName.toLowerCase();
+      if(/^h[1-6]$/.test(t)) out.push("#".repeat(+t[1]) + " " + linea(n));
+      else if(t === "ul" || t === "ol") [...n.children].forEach((li, i) => out.push((t === "ol" ? (i + 1) + ". " : "- ") + linea(li)));
+      else if(t === "table"){
+        const filas = [...n.querySelectorAll("tr")].map(tr => "| " + [...tr.children].map(c => linea(c).replace(/\|/g, "/").replace(/\n+/g, " ")).join(" | ") + " |");
+        if(filas.length){ filas.splice(1, 0, "|" + " --- |".repeat(filas[0].split("|").length - 2)); out.push(filas.join("\n")); }
+      }
+      else if(t === "p" || !n.children.length){ const l = linea(n); if(l) out.push(l); }
+      else recorre(n);
+    }
+  })(d.body);
+  return out.join("\n\n");
+}
+
+async function leerPptx(f){
+  if(!window.JSZip) await cargaLib(LIBS.jszip);
+  const z = await JSZip.loadAsync(await f.arrayBuffer());
+  const leeXml = async p => { const x = z.file(p); return x ? new DOMParser().parseFromString(await x.async("string"), "application/xml") : null; };
+  const rels = async p => { const d = await leeXml(p.replace(/([^/]+)$/, "_rels/$1.rels")), m = {}; if(d) [...d.getElementsByTagName("Relationship")].forEach(r => m[r.getAttribute("Id")] = r.getAttribute("Target")); return m; };
+  const resuelve = (base, t) => { if(t.startsWith("/")) return t.slice(1); const p = base.split("/").slice(0, -1); for(const s of t.split("/")){ if(s === "..") p.pop(); else if(s && s !== ".") p.push(s); } return p.join("/"); };
+  let slides = [];
+  const pres = await leeXml("ppt/presentation.xml");
+  if(pres){ const pr = await rels("ppt/presentation.xml"); slides = [...pres.getElementsByTagNameNS(NS_P, "sldId")].map(s => pr[s.getAttributeNS(NS_R, "id")]).filter(Boolean).map(t => resuelve("ppt/presentation.xml", t)); }
+  if(!slides.length){ const num = p => +p.match(/(\d+)\.xml$/)[1]; slides = Object.keys(z.files).filter(p => /^ppt\/slides\/slide\d+\.xml$/.test(p)).sort((a, b) => num(a) - num(b)); }
+  if(!slides.length) throw new Error("El PowerPoint no tiene diapositivas.");
+  const porMedia = new Map(), omitidas = [], out = [];
+  for(let k = 0; k < slides.length; k++){
+    const p = slides[k], d = await leeXml(p); if(!d) continue;
+    const rl = await rels(p), lineas = [], origen = `PowerPoint · diapositiva ${k + 1}`;
+    const media = async (rid, pic) => {
+      const t = rl[rid]; if(!t) return "";
+      const ruta = resuelve(p, t);
+      if(porMedia.has(ruta)){ const r = R(porMedia.get(ruta)); if(r){ r.veces++; return r.id; } return ""; }
+      if(!/\.(png|jpe?g|gif|webp|bmp)$/i.test(ruta)){ omitidas.push(ruta); porMedia.set(ruta, ""); return ""; }
+      const zf = z.file(ruta); if(!zf) return "";
+      const ext = ruta.split(".").pop().toLowerCase(), descr = pic?.getElementsByTagNameNS(NS_P, "cNvPr")[0]?.getAttribute("descr") || "";
+      const r = nuevoRecurso({tipo:"figura", origen, alt: altVacio(descr) ? "" : descr, veces:1});
+      try{ Object.assign(r, await normalizar(await leerDataUrl(new Blob([await zf.async("uint8array")], {type: ext === "jpg" ? "image/jpeg" : "image/" + ext})))); porMedia.set(ruta, r.id); return r.id; }
+      catch(e){ quitarRecurso(r.id); porMedia.set(ruta, ""); return ""; }
+    };
+    const txtP = el => {
+      let s = "";
+      for(const c of el.children){
+        const ln = c.localName;
+        if(c.namespaceURI === NS_M && (ln === "oMathPara" || ln === "oMath")) s += ecuacion(c, origen);
+        else if(ln === "AlternateContent"){
+          const ch = hijoM(c, "Choice"), fb = hijoM(c, "Fallback"), m = ch && (ch.getElementsByTagNameNS(NS_M, "oMathPara")[0] || ch.getElementsByTagNameNS(NS_M, "oMath")[0]);
+          s += m ? ecuacion(m, origen) : txtP(fb || ch || c);
+        }
+        else if(ln === "t") s += c.textContent;
+        else if(ln === "br") s += "\n";
+        else if(!/Pr$/.test(ln)) s += txtP(c);
+      }
+      return s;
+    };
+    const visita = async el => {
+      const ln = el.localName;
+      if(ln === "AlternateContent"){
+        const ch = hijoM(el, "Choice"), fb = hijoM(el, "Fallback"), conMat = el.getElementsByTagNameNS(NS_M, "oMath").length;
+        const elegido = conMat ? ch : (fb || ch); if(elegido) for(const c of [...elegido.children]) await visita(c); return;
+      }
+      if(ln === "p" && el.namespaceURI === NS_A){ const t = txtP(el).trim(); if(t) lineas.push(t); return; }
+      if(ln === "pic"){ const bl = el.getElementsByTagNameNS(NS_A, "blip")[0], id = bl && bl.getAttributeNS(NS_R, "embed"); const rid = id && await media(id, el); if(rid) lineas.push(`[[${rid}]]`); return; }
+      if(ln === "sp"){
+        const ph = el.getElementsByTagNameNS(NS_P, "ph")[0], tipo = ph ? ph.getAttribute("type") || "" : "";
+        if(/sldNum|dt|ftr/.test(tipo)) return;
+        const antes = lineas.length; for(const c of [...el.children]) await visita(c);
+        if(/title/i.test(tipo) && lineas.length > antes) lineas[antes] = "### " + lineas[antes].replace(/\n/g, " ");
+        return;
+      }
+      for(const c of [...el.children]) await visita(c);
+    };
+    await visita(d.documentElement);
+    let notas = "";
+    const nt = Object.values(rl).find(t => /notesSlide/.test(t));
+    if(nt){ const dn = await leeXml(resuelve(p, nt)); if(dn) notas = [...dn.getElementsByTagNameNS(NS_P, "sp")].filter(sp => { const ph = sp.getElementsByTagNameNS(NS_P, "ph")[0]; return !ph || /body/.test(ph.getAttribute("type") || "body"); }).map(sp => [...sp.getElementsByTagNameNS(NS_A, "p")].map(txtP).join("\n")).join("\n").trim(); }
+    out.push(`## Diapositiva ${k + 1}\n\n${lineas.join("\n\n")}${notas ? `\n\nNotas del ponente: ${notas}` : ""}`);
+  }
+  marcaRepetidas();
+  S.fuente = {tipo:"texto", base: marcadoresEnLinea(out.join("\n\n"))};
+  S.avisoLectura = omitidas.length ? `${omitidas.length} imagen(es) en EMF, WMF o SVG no se pueden mostrar en el navegador: exporta las diapositivas a PDF y recórtalas desde ahí.` : "";
+}
+
+async function leerIpynb(f){
+  const nb = JSON.parse(await f.text()), partes = [];
+  const b64 = v => (Array.isArray(v) ? v.join("") : String(v || "")).replace(/\s+/g, "");
+  const figura = async (src, origen) => { const r = nuevoRecurso({tipo:"figura", origen}); try{ Object.assign(r, await normalizar(src)); return `[[${r.id}]]`; }catch(e){ quitarRecurso(r.id); return ""; } };
+  for(const [i, c] of (nb.cells || []).entries()){
+    if(c.cell_type === "code"){
+      if(textoCelda(c).trim()) partes.push("```python\n" + textoCelda(c).trim() + "\n```");
+      for(const o of c.outputs || []){
+        const d = o.data || {}, tipo = d["image/png"] ? "image/png" : d["image/jpeg"] ? "image/jpeg" : null;
+        if(tipo){ const m = await figura(`data:${tipo};base64,${b64(d[tipo])}`, `Cuaderno · salida de la celda ${i + 1}`); if(m) partes.push(m); }
+      }
+    } else {
+      let t = textoCelda(c).trim();
+      for(const m of [...t.matchAll(/!\[[^\]]*\]\(attachment:([^)\s]+)\)/g)]){
+        const at = c.attachments?.[m[1]], tipo = at && Object.keys(at).find(k => /^image\/(png|jpe?g|gif)$/.test(k));
+        t = t.replace(m[0], tipo ? await figura(`data:${tipo};base64,${b64(at[tipo])}`, `Cuaderno · celda ${i + 1}`) : "");
+      }
+      if(t) partes.push(t);
+    }
+  }
+  S.fuente = {tipo:"texto", base: marcadoresEnLinea(partes.join("\n\n"))};
+}
+
+/* PDF: texto con su posición y cajas de las imágenes incrustadas (por la matriz de transformación). */
+async function leerPdf(f){
+  if(!window.pdfjsLib) await cargaLib(LIBS.pdf);
+  pdfjsLib.GlobalWorkerOptions.workerSrc = await cargaLib(LIBS.pdfw).catch(() => LIBS.pdfw[0]);
+  const doc = await pdfjsLib.getDocument({data: await f.arrayBuffer()}).promise;
+  const paginas = [], halladas = [];
+  for(let i = 1; i <= doc.numPages; i++){
+    const pg = await doc.getPage(i), vp = pg.getViewport({scale: RS});
+    const tc = await pg.getTextContent();
+    const items = tc.items.filter(t => "str" in t).map(t => { const m = pdfjsLib.Util.transform(vp.transform, t.transform), fh = Math.hypot(m[2], m[3]) || 10 * RS; return {s: t.str, eol: !!t.hasEOL, x: m[4], y: m[5] - fh, w: (t.width || 0) * RS, h: fh}; });
+    const P = {n: i, W: vp.width, H: vp.height, items, render: null};
+    paginas.push(P);
+    try{
+      const cajas = halladas.length < 120 ? await cajasImagenes(pg, vp) : [];
+      if(cajas.length){ const im = await cargaImg(await renderPagina(P, pg)); cajas.forEach(caja => halladas.push({pagina: i, caja, im})); }
+    }catch(e){ console.warn("Imágenes de la página " + i, e); }
+    $("notaDoc").textContent = `Leyendo el PDF: página ${i} de ${doc.numPages}.`;
+  }
+  S.fuente = {tipo:"pdf", doc, paginas};
+  const grupos = [];
+  for(const h of halladas){
+    h.c = recortar(h.im, h.caja); h.hu = huella(h.c);
+    const g = grupos.find(g => parecidas(g[0].hu, h.hu) && Math.abs(g[0].caja.w - h.caja.w) < 8 * RS && Math.abs(g[0].caja.h - h.caja.h) < 8 * RS);
+    g ? g.push(h) : grupos.push([h]);
+  }
+  for(const g of grupos){
+    const h = g[0], veces = new Set(g.map(x => x.pagina)).size;
+    const r = nuevoRecurso({tipo:"figura", ...(await normalizar(h.c.toDataURL("image/png"))), pagina: h.pagina, caja: h.caja, origen:`PDF · página ${h.pagina}`, veces});
+    if(veces < 3 && (h.caja.w < 90 * RS || h.caja.h < 50 * RS)){ r.usar = false; r.ia = "omitida"; r.clase = "pequeña"; r.msg = "Muy pequeña: probablemente un icono o un adorno."; }
+  }
+  marcaRepetidas();
+}
+async function cajasImagenes(pg, vp){
+  const ops = await pg.getOperatorList(), O = pdfjsLib.OPS, mul = pdfjsLib.Util.transform, cajas = [];
+  let ctm = [1, 0, 0, 1, 0, 0], anot = 0; const pila = [];
+  for(let k = 0; k < ops.fnArray.length; k++){
+    const fn = ops.fnArray[k], a = ops.argsArray[k];
+    if(fn === O.save) pila.push(ctm.slice());
+    else if(fn === O.restore) ctm = pila.pop() || [1, 0, 0, 1, 0, 0];
+    else if(fn === O.transform) ctm = mul(ctm, a);
+    else if(fn === O.paintFormXObjectBegin){ pila.push(ctm.slice()); if(a && a[0] && a[0].length === 6) ctm = mul(ctm, Array.from(a[0])); }
+    else if(fn === O.paintFormXObjectEnd) ctm = pila.pop() || ctm;
+    else if(fn === O.beginAnnotation) anot++;
+    else if(fn === O.endAnnotation) anot--;
+    else if(!anot && (fn === O.paintImageXObject || fn === O.paintInlineImageXObject || fn === O.paintJpegXObject)){
+      const m = mul(vp.transform, ctm), xs = [], ys = [];
+      [[0, 0], [1, 0], [0, 1], [1, 1]].forEach(([x, y]) => { xs.push(m[0] * x + m[2] * y + m[4]); ys.push(m[1] * x + m[3] * y + m[5]); });
+      const x0 = Math.max(0, Math.min(...xs)), y0 = Math.max(0, Math.min(...ys)), x1 = Math.min(vp.width, Math.max(...xs)), y1 = Math.min(vp.height, Math.max(...ys));
+      const caja = {x: x0, y: y0, w: x1 - x0, h: y1 - y0};
+      if(caja.w < 40 * RS || caja.h < 30 * RS) continue;
+      if(caja.w * caja.h > .92 * vp.width * vp.height) continue;                         // página escaneada o fondo
+      if(cajas.some(c => Math.abs(c.x - caja.x) < 4 && Math.abs(c.y - caja.y) < 4 && Math.abs(c.w - caja.w) < 4)) continue;
+      cajas.push(caja);
+    }
+  }
+  return cajas;
+}
+async function renderPagina(P, pg){
+  if(P.render) return P.render;
+  pg = pg || await S.fuente.doc.getPage(P.n);
+  const vp = pg.getViewport({scale: RS}), c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+  await pg.render({canvasContext: x, viewport: vp}).promise;
+  return P.render = c.toDataURL("image/jpeg", .92);
+}
+
+/* ── el texto de partida, con los marcadores en su sitio ── */
+function componerBruto(){
+  const F = S.fuente; if(!F) return S.bruto;
+  const hijos = id => usados().filter(x => x.tras === id).map(x => `\n\n[[${x.id}]]`).join("");
+  if(F.tipo === "pdf"){
+    const pags = F.paginas.map(P => {
+      const recs = usados().filter(r => r.pagina === P.n && r.caja && !r.tras).sort((a, b) => a.caja.y - b.caja.y);
+      const fuera = new Set(), antes = new Map(), alFinal = [];
+      for(const r of recs){
+        const c = r.caja, dentro = [];
+        P.items.forEach((t, k) => { const cx = t.x + t.w / 2, cy = t.y + t.h / 2; if(cx >= c.x - 4 && cx <= c.x + c.w + 4 && cy >= c.y - 4 && cy <= c.y + c.h + 4){ dentro.push(k); fuera.add(k); } });
+        const pos = dentro.length ? dentro[0] : P.items.findIndex((t, k) => !fuera.has(k) && t.y >= c.y + c.h - 2 && t.x < c.x + c.w && t.x + t.w > c.x);
+        const mk = `\n\n[[${r.id}]]${hijos(r.id)}\n\n`;
+        if(pos < 0) alFinal.push(mk); else antes.set(pos, (antes.get(pos) || "") + mk);
+      }
+      let t = "";
+      P.items.forEach((it, k) => { if(antes.has(k)) t += antes.get(k); if(!fuera.has(k)) t += it.s + (it.eol ? "\n" : " "); });
+      return (t + alFinal.join("")).replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+    });
+    return sueltos(pags.join("\n\n"));
+  }
+  return sueltos(F.base.replace(/\[\[([FE]\d+)\]\]/g, (m, id) => { const r = R(id); return r && r.usar ? m + hijos(id) : ""; }).replace(/\n{3,}/g, "\n\n"));
+}
+function sueltos(t){ const f = usados().filter(r => !t.includes(`[[${r.id}]]`)); return f.length ? t + "\n\n" + f.map(r => `[[${r.id}]]`).join("\n\n") : t; }
+function recomponer(){ if(S.fuente && S.modo === "mejorar") S.bruto = componerBruto(); pintaGaleria(); }
+
+/* ── lo que ve la IA ── */
+function bloqueRecurso(r){
+  if(r.tipo === "formula" && r.latex) return `$$ ${r.latex} $$ {#${r.id}}`;
+  return `![${(r.pie || (r.tipo === "formula" ? "Fórmula " : "Figura ") + r.id).replace(/[\[\]]/g, "")}](${r.id})`;
+}
+const paraIA = t => String(t || "").replace(/\[\[([FE]\d+)\]\]/g, (m, id) => { const r = R(id); return r && r.usar ? bloqueRecurso(r) : ""; });
+function inventarioIA(){
+  return usados().map(r => r.tipo === "figura" || !r.latex
+    ? `- ${r.id} · ${r.tipo === "figura" ? "figura" : "fórmula sin transcribir (imagen)"}${r.importante ? " · IMPORTANTE" : ""}${r.pie ? " · pie: " + r.pie : ""}${r.alt ? " · muestra: " + r.alt : ""}${r.fuente ? " · fuente: " + r.fuente : ""}`
+    : `- ${r.id} · fórmula${r.importante ? " · IMPORTANTE" : ""} · LaTeX: ${r.latex}${r.hablada ? " · se lee: " + r.hablada : ""}`).join("\n");
+}
+const REGLAS_RECURSOS = `Figuras y fórmulas:
+- Cada figura va en una línea propia con la forma ![pie](F3); cada fórmula, en una línea propia con la forma $$ LaTeX $$ {#E2}. Conserva TODAS las que aparecen, en el lugar donde se explican, con el mismo identificador y el LaTeX sin tocar.
+- Junto a cada figura, di qué muestra y qué hay que mirar en ella, usando solo lo que dice su descripción y el texto. Junto a cada fórmula, qué significa cada símbolo.
+- Dentro de una frase, los símbolos y fórmulas breves van en LaTeX entre $ … $.
+- Si una fórmula del original aparece como texto legible, puedes escribirla en LaTeX sin cambiarla. Si está ilegible o rota, no la reconstruyas: escribe [fórmula ilegible] para que el profesor la recorte.`;
+
+/* ── visión ── */
+const modeloVision = () => $("modeloVision").value.trim() || $("modeloTexto").value.trim() || "gpt-6-luna";
+const idiomaIA = () => { const l = idiomaSalida(); return l ? `Escribe en ${l}.` : "Escribe en el idioma del fragmento del material que te doy."; };
+function contexto(r){
+  const t = S.bruto || S.mejorado || "", k = t.indexOf(`[[${r.id}]]`);
+  return (k < 0 ? t.slice(0, 600) : t.slice(Math.max(0, k - 500), k + 500)).replace(/\[\[[FE]\d+\]\]/g, "[…]") || "(sin texto)";
+}
+async function mirar(sistema, texto, imagenes){
+  try{
+    return extraerJson(await chat([{role:"system", content:sistema}, {role:"user", content:[{type:"text", text:texto}, ...await Promise.all(imagenes.map(async u => ({type:"image_url", image_url:{url: await paraVision(u), detail:"high"}})))]}], {json:true, modelo:modeloVision()}));
+  }catch(e){
+    if(/image|vision|multimodal|modalit/i.test(e.message)) throw new Error(`El modelo «${modeloVision()}» no admite imágenes: elige uno con visión en «Ajustes».`);
+    throw e;
+  }
+}
+async function describir(r){
+  const j = await mirar(`Miras una figura sacada de un material docente universitario y la describes para el profesorado y para quien no puede verla.
+Devuelve solo JSON: {"clase":"gráfica|diagrama|esquema|tabla|fotografía|captura|fórmula|logotipo|decoración|otro","pie":"pie de figura breve, máximo 12 palabras, sin la palabra «Figura»","alt":"texto alternativo de una a tres frases: qué muestra y qué se ve en ella (ejes, tendencia, partes). No empieces por «Imagen de».","relevante":true}
+"relevante" es false para logotipos, iconos, adornos, fondos y fotos sin contenido docente. Si la imagen es sobre todo una ecuación, "clase" es "fórmula". No inventes datos que no se lean en la imagen. ${idiomaIA()}`, "Fragmento del material, para el contexto:\n" + contexto(r), [r.src]);
+  if(!r.pie) r.pie = String(j.pie || "").replace(/^figura\s*\d*[.:]\s*/i, "");
+  if(!r.alt) r.alt = j.alt || "";
+  r.clase = j.clase || "";
+  if(!r.tocado){
+    if(j.relevante === false || /logotipo|decoraci/i.test(r.clase)){ r.usar = false; r.msg = "La IA la ha tomado por un logotipo o un adorno. Marca «Usar» si la quieres."; }
+    else if(/f[óo]rmula/i.test(r.clase)){ cambiarTipo(r, "formula"); await transcribir(r); }
+  }
+}
+async function transcribir(r){
+  const j = await mirar(`Transcribes a LaTeX una fórmula recortada de un material docente universitario.
+Reglas:
+- LaTeX compatible con MathJax y amsmath, sin delimitadores ($, \\[ \\]) ni entornos equation. Varias líneas: \\begin{aligned} … \\end{aligned}.
+- Copia exactamente lo que se ve: cada subíndice, superíndice, signo, acento y paréntesis. No simplifiques, no completes y no corrijas el contenido aunque parezca un error.
+- El texto dentro de la fórmula, con \\text{…}.
+- "hablada": cómo la leería en voz alta un profesor en clase, con palabras y sin símbolos (por ejemplo «x barra más menos t por s partido por la raíz de n»). ${idiomaIA()}
+- "confianza": alta, media o baja. Si algo no se lee bien, dilo en "nota".
+Devuelve solo JSON: {"latex":"...","hablada":"...","confianza":"alta|media|baja","nota":""}`, "Contexto del material:\n" + contexto(r), [r.src]);
+  if(!j.latex) throw new Error("La IA no ha devuelto LaTeX.");
+  r.latex = String(j.latex).trim().replace(/^\$+|\$+$/g, "").replace(/^\\\[|\\\]$/g, "").trim();
+  if(!r.hablada) r.hablada = j.hablada || "";
+  r.verif = null;
+  r.msg = j.confianza && j.confianza !== "alta" ? `Confianza ${j.confianza}${j.nota ? ": " + j.nota : ""}. Compara el LaTeX con el recorte.` : "";
+  try{ const {error} = await texSvg(r.latex); if(error) r.msg = "El LaTeX no compila: " + error; }catch(e){}
+}
+async function verificar(r){
+  const png = await texAPng(r.latex, {color:"#000000", ex:24});
+  const j = await mirar(`Comparas dos imágenes. La PRIMERA es una fórmula recortada de un material docente; la SEGUNDA, su transcripción a LaTeX ya compilada. Di si son la misma fórmula símbolo a símbolo: subíndices, superíndices, signos, letras griegas, paréntesis y límites de sumas e integrales. El tipo de letra y el tamaño no cuentan.
+Devuelve solo JSON: {"coincide":true,"diferencias":"qué cambia, si algo cambia","latex":"el LaTeX corregido si no coincide; vacío si coincide"} ${idiomaIA()}`, "LaTeX actual: " + r.latex, [r.src, await sobreBlanco(png.src)]);
+  r.verif = {coincide: j.coincide !== false, diferencias: j.diferencias || "", latex: j.coincide === false ? String(j.latex || "").trim() : "", para: r.latex};
+}
+async function analizar(r){
+  if(!laClave()){ toast("Pega antes tu clave de OpenAI en «Ajustes»"); return; }
+  const id0 = r.id; r.ia = "trabajando"; r.msg = ""; pintaTarjeta(r, id0);
+  try{ if(r.tipo === "formula") await transcribir(r); else await describir(r); r.ia = "hecho"; }
+  catch(e){ r.ia = "error"; r.msg = e.message; }
+  if(S.fuente && S.modo === "mejorar") S.bruto = componerBruto();
+  pintaTarjeta(r, id0);
+}
+const pendientesIA = () => S.recursos.filter(r => r.usar && r.src && (r.ia === "pendiente" || r.ia === "error"));
+async function enParalelo(lista, fn, n = 3){ const cola = lista.slice(); await Promise.all(Array.from({length: Math.min(n, cola.length)}, async () => { while(cola.length) await fn(cola.shift()); })); }
+function analizarTodo(lista = pendientesIA()){
+  if(!lista.length) return Promise.resolve();
+  return S._analisis = enParalelo(lista, analizar).then(() => { S._analisis = null; pintaGaleria(); });
+}
+async function esperarAnalisis(info){ if(S._analisis){ if(info) $(info).textContent = "Esperando a que terminen de analizarse las figuras y las fórmulas…"; await S._analisis; } }
+async function verificarFormulas(){
+  const L = S.recursos.filter(r => r.usar && r.tipo === "formula" && r.src && r.latex && (!r.verif || r.verif.para !== r.latex));
+  await enParalelo(L, async r => { try{ await verificar(r); }catch(e){ r.verif = null; r.msg = "No se pudo verificar: " + e.message; } pintaTarjeta(r); });
+  return L.length;
+}
+function cambiarTipo(r, tipo){
+  if(r.tipo === tipo) return;
+  const viejo = r.id; r.tipo = tipo; r.id = nuevoId(tipo); r.tocado = true; r.verif = null;
+  if(tipo === "formula" && !r.latex) r.ia = r.src ? "pendiente" : "hecho";
+  if(tipo === "figura" && !r.alt) r.ia = r.src ? "pendiente" : "hecho";
+  if(S.fuente && S.fuente.base) S.fuente.base = S.fuente.base.split(`[[${viejo}]]`).join(`[[${r.id}]]`);
+  S.recursos.forEach(x => { if(x.tras === viejo) x.tras = r.id; });
+  if(S.mejorado && S.mejorado.includes(`(${viejo})`)) toast(`${viejo} es ahora ${r.id}: vuelve a generar el material para que lo use.`, 5000);
+}
+function aplicarVerif(r){
+  if(!r.verif || !r.verif.latex) return;
+  const viejo = r.latex; r.latex = r.verif.latex; r.verif = null; r.msg = "LaTeX corregido con la propuesta del revisor.";
+  if(S.mejorado && viejo){ S.mejorado = S.mejorado.split(viejo).join(r.latex); $("mejorado").value = S.mejorado; pintaMd(); }
+  if(S.guion) S.guion.escenas.forEach(e => { if(e.formula === viejo) e.formula = r.latex; });
+  pintaTarjeta(r); pintaQA();
+}
+
+/* ── galería ── */
+let filtroGal = "todas";
+function cabGaleria(){
+  const nF = S.recursos.filter(r => r.tipo === "figura" && r.usar).length, nE = S.recursos.filter(r => r.tipo === "formula" && r.usar).length, fuera = S.recursos.length - nF - nE;
+  $("galInfo").textContent = S.recursos.length
+    ? `${nF} figura${nF === 1 ? "" : "s"} y ${nE} fórmula${nE === 1 ? "" : "s"} en uso${fuera ? ` · ${fuera} descartada${fuera === 1 ? "" : "s"}` : ""}${S._analisis ? " · analizando…" : ""}${S.avisoLectura ? " · " + S.avisoLectura : ""}`
+    : S.modo === "crear" ? "Opcional: añade las imágenes que quieras que use el material y el vídeo." : "Al cargar un PDF, un Word, un PowerPoint o un cuaderno aparecerán aquí sus imágenes y sus ecuaciones.";
+  const pend = pendientesIA().length;
+  $("btnAnalizar").innerHTML = ico("sparkles") + (pend ? `Analizar con IA (${pend})` : "Analizar con IA");
+  $("btnAnalizar").disabled = !pend || !!S._analisis;
+  $("btnRecortar").disabled = !fuentesRecorte().length;
+  $("btnVerificar").disabled = !S.recursos.some(r => r.usar && r.tipo === "formula" && r.src && r.latex);
+  $("btnRecortar").title = S.fuente?.tipo === "pdf" ? "" : "Disponible con un PDF o con imágenes en la galería";
+}
+function pintaGaleria(){
+  if(!$("galeria")) return;
+  const L = S.recursos.filter(r => filtroGal === "todas" || (filtroGal === "uso" ? r.usar : !r.usar));
+  $("galeria").innerHTML = L.map(tarjeta).join("") || (S.recursos.length ? '<p class="help">Nada con este filtro.</p>' : "");
+  cabGaleria(); tipografiar($("galeria"));
+}
+function pintaTarjeta(r, idAnterior){
+  cabGaleria();
+  const viejo = $("galeria").querySelector(`[data-id="${idAnterior || r.id}"]`);
+  if(!viejo) return;
+  if(viejo.contains(document.activeElement) && r.ia === "trabajando") return;
+  const tmp = document.createElement("div"); tmp.innerHTML = tarjeta(r); const nuevo = tmp.firstElementChild;
+  viejo.replaceWith(nuevo); tipografiar(nuevo);
+}
+function tarjeta(r){
+  const est = {pendiente:["badge-off","Sin analizar"], trabajando:["badge-warn","Analizando…"], hecho:["badge-ok", r.tipo === "formula" ? (r.nativa ? "Ecuación del original" : "En LaTeX") : "Descrita"], error:["badge-err","Error"], omitida:["badge-off","Descartada automáticamente"]}[r.ia] || ["badge-off", ""];
+  const ver = r.verif ? (r.verif.coincide ? '<span class="badge-ok">Coincide con el recorte</span>' : '<span class="badge-err">No coincide</span>') : "";
+  const vis = r.tipo === "formula"
+    ? `${r.src ? `<img src="${r.src}" alt="Recorte original de ${r.id}">` : ""}${r.latex ? `<div class="rc-tex">${mathHtml(r.latex, true)}</div>` : '<div class="rc-tex help">Sin LaTeX todavía</div>'}`
+    : `<img src="${r.src}" alt="${escA(r.alt || r.pie || r.id)}">`;
+  return `<article class="rc${r.usar ? "" : " off"}${r.importante ? " imp" : ""}" data-id="${r.id}">
+  <div class="rc-vis">${vis}</div>
+  <div>
+    <div class="rc-cab"><b class="rc-id">${r.id}</b>
+      <select data-k="tipo" class="tipo-sel" aria-label="Tipo de ${r.id}"><option value="figura"${r.tipo === "figura" ? " selected" : ""}>Figura</option><option value="formula"${r.tipo === "formula" ? " selected" : ""}>Fórmula</option></select>
+      <span class="${est[0]}">${est[1]}</span>${ver}
+      <span class="rc-mandos">
+        <label class="rc-usar"><input type="checkbox" data-k="usar"${r.usar ? " checked" : ""}> Usar</label>
+        <button type="button" class="iconbtn" data-a="imp" aria-pressed="${r.importante}" title="Importante: tiene que salir en el vídeo">★</button>
+        ${r.src ? `<button type="button" class="iconbtn" data-a="recortar" title="Recortar dentro de esta imagen">${ico("target")}</button>` : ""}
+        ${r.src ? `<button type="button" class="iconbtn" data-a="ia" title="${r.tipo === "formula" ? "Pasar a LaTeX" : "Describir"} con IA">${ico("sparkles")}</button>` : ""}
+        <button type="button" class="iconbtn" data-a="borrar" title="Quitar de la galería">${ico("trash")}</button>
+      </span></div>
+    <p class="help rc-msg">${esc(r.origen || "")}${r.msg ? " · " + esc(r.msg) : ""}</p>
+    ${r.tipo === "formula"
+      ? `<label>LaTeX</label><textarea data-k="latex" class="rc-mono" rows="2" spellcheck="false" placeholder="\\frac{a}{b}">${esc(r.latex)}</textarea>
+         <label>Cómo se lee en voz alta</label><input type="text" data-k="hablada" value="${escA(r.hablada)}" placeholder="a partido por b">`
+      : `<label>Pie de figura</label><input type="text" data-k="pie" value="${escA(r.pie)}" placeholder="Qué es, en una línea">
+         <label>Texto alternativo <small>(accesibilidad)</small></label><textarea data-k="alt" rows="2" placeholder="Qué muestra y qué se ve en ella">${esc(r.alt)}</textarea>`}
+    <label>Fuente o licencia <small>(sale en la diapositiva)</small></label><input type="text" data-k="fuente" value="${escA(r.fuente)}" placeholder="Elaboración propia · CC BY 4.0 · Autor (año)">
+    ${r.verif && !r.verif.coincide ? `<div class="rev">${esc(r.verif.diferencias || "El revisor ve diferencias con el recorte.")}${r.verif.latex ? `<br><code>${esc(r.verif.latex)}</code> <button type="button" class="btn btn-ghost btn-sm" data-a="verif" style="margin-top:4px">Usar el LaTeX propuesto</button>` : ""}</div>` : ""}
+  </div></article>`;
+}
+(function eventosGaleria(){
+  const g = $("galeria"); let tPrev = null;
+  g.addEventListener("input", e => {
+    const t = e.target, k = t.dataset.k, r = R(t.closest("[data-id]")?.dataset.id); if(!r || !k || k === "usar" || k === "tipo") return;
+    r[k] = t.value; r.tocado = true;
+    if(k === "latex"){
+      r.verif = null; clearTimeout(tPrev);
+      tPrev = setTimeout(() => { const art = t.closest(".rc"), box = art.querySelector(".rc-tex"); if(box){ box.classList.remove("help"); box.innerHTML = r.latex.trim() ? mathHtml(r.latex, true) : "Sin LaTeX todavía"; tipografiar(box); } }, 350);
+    }
+  });
+  g.addEventListener("change", e => {
+    const t = e.target, r = R(t.closest("[data-id]")?.dataset.id); if(!r) return;
+    if(t.dataset.k === "usar"){ r.usar = t.checked; r.tocado = true; if(r.usar && r.ia === "omitida") r.ia = "pendiente"; recomponer(); }
+    if(t.dataset.k === "tipo"){ cambiarTipo(r, t.value); recomponer(); if(laClave() && r.src && r.ia === "pendiente") analizar(r); }
+  });
+  g.addEventListener("click", e => {
+    const b = e.target.closest("[data-a]"); if(!b) return; const r = R(b.closest("[data-id]")?.dataset.id); if(!r) return;
+    const a = b.dataset.a;
+    if(a === "imp"){ r.importante = !r.importante; r.tocado = true; pintaTarjeta(r); }
+    else if(a === "borrar"){ quitarRecurso(r.id); recomponer(); }
+    else if(a === "ia"){ r.ia = "pendiente"; if(r.tipo === "figura"){ r.pie = r.pie || ""; } analizar(r); }
+    else if(a === "recortar") abrirRecorte("r:" + r.id);
+    else if(a === "verif") aplicarVerif(r);
+  });
+  $$("#galFiltro [data-f]").forEach(b => b.onclick = () => { filtroGal = b.dataset.f; $$("#galFiltro [data-f]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); pintaGaleria(); });
+  $("btnAnalizar").onclick = () => { if(!laClave()){ toast("Pega antes tu clave de OpenAI"); return go(1); } analizarTodo(); cabGaleria(); };
+  $("btnVerificar").onclick = async () => {
+    if(!laClave()){ toast("Pega antes tu clave de OpenAI"); return go(1); }
+    const b = $("btnVerificar"); b.disabled = true; b.innerHTML = '<span class="spin"></span> Verificando…';
+    try{ const n = await verificarFormulas(); toast(n ? `${n} fórmula(s) comparadas con su recorte` : "No hay fórmulas nuevas que comparar"); }
+    finally{ b.innerHTML = ico("shield") + "Verificar fórmulas"; cabGaleria(); pintaQA(); }
+  };
+  $("btnRecortar").onclick = () => abrirRecorte();
+  $("ficheroImg").onchange = e => { añadirImagenes([...e.target.files]); e.target.value = ""; };
+  $("ficheroImg").parentElement.onkeydown = e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); $("ficheroImg").click(); } };
+  document.addEventListener("paste", e => {
+    if(step !== 2 || /^(INPUT|TEXTAREA)$/.test(document.activeElement?.tagName || "")) return;
+    const fs = [...(e.clipboardData?.items || [])].filter(i => i.type.startsWith("image/")).map(i => i.getAsFile()).filter(Boolean);
+    if(fs.length){ e.preventDefault(); añadirImagenes(fs); }
+  });
+})();
+async function añadirImagenes(files){
+  const nuevos = [];
+  for(const f of files){
+    if(!/^image\//.test(f.type)) continue;
+    try{ nuevos.push(nuevoRecurso({tipo:"figura", ...(await normalizar(await leerDataUrl(f))), origen:"Imagen añadida", tocado:true})); }catch(e){ toast(e.message); }
+  }
+  recomponer();
+  if(nuevos.length){ toast(`${nuevos.length} imagen(es) añadida(s)${laClave() ? ": la IA las está describiendo" : ""}`); if(laClave()) analizarTodo(nuevos); }
+}
+
+/* ── recorte sobre la página ── */
+const RC = {fuente:null, sel:null, im:null};
+function fuentesRecorte(){
+  const f = [];
+  if(S.fuente?.tipo === "pdf") S.fuente.paginas.forEach(P => f.push({v:"p:" + P.n, t:`Página ${P.n} de ${S.fuente.paginas.length}`}));
+  S.recursos.filter(r => r.src).forEach(r => f.push({v:"r:" + r.id, t:`${r.tipo === "formula" ? "Fórmula" : "Figura"} ${r.id}${r.origen ? " · " + r.origen : ""}`}));
+  return f;
+}
+function abrirRecorte(v){
+  const f = fuentesRecorte(); if(!f.length) return toast("Carga antes un PDF o añade una imagen");
+  $("rcFuente").innerHTML = f.map(o => `<option value="${o.v}">${esc(o.t)}</option>`).join("");
+  $("rcFuente").value = v && f.some(o => o.v === v) ? v : f[0].v;
+  $("mRecorte").classList.add("on"); mostrarFuenteRecorte();
+}
+async function mostrarFuenteRecorte(){
+  const v = $("rcFuente").value; RC.fuente = v; RC.sel = null; RC.im = null; pintaSel(); $("rcCajas").innerHTML = "";
+  $("rcInfo").innerHTML = '<span class="spin"></span> Preparando la página…';
+  try{
+    const src = v.startsWith("p:") ? await renderPagina(S.fuente.paginas[+v.slice(2) - 1]) : R(v.slice(2))?.src;
+    RC.im = await cargaImg(src); $("rcImg").src = src;
+    $("rcInfo").textContent = "Arrastra para marcar un rectángulo alrededor de la figura o de la fórmula.";
+    pintaCajasRecorte();
+  }catch(e){ $("rcInfo").textContent = "No se pudo mostrar: " + e.message; }
+}
+const pct = (c, im) => `left:${c.x / im.naturalWidth * 100}%;top:${c.y / im.naturalHeight * 100}%;width:${c.w / im.naturalWidth * 100}%;height:${c.h / im.naturalHeight * 100}%`;
+function pintaCajasRecorte(){
+  const v = RC.fuente, im = RC.im; if(!im) return;
+  const L = v.startsWith("p:") ? S.recursos.filter(r => r.pagina === +v.slice(2) && r.caja) : [];
+  $("rcCajas").innerHTML = L.map(r => `<div class="rc-caja${r.tipo === "formula" ? " f" : ""}" style="${pct(r.caja, im)}"><span>${r.id}</span></div>`).join("");
+}
+function pintaSel(){
+  const s = $("rcSel"), ok = !!(RC.sel && RC.im && RC.sel.w > 2);
+  s.classList.toggle("hidden", !ok); if(ok) s.style.cssText = pct(RC.sel, RC.im);
+  $("rcFigura").disabled = $("rcFormula").disabled = !(RC.sel && RC.sel.w >= 8 && RC.sel.h >= 8);
+}
+(function eventosRecorte(){
+  const z = $("rcZona"); let ini = null;
+  const pto = e => { const b = $("rcImg").getBoundingClientRect(), im = RC.im; return {x: Math.max(0, Math.min(1, (e.clientX - b.left) / b.width)) * im.naturalWidth, y: Math.max(0, Math.min(1, (e.clientY - b.top) / b.height)) * im.naturalHeight}; };
+  z.addEventListener("pointerdown", e => { if(!RC.im) return; e.preventDefault(); z.setPointerCapture(e.pointerId); ini = pto(e); RC.sel = {x: ini.x, y: ini.y, w: 0, h: 0}; pintaSel(); $("mRecorte").dataset.arrastre = "1"; });
+  z.addEventListener("pointermove", e => { if(!ini) return; const p = pto(e); RC.sel = {x: Math.min(ini.x, p.x), y: Math.min(ini.y, p.y), w: Math.abs(p.x - ini.x), h: Math.abs(p.y - ini.y)}; pintaSel(); });
+  const fin = () => { if(!ini) return; ini = null; if(RC.sel && (RC.sel.w < 8 || RC.sel.h < 8)) RC.sel = null; pintaSel(); setTimeout(() => delete $("mRecorte").dataset.arrastre, 60); };
+  z.addEventListener("pointerup", fin); z.addEventListener("pointercancel", fin);
+  $("rcFuente").onchange = mostrarFuenteRecorte;
+  const mueve = d => { const s = $("rcFuente"), i = s.selectedIndex + d; if(i >= 0 && i < s.options.length){ s.selectedIndex = i; mostrarFuenteRecorte(); } };
+  $("rcPrev").onclick = () => mueve(-1); $("rcNext").onclick = () => mueve(1);
+  $("rcFigura").onclick = () => guardarRecorte("figura"); $("rcFormula").onclick = () => guardarRecorte("formula");
+})();
+async function guardarRecorte(tipo){
+  const v = RC.fuente, c = RC.sel; if(!c || !RC.im) return;
+  const o = {tipo, ...(await normalizar(recortar(RC.im, c).toDataURL("image/png"))), tocado:true};
+  if(v.startsWith("p:")){ o.pagina = +v.slice(2); o.caja = {...c}; o.origen = `PDF · recorte de la página ${o.pagina}`; }
+  else {
+    const p = R(v.slice(2)); o.origen = `Recorte de ${p.id}`;
+    if(p.pagina && p.caja){ const kx = p.caja.w / p.w, ky = p.caja.h / p.h; o.pagina = p.pagina; o.caja = {x: p.caja.x + c.x * kx, y: p.caja.y + c.y * ky, w: c.w * kx, h: c.h * ky}; }
+    else o.tras = p.id;
+  }
+  const r = nuevoRecurso(o);
+  RC.sel = null; pintaSel(); pintaCajasRecorte(); recomponer();
+  toast(`${r.id} guardada${laClave() ? (tipo === "formula" ? ": la IA la está pasando a LaTeX" : ": la IA la está describiendo") : ". Pega tu clave para que la IA la analice"}`);
+  if(laClave()) analizarTodo([r]);
+}
+
+/* ── figuras en el material (vista, Word, cuaderno, Markdown) ── */
+function figuraHtml(ref, pie){
+  const r = R(ref);
+  if(r && r.tipo === "formula" && r.latex) return `<div class="mjb">${mathHtml(r.latex, true)}<span class="mj-id">${r.id}</span></div>`;
+  const src = r ? r.src : /^data:image\//.test(ref) ? ref : "";
+  if(!src) return `<p class="aviso">Falta la figura ${esc(ref)}${pie ? " · " + esc(pie) : ""}.</p>`;
+  const cap = [r ? `<b>${r.id}.</b>` : "", esc(r?.pie || pie), r?.fuente ? `<span class="fuente">Fuente: ${esc(r.fuente)}</span>` : ""].filter(Boolean).join(" ");
+  return `<figure class="mdfig"><img src="${src}" alt="${escA(r?.alt || pie || "")}"><figcaption>${cap}</figcaption></figure>`;
+}
+const refsEn = md => [...new Set([...String(md).matchAll(/!\[[^\]]*\]\(([FE]\d+)\)/g)].map(m => m[1]))].map(R).filter(r => r && r.src && !(r.tipo === "formula" && r.latex));
+/* Markdown estándar para exportar: sin {#E2} y con las figuras como ficheros o adjuntos. */
+function mdExport(md, ruta){
+  return String(md)
+    .replace(/^([ \t]*\$\$.+?\$\$)[ \t]*\{#E\d+\}[ \t]*$/gm, "$1").replace(/^[ \t]*\$\$[ \t]*\{#E\d+\}[ \t]*$/gm, "$$$$")
+    .replace(/!\[([^\]]*)\]\(([FE]\d+)\)/g, (m, pie, id) => {
+      const r = R(id); if(!r) return m;
+      if(r.tipo === "formula" && r.latex) return `$$ ${r.latex} $$`;
+      if(!r.src) return m;
+      const cap = [`Figura ${r.id}.`, r.pie || pie, r.fuente ? `Fuente: ${r.fuente}.` : ""].filter(Boolean).join(" ");
+      return `![${(r.alt || r.pie || pie || r.id).replace(/[\[\]\n]/g, " ")}](${ruta(r)})\n\n*${cap}*`;
+    });
+}
+$("btnDescargarIpynb").onclick = () => {
+  const celdas = [];
+  $("mejorado").value.split(/```(?:python|py)?\n([\s\S]*?)```/g).forEach((p, i) => {
+    let t = p.trim(); if(!t) return;
+    if(i % 2){ celdas.push({cell_type:"code", metadata:{}, source:t.split("\n").map((l, j, a) => j < a.length - 1 ? l + "\n" : l), outputs:[], execution_count:null}); return; }
+    const att = {}; refsEn(t).forEach(r => { att[`${r.id}.${extDe(r.src)}`] = {[mimeDe(r.src)]: b64De(r.src)}; });
+    t = mdExport(t, r => `attachment:${r.id}.${extDe(r.src)}`);
+    const c = {cell_type:"markdown", metadata:{}, source:t.split("\n").map((l, j, a) => j < a.length - 1 ? l + "\n" : l)};
+    if(Object.keys(att).length) c.attachments = att;
+    celdas.push(c);
+  });
+  const nb = {cells:celdas, metadata:{kernelspec:{display_name:"Python 3", language:"python", name:"python3"}, language_info:{name:"python"}}, nbformat:4, nbformat_minor:5};
+  descargar(new Blob([JSON.stringify(nb, null, 1)], {type:"application/json"}), S.nombre + "_nanoclase.ipynb");
+};
+$("btnDescargarMd").onclick = async () => {
+  const md = $("mejorado").value, refs = refsEn(md);
+  if(!refs.length) return descargar(new Blob([mdExport(md, r => r.id)], {type:"text/markdown"}), S.nombre + "_nanoclase.md");
+  if(!window.JSZip) await cargaLib(LIBS.jszip);
+  const z = new JSZip(); z.file(S.nombre + ".md", mdExport(md, r => `figuras/${r.id}.${extDe(r.src)}`));
+  refs.forEach(r => z.file(`figuras/${r.id}.${extDe(r.src)}`, b64De(r.src), {base64:true}));
+  descargar(await z.generateAsync({type:"blob"}), S.nombre + "_nanoclase_md.zip");
+  toast("Markdown con sus figuras en un .zip");
+};
+
+/* ── revisión de figuras y fórmulas ── */
+function faltanEnMaterial(md){
+  return usados().filter(r => r.tipo === "formula" && r.latex ? !(md.includes(`{#${r.id}}`) || md.includes(r.latex)) : !md.includes(`](${r.id})`));
+}
+function seccionRecursosQA(){
+  if(!usados().length || !S.mejorado) return "";
+  const faltan = faltanEnMaterial(S.mejorado), mal = S.recursos.filter(r => r.usar && r.verif && !r.verif.coincide);
+  const pend = S.recursos.filter(r => r.usar && r.tipo === "formula" && r.src && r.latex && !r.verif).length, ok = S.recursos.filter(r => r.usar && r.verif?.coincide).length;
+  let h = `<p class="sublab">Figuras y fórmulas</p>`;
+  if(!faltan.length && !mal.length) h += `<div class="okbox" style="margin:0 0 8px">${ico("check")}<span>Todas las figuras y fórmulas en uso están en el material${ok ? `; ${ok} fórmula(s) coinciden con su recorte` : ""}.</span></div>`;
+  if(faltan.length || mal.length) h += `<ul class="fid" style="padding-left:0;list-style:none">${faltan.map(r => `<li><span class="g ${r.importante ? "alta" : "media"}">Falta</span>${r.id}${r.importante ? " (importante)" : ""} · ${esc((r.pie || r.latex || r.alt || "").slice(0, 90))}<br><small style="color:var(--gris)">No aparece en el material. Vuelve a generarlo o añádela en «Editar el texto» con <code>${esc(bloqueRecurso(r))}</code></small></li>`).join("")}${mal.map(r => `<li><span class="g alta">Fórmula</span>${r.id}: el LaTeX no coincide con el recorte.<br><small style="color:var(--gris)">${esc(r.verif.diferencias)}</small>${r.verif.latex ? `<br><button class="btn btn-ghost btn-sm" type="button" data-verif="${r.id}" style="margin-top:4px;padding:3px 9px;font-size:12px">Usar el LaTeX propuesto</button>` : ""}</li>`).join("")}</ul>`;
+  if(pend) h += `<p class="help">${pend} fórmula(s) sin comparar con su recorte.</p>`;
+  return h;
+}
+
+/* ── guion con figuras y fórmulas ── */
+const PLANTILLAS = {texto:"Texto", texto_figura:"Texto y figura", figura:"Figura grande", comparacion:"Dos figuras", formula:"Fórmula destacada"};
+function claveFormula(e){
+  const f = String(e.formula || "").trim(); if(!f) return {};
+  const r = /^E\d+$/.test(f) ? R(f) : null, lat = r ? r.latex : f;
+  return {r, lat, k: lat ? "tex:" + lat : r ? "img:" + r.id : ""};
+}
+function normalizarGuion(g){
+  const av = [];
+  g.escenas.forEach((e, i) => {
+    e.figuras = (Array.isArray(e.figuras) ? e.figuras : e.figura ? [e.figura] : String(e.figuras || "").split(/[,\s]+/)).map(x => String(x).trim()).filter(Boolean)
+      .filter((id, k, a) => { if(a.indexOf(id) !== k) return false; const ok = R(id) && R(id).usar && R(id).src; if(!ok) av.push(`Escena ${i + 1}: «${id}» no es una figura en uso; se ha quitado.`); return ok; }).slice(0, 2);
+    if(e.formula){ const f = String(e.formula).trim().replace(/^\$+|\$+$/g, ""); if(/^E\d+$/.test(f) && !(R(f) && R(f).usar)){ av.push(`Escena ${i + 1}: «${f}» no es una fórmula en uso; se ha quitado.`); e.formula = ""; } else e.formula = f; }
+    let p = PLANTILLAS[e.plantilla] ? e.plantilla : e.figuras.length >= 2 ? "comparacion" : e.figuras.length ? "texto_figura" : e.formula ? "formula" : "texto";
+    if(p === "comparacion" && e.figuras.length < 2) p = e.figuras.length ? "texto_figura" : "texto";
+    if((p === "texto_figura" || p === "figura") && !e.figuras.length) p = e.formula ? "formula" : "texto";
+    if(p === "formula" && !e.formula) p = e.figuras.length ? "texto_figura" : "texto";
+    e.plantilla = p;
+  });
+  return av;
+}
+function avisosGuion(){
+  if(!S.guion) return [];
+  const en = new Set(), av = [...(S._avisosGuion || [])];
+  S.guion.escenas.forEach(e => { (e.figuras || []).forEach(x => en.add(x)); const {r, lat} = claveFormula(e); if(r) en.add(r.id); else if(lat){ const q = S.recursos.find(x => x.latex && x.latex.trim() === lat.trim()); if(q) en.add(q.id); } });
+  usados().filter(r => r.importante && !en.has(r.id)).forEach(r => av.push(`${r.id} está marcada como importante y no sale en ninguna diapositiva.`));
+  S.guion.escenas.forEach((e, i) => {
+    const n = e.narracion || "";
+    if(/\\[a-zA-Z]+|\$|\^|_\{/.test(n)) av.push(`Escena ${i + 1}: la narración tiene LaTeX o símbolos que la voz leería mal. Escríbelos con palabras.`);
+    const id = n.match(/\b[FE]\d+\b/); if(id) av.push(`Escena ${i + 1}: la narración nombra «${id[0]}» y la voz lo leería tal cual.`);
+  });
+  return av;
+}
+function pintaAvisosGuion(){
+  const av = avisosGuion();
+  $("avisoRecursos").innerHTML = av.length ? `<div class="aviso"><b>Revisa antes de locutar</b><ul style="margin:6px 0 0;padding-left:18px">${av.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>` : "";
+}
+function recEscenaHtml(e){
+  const figs = (e.figuras || []).map(R).filter(Boolean).map(r => `<img src="${r.src}" alt="${escA(r.alt || r.pie || r.id)}" title="${r.id}">`).join("");
+  const {r, lat} = claveFormula(e);
+  return figs + (lat ? `<span class="rc-tex">${mathHtml(lat, false)}</span>` : r && r.src ? `<img src="${r.src}" alt="${r.id}">` : "");
+}
+
+/* ── diapositivas con figuras y fórmulas ── */
+async function prepararVisuales(){
+  for(const e of (S.guion?.escenas || [])){
+    for(const id of e.figuras || []){ const r = R(id); if(r && r.src && !DIB[id]) DIB[id] = {img: await cargaImg(r.src), src: r.src, tarjeta: true}; }
+    const {r, lat, k} = claveFormula(e); if(!k || DIB[k] !== undefined) continue;
+    if(lat){ try{ const p = await texAPng(lat, {color: TEXTO, ex: 30}); DIB[k] = {img: await cargaImg(p.src), src: p.src, tarjeta: false}; continue; }catch(err){ DIB[k] = null; } }
+    if(r && r.src) DIB[k] = {img: await cargaImg(r.src), src: r.src, tarjeta: true};
+  }
+}
+function encajar(w, h, bw, bh, max = 2){ const k = Math.max(0, Math.min(bw / w, bh / h, max)); return {w: w * k, h: h * k}; }
+function rrect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function recortaTexto(ctx, t, ancho){ t = String(t); if(ctx.measureText(t).width <= ancho) return t; while(t.length > 1 && ctx.measureText(t + "…").width > ancho) t = t.slice(0, -1); return t + "…"; }
+function dibujaFigura(ctx, v, bx, by, bw, bh){
+  const pad = v.tarjeta ? 18 : 0, t = encajar(v.img.naturalWidth, v.img.naturalHeight, bw - 2 * pad, bh - 2 * pad, v.tarjeta ? 3 : 1.4);
+  const x = bx + (bw - t.w) / 2, y = by + (bh - t.h) / 2;
+  if(v.tarjeta){ ctx.fillStyle = "#FFFFFF"; rrect(ctx, x - pad, y - pad, t.w + 2 * pad, t.h + 2 * pad, 14); ctx.fill(); }
+  ctx.drawImage(v.img, x, y, t.w, t.h);
+  return {x: x - pad, y: y - pad, w: t.w + 2 * pad, h: t.h + 2 * pad};
+}
+const reservaPie = r => r && (r.pie || r.fuente) ? 14 + (r.pie ? 40 : 0) + (r.fuente ? 30 : 0) : 0;
+function dibujaPie(ctx, r, cx, y, ancho){
+  if(!r) return; ctx.textBaseline = "top"; ctx.textAlign = "center";
+  if(r.pie){ ctx.font = `400 28px ${FB}`; ctx.fillStyle = "#C3D3E2"; ctx.fillText(recortaTexto(ctx, r.pie, ancho), cx, y); y += 40; }
+  if(r.fuente){ ctx.font = `400 22px ${FB}`; ctx.fillStyle = APAGADO; ctx.fillText(recortaTexto(ctx, "Fuente: " + r.fuente, ancho), cx, y); }
+  ctx.textAlign = "left";
+}
+function dibujarConRecursos(ctx, e, alto){
+  const m = 150, AW = W - 2 * m, p = e.plantilla, fondo = alto - 20;
+  ctx.textBaseline = "top";
+  let tam = 64; ctx.font = `800 ${tam}px ${FT}`; let lt = envolver(ctx, e.titulo || "", AW);
+  if(lt.length > 1){ tam = 54; ctx.font = `800 ${tam}px ${FT}`; lt = envolver(ctx, e.titulo || "", AW).slice(0, 2); }
+  let y = 84; ctx.fillStyle = TEXTO; for(const l of lt){ ctx.fillText(l, m, y); y += tam * 1.14; }
+  y += 8; ctx.fillStyle = ACENTO; ctx.fillRect(m, y, 96, 6); y += 26;
+  if(e.subtitulo){ ctx.font = `400 34px ${FB}`; ctx.fillStyle = "#C3D3E2"; ctx.fillText(recortaTexto(ctx, e.subtitulo, AW), m, y); y += 54; }
+  const puntos = (x, yy, ancho, hasta, tp = 34) => {
+    ctx.font = `400 ${tp}px ${FB}`;
+    for(const pt of (e.puntos || []).slice(0, 4)){
+      const ls = envolver(ctx, pt, ancho - 44); if(yy + ls.length * (tp + 12) > hasta) break;
+      ctx.fillStyle = ACENTO; ctx.fillRect(x, yy + tp * .42, 13, 13); ctx.fillStyle = TEXTO;
+      for(const l of ls){ ctx.fillText(l, x + 40, yy); yy += tp + 12; } yy += 16;
+    }
+  };
+  const figura = (id, bx, by, bw, bh) => { const r = R(id), v = DIB[id]; if(!v) return; const c = dibujaFigura(ctx, v, bx, by, bw, bh - reservaPie(r)); dibujaPie(ctx, r, bx + bw / 2, c.y + c.h + 14, bw); };
+  if(p === "texto_figura"){ puntos(m, y + 6, AW * .42, fondo); figura(e.figuras[0], m + AW * .46, y, AW * .54, fondo - y); }
+  else if(p === "figura") figura(e.figuras[0], m, y, AW, fondo - y);
+  else if(p === "comparacion"){ const w = (AW - 60) / 2; figura(e.figuras[0], m, y, w, fondo - y); figura(e.figuras[1], m + w + 60, y, w, fondo - y); }
+  else if(p === "formula"){
+    const {r, k} = claveFormula(e), v = DIB[k], hay = (e.puntos || []).length, libre = fondo - y - reservaPie(r), bh = hay ? Math.min(360, libre * .55) : Math.min(380, libre);
+    if(v){ const c = dibujaFigura(ctx, v, m, hay ? y : y + (libre - bh) / 2, AW, bh); if(r && r.fuente && !hay) dibujaPie(ctx, {fuente: r.fuente}, W / 2, c.y + c.h + 14, AW); }
+    if(hay) puntos(m, y + bh + 34, AW, fondo, 32);
+  }
+}
+function pptxConRecursos(pres, s, e, ac){
+  const X = .9, AW = 11.53, H = 6.7, p = e.plantilla, pts = (e.puntos || []).slice(0, 4);
+  s.addText(e.titulo || "", {x:X, y:.4, w:AW, h:.9, fontFace:"Arial", fontSize:26, bold:true, color:"F3F6FA", valign:"bottom", fit:"shrink"});
+  s.addShape(pres.ShapeType.rect, {x:X, y:1.38, w:.6, h:.05, fill:{color:ac}, line:{color:ac}});
+  let y = 1.55;
+  if(e.subtitulo){ s.addText(e.subtitulo, {x:X, y, w:AW, h:.45, fontFace:"Arial", fontSize:16, color:"C3D3E2"}); y += .5; }
+  const puntos = (x, yy, w, h, fs = 18) => { if(pts.length) s.addText(pts.map(t => ({text:t, options:{bullet:{code:"25A0"}, paraSpaceAfter:8}})), {x, y:yy, w, h, fontFace:"Arial", fontSize:fs, color:"F3F6FA", valign:"top"}); };
+  const imagen = (v, alt, bx, by, bw, bh) => {
+    const pad = v.tarjeta ? .1 : 0, lim = v.tarjeta ? 99 : 1 / 160, t = encajar(v.img.naturalWidth, v.img.naturalHeight, bw - 2 * pad, bh - 2 * pad, lim);
+    const ix = bx + (bw - t.w) / 2, iy = by + (bh - t.h) / 2;
+    if(v.tarjeta) s.addShape(pres.ShapeType.roundRect, {x:ix - pad, y:iy - pad, w:t.w + 2 * pad, h:t.h + 2 * pad, fill:{color:"FFFFFF"}, line:{color:"FFFFFF"}, rectRadius:.08});
+    s.addImage({data: v.src.replace(/^data:/, ""), x:ix, y:iy, w:t.w, h:t.h, altText: alt || ""});
+    return iy + t.h + pad;
+  };
+  const figura = (id, bx, by, bw, bh) => {
+    const r = R(id), v = DIB[id]; if(!r || !v) return;
+    const res = (r.pie ? .34 : 0) + (r.fuente ? .26 : 0), fin = imagen(v, r.alt || r.pie || r.id, bx, by, bw, bh - res);
+    let cy = fin + .06;
+    if(r.pie){ s.addText(r.pie, {x:bx, y:cy, w:bw, h:.32, fontFace:"Arial", fontSize:12, color:"C3D3E2", align:"center"}); cy += .32; }
+    if(r.fuente) s.addText("Fuente: " + r.fuente, {x:bx, y:cy, w:bw, h:.26, fontFace:"Arial", fontSize:9, color:"8FA7BE", align:"center"});
+  };
+  if(p === "texto_figura"){ puntos(X, y + .1, AW * .44, H - y - .1); figura(e.figuras[0], X + AW * .47, y, AW * .53, H - y); }
+  else if(p === "figura") figura(e.figuras[0], X, y, AW, H - y);
+  else if(p === "comparacion"){ const w = (AW - .4) / 2; figura(e.figuras[0], X, y, w, H - y); figura(e.figuras[1], X + w + .4, y, w, H - y); }
+  else if(p === "formula"){
+    const {r, lat, k} = claveFormula(e), v = DIB[k], bh = pts.length ? 2.3 : H - y - .3;
+    if(v) imagen(v, r?.hablada || lat || "", X, y, AW, bh);
+    puntos(X, y + bh + .2, AW, H - y - bh - .2);
+  }
+}
+const notasEscena = e => {
+  const {r, lat} = claveFormula(e), extra = [];
+  (e.figuras || []).map(R).filter(Boolean).forEach(f => extra.push(`Figura ${f.id}: ${f.alt || f.pie || ""}${f.fuente ? ` (Fuente: ${f.fuente})` : ""}`));
+  if(lat) extra.push(`Fórmula en LaTeX: ${lat}`);
+  if(e.formula_hablada || r?.hablada) extra.push(`Se lee: ${e.formula_hablada || r.hablada}`);
+  return (e.narracion || "") + (extra.length ? "\n\n" + extra.join("\n") : "");
+};
+
+/* ── LaTeX Beamer ── */
+const texEsc = s => String(s || "").split(/(\$[^$\n]+\$)/).map((p, i) => i % 2 ? p : p.replace(/[\\&%$#_{}~^]/g, c => ({"\\":"\\textbackslash{}", "~":"\\textasciitilde{}", "^":"\\textasciicircum{}"})[c] || "\\" + c)).join("");
+const BABEL = [["español","spanish,es-noshorthands,es-nodecimaldot"],["portugués de brasil","brazilian"],["portugués","portuguese"],["inglés","english"],["francés","french"],["alemán","ngerman"],["italiano","italian"],["catalán","catalan"],["gallego","galician"],["euskera","basque"]];
+async function beamerEn(z){
+  if(!S.guion) throw new Error("Escribe antes el guion");
+  await prepararVisuales().catch(() => {});
+  const ac = ($("colorAcento").value || "#E4572E").replace("#", "").toUpperCase(), marca = $("marca").value.trim();
+  const lengua = String(idiomaSalida() || (/[ãõç]/.test(S.mejorado || "") && !/ñ/.test(S.mejorado || "") ? "portugués" : "español")).toLowerCase();
+  const bab = (BABEL.find(([k]) => lengua.startsWith(k)) || [])[1];
+  const fich = new Map();
+  const ruta = r => { const f = `${r.tipo === "formula" ? "formulas" : "figuras"}/${r.id}.${extDe(r.src)}`; fich.set(f, r.src); return f; };
+  const cap = r => [r.pie ? texEsc(r.pie) : "", r.fuente ? `\\\\{\\tiny Fuente: ${texEsc(r.fuente)}}` : ""].join("");
+  const img = (r, ancho, alto) => `\\centering\n\\includegraphics[width=${ancho},height=${alto},keepaspectratio]{${ruta(r)}}% ${(r.alt || "").replace(/\n/g, " ")}\n${r.pie || r.fuente ? `\\par\\vspace{2pt}{\\scriptsize ${cap(r)}}\n` : ""}`;
+  const lista = e => (e.puntos || []).length ? `\\begin{itemize}\n${e.puntos.slice(0, 4).map(p => `  \\item ${texEsc(p)}`).join("\n")}\n\\end{itemize}\n` : "";
+  let t = `% Generado con NanoClase · compílalo con pdflatex (dos veces) o súbelo a Overleaf
+\\documentclass[aspectratio=169,11pt]{beamer}
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+${bab ? `\\usepackage[${bab}]{babel}\n` : ""}\\usepackage{amsmath,amssymb}
+\\usepackage{graphicx}
+\\definecolor{acento}{HTML}{${ac}}
+\\setbeamercolor{frametitle}{fg=acento}
+\\setbeamercolor{structure}{fg=acento}
+\\setbeamertemplate{navigation symbols}{}
+\\setbeamertemplate{footline}{\\hfill\\scriptsize ${texEsc(marca)}\\quad\\insertframenumber/\\inserttotalframenumber\\hspace*{1em}\\vspace*{.6em}}
+\\title{${texEsc(S.guion.titulo || tituloMat())}}
+\\begin{document}
+`;
+  S.guion.escenas.forEach((e, i) => {
+    const p = e.plantilla || "texto", F = (e.figuras || []).map(R).filter(Boolean), {r, lat} = claveFormula(e);
+    t += `\n% ── Escena ${i + 1} ──\n\\begin{frame}{${texEsc(e.titulo)}}\n${e.subtitulo ? `\\framesubtitle{${texEsc(e.subtitulo)}}\n` : ""}`;
+    if(p === "texto_figura" && F[0]) t += `\\begin{columns}[T]\n\\begin{column}{.46\\textwidth}\n${lista(e)}\\end{column}\n\\begin{column}{.52\\textwidth}\n${img(F[0], "\\linewidth", ".62\\textheight")}\\end{column}\n\\end{columns}\n`;
+    else if(p === "figura" && F[0]) t += img(F[0], "\\textwidth", ".68\\textheight");
+    else if(p === "comparacion" && F[1]) t += `\\begin{columns}[T]\n${F.slice(0, 2).map(f => `\\begin{column}{.48\\textwidth}\n${img(f, "\\linewidth", ".6\\textheight")}\\end{column}\n`).join("")}\\end{columns}\n`;
+    else if(p === "formula" && (lat || r?.src)) t += (lat ? `\\[\n${lat}\n\\]\n` : img(r, "\\textwidth", ".4\\textheight")) + lista(e);
+    else t += lista(e);
+    t += `\\note{${texEsc(e.narracion)}}\n\\end{frame}\n`;
+  });
+  t += "\n\\end{document}\n";
+  z.file("presentacion.tex", t);
+  fich.forEach((src, f) => z.file(f, b64De(src), {base64:true}));
+  z.file("LEEME.txt", `Presentación en LaTeX Beamer generada con NanoClase.
+
+Compilar: pdflatex presentacion.tex (dos veces). En Overleaf: New Project → Upload Project → este zip.
+Las fórmulas están en LaTeX real; las figuras, en la carpeta figuras/ con su pie y su fuente.
+La narración de cada diapositiva va en \\note{…}: para verla, añade \\setbeameroption{show notes on second screen=right} al preámbulo.
+`);
+}
+$("btnBeamer").onclick = async () => {
+  try{ if(!window.JSZip) await cargaLib(LIBS.jszip); const z = new JSZip(); await beamerEn(z); descargar(await z.generateAsync({type:"blob"}), S.nombre + "_beamer.zip"); toast("Beamer descargado: presentacion.tex con sus figuras"); }
+  catch(e){ toast(e.message); }
+};
+
+/* ── ejemplo: una fórmula y una figura dibujada aquí mismo ── */
+function figuraEjemplo(){
+  const c = document.createElement("canvas"); c.width = 1200; c.height = 760; const x = c.getContext("2d");
+  x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+  const medias = [129.1,126.4,131.2,127.8,124.9,130.3,128.6,133.9,126.9,129.8,127.2,130.9,125.6,128.1,136.4,127.5,129.4,126.2,131.6,128.9];
+  const X = v => 120 + (v - 116) / 26 * 1000, mu = 128.5;
+  x.strokeStyle = "#0F2237"; x.lineWidth = 3; x.setLineDash([10, 8]); x.beginPath(); x.moveTo(X(mu), 40); x.lineTo(X(mu), 680); x.stroke(); x.setLineDash([]);
+  medias.forEach((m, i) => { const y = 60 + i * 30, mal = Math.abs(m - mu) > 6.19; x.strokeStyle = x.fillStyle = mal ? "#E4572E" : "#2E4B6B"; x.lineWidth = mal ? 6 : 4; x.beginPath(); x.moveTo(X(m - 6.19), y); x.lineTo(X(m + 6.19), y); x.stroke(); x.beginPath(); x.arc(X(m), y, 7, 0, 7); x.fill(); });
+  x.fillStyle = "#0F2237"; x.font = "28px sans-serif"; x.textAlign = "center";
+  for(let v = 116; v <= 142; v += 4){ x.fillText(v, X(v), 725); x.fillRect(X(v) - 1, 682, 2, 12); }
+  x.fillRect(120, 682, 1000, 2); x.fillText("μ", X(mu), 32); x.textAlign = "left"; x.fillText("mmHg", 1120, 725);
+  return c.toDataURL("image/png");
+}
 
 /* ══════════ ARRANQUE ══════════ */
 cargaPrefs(); setModo("mejorar"); refrescarLectura(); pintaPack(); go(0);
