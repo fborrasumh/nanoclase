@@ -697,6 +697,13 @@ canvas#lienzo{display:none}
 .esc-rec{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .esc-rec img{height:64px;border:1px solid var(--linea);border-radius:6px;background:#fff}
 .esc-rec .rc-tex{padding:4px 8px}
+.tb-lang{display:flex;align-items:center}.tb-sel{background:transparent;border:1px solid #3E5C7D;color:#C9D8E6;border-radius:9px;padding:6px 8px;font:600 13px var(--texto);cursor:pointer;max-width:120px}.tb-sel:hover{border-color:var(--brasa);color:#fff}.tb-sel:focus-visible{outline:2px solid var(--brasa);outline-offset:2px}.tb-sel option{color:#0F2237;background:#fff}
+.fa-autores{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);position:relative}.fa-autores-cap{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#8FA7BE;width:100%;margin-bottom:-4px}
+.fa-autor{display:flex;gap:11px;align-items:center}.fa-autor b{display:block;color:#fff;font:700 16px var(--display)}.fa-autor small{display:block;color:#9DB6CD;font-size:12.5px;max-width:34ch}.fa-av{width:44px;height:44px;border-radius:14px;background:var(--c);color:#fff;display:grid;place-items:center;font:800 15px var(--display);flex:none;box-shadow:0 10px 20px -12px var(--c)}
+.fa-orcid{display:block;margin-top:2px;font:600 11.5px var(--mono);letter-spacing:.02em;color:#7FD6C4!important;text-decoration:none}.fa-orcid:hover{text-decoration:underline}
+.nu-modelo{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.nu-modelo select{flex:1;min-width:0}.nu-modelo input{margin-top:6px}
+@media(max-width:600px){.tb-sel{max-width:96px;padding:5px 6px}}
+#evalInicial,#evalFinal{overflow-x:auto;max-width:100%}
 </style>
 </head>
 <body>
@@ -756,7 +763,7 @@ canvas#lienzo{display:none}
   <div class="tb-in">
     <button class="logo" id="goHome" type="button" aria-label="Ir al inicio"><span class="anv"><svg class="i"><use href="#i-play"/></svg></span><span>Nano<em>Clase</em></span></button>
     <nav class="stepper" id="stepper" aria-label="Pasos"></nav>
-    <div class="tb-tools"><button class="tb-btn" id="btnHelp" type="button"><svg class="i"><use href="#i-help"/></svg><span class="lbl">Ayuda</span></button></div>
+    <div class="tb-tools"><div class="tb-lang" id="langBox"><select id="selLang" class="tb-sel" aria-label="Idioma"></select></div><button class="tb-btn" id="btnHelp" type="button"><svg class="i"><use href="#i-help"/></svg><span class="lbl">Ayuda</span></button></div>
   </div>
   <div class="progress"><span id="progBar"></span></div>
 </div>
@@ -772,6 +779,9 @@ canvas#lienzo{display:none}
       <button class="btn btn-primary btn-big" id="btnStart" type="button"><svg class="i"><use href="#i-play"/></svg>Empezar</button>
       <button class="btn btn-ghost btn-big" id="btnEj" type="button"><svg class="i"><use href="#i-sparkles"/></svg>Probar con un apunte de ejemplo</button>
     </div>
+    <div class="fa-autores"><span class="fa-autores-cap">Realizada por</span>
+      <div class="fa-autor"><span class="fa-av" style="--c:#E4572E">FB</span><div><b>Fernando Borrás Rocher</b><small>Universidad Miguel Hernández de Elche</small><a class="fa-orcid" href="https://orcid.org/0000-0002-5519-4573" target="_blank" rel="noopener">ORCID 0000-0002-5519-4573</a></div></div>
+      </div>
   </div>
   <h2 class="sec-title">Qué obtienes</h2>
   <p class="sec-sub">Un solo material de partida, cinco productos coherentes entre sí.</p>
@@ -801,7 +811,7 @@ canvas#lienzo{display:none}
       <div class="card">
         <h3><span class="num">1</span>Clave de OpenAI</h3>
         <div class="keyrow"><input type="password" id="clave" placeholder="sk-proj-…" autocomplete="off" spellcheck="false"><button class="eye" id="btnEye" type="button" aria-label="Mostrar u ocultar"><svg class="i"><use href="#i-eye"/></svg></button></div>
-        <div class="actions" style="margin-top:12px"><button class="btn btn-dark btn-sm" id="btnTest" type="button"><svg class="i"><use href="#i-check"/></svg>Comprobar clave</button><button class="btn btn-ghost btn-sm" id="btnOlvidarClave" type="button"><svg class="i"><use href="#i-trash"/></svg>Olvidarla</button></div>
+        <div class="actions" style="margin-top:12px"><button class="btn btn-dark btn-sm" id="btnTest" type="button"><svg class="i"><use href="#i-check"/></svg>Comprobar clave</button><button class="btn btn-ghost btn-sm" id="btnOlvidarClave" type="button"><svg class="i"><use href="#i-trash"/></svg>Olvidarla</button><button class="btn btn-ghost btn-sm" id="btnModelos" type="button"><svg class="i"><use href="#i-refresh"/></svg>Ver los modelos de mi clave</button></div>
         <div class="light" id="keyLight" data-s=""><span class="bulbo"></span><span id="keyMsg">Sin comprobar</span></div>
       </div>
       <div class="card">
@@ -815,11 +825,11 @@ canvas#lienzo{display:none}
       <div class="card">
         <h3><span class="num">3</span>Voz y modelos</h3>
         <div class="grid3">
-          <div class="field"><label for="modeloTexto">Modelo que escribe</label><input type="text" id="modeloTexto" list="mlist"><datalist id="mlist"><option value="gpt-6-luna"><option value="gpt-4.1"><option value="gpt-4.1-mini"><option value="gpt-4o-mini"></datalist></div>
+          <div class="field"><label for="selModeloTexto">Modelo que escribe</label><select id="selModeloTexto"></select><input type="text" id="modeloTexto" hidden placeholder="Escribe el nombre exacto del modelo" spellcheck="false"></div>
           <div class="field"><label for="modeloVoz">Modelo que locuta</label><select id="modeloVoz"><option value="gpt-4o-mini-tts">gpt-4o-mini-tts (con acento y tono)</option><option value="tts-1">tts-1 (más barato, plano)</option><option value="tts-1-hd">tts-1-hd</option></select></div>
           <div class="field"><label for="voz">Voz</label><select id="voz"><option value="onyx">onyx · grave</option><option value="alloy">alloy · neutra</option><option value="nova">nova · clara</option><option value="shimmer">shimmer · suave</option><option value="coral">coral · cálida</option><option value="echo">echo</option><option value="fable">fable</option><option value="ballad">ballad</option></select></div>
         </div>
-        <div class="field" style="margin:0"><label for="modeloVision">Modelo que mira las figuras y las fórmulas <small>(con visión; vacío = el que escribe)</small></label><input type="text" id="modeloVision" list="mlist" placeholder="el mismo que escribe"></div>
+        <div class="field" style="margin:0"><label for="selModeloVision">Modelo que mira las figuras y las fórmulas <small>(con visión)</small></label><select id="selModeloVision"></select><input type="text" id="modeloVision" hidden placeholder="Escribe el nombre exacto del modelo" spellcheck="false"></div>
       </div>
     </div>
     <div class="card sticky">
@@ -988,7 +998,7 @@ canvas#lienzo{display:none}
 </main>
 <canvas id="lienzo" width="1920" height="1080"></canvas>
 
-<footer><hr><p>NanoClase 2.1 · Herramientas IA para la academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Todo ocurre en tu navegador con tu clave de OpenAI. Revisa siempre el material antes de usarlo con estudiantes: los revisores reducen errores, no los eliminan.</p></footer>
+<footer><hr><p>NanoClase 2.2 · Herramientas IA para la academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Todo ocurre en tu navegador con tu clave de OpenAI. Revisa siempre el material antes de usarlo con estudiantes: los revisores reducen errores, no los eliminan.</p></footer>
 
 <div class="bottomnav"><div class="bn-in">
   <button class="btn btn-ghost" id="navBack" type="button"><svg class="i"><use href="#i-left"/></svg>Atrás</button>
@@ -1007,6 +1017,370 @@ canvas#lienzo{display:none}
     <div class="actions" style="margin-top:12px"><button class="btn btn-primary" id="rcFigura" type="button" disabled><svg class="i"><use href="#i-grid"/></svg>Guardar como figura</button><button class="btn btn-dark" id="rcFormula" type="button" disabled><svg class="i"><use href="#i-pencil"/></svg>Guardar como fórmula</button><span class="help" style="margin:0">Una fórmula se envía a OpenAI para pasarla a LaTeX. El texto que quede dentro del recorte deja de leerse como texto.</span></div>
   </div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ── Idiomas de la interfaz: español (por defecto), inglés y portugués ──────────────────────────────
+   NanoClase 2.2 · adaptación al patrón Forja (§14).
+   El español está escrito en el HTML y en el JS, como siempre. Los demás idiomas se aplican al pintar:
+     · tr(frase)          → traducción de una frase en español (exacta, o con huecos {0} en el diccionario).
+     · t(clave, …args)    → como en Forja: traduce y rellena {0}, {1}…; si falta la traducción, devuelve el español.
+     · Un observador traduce lo que la app escribe en la página (textos, opciones, placeholder, title, aria-label, alt),
+       guarda el original en español y lo restaura al volver al español. Así el estado guarda datos y frases en español,
+       y lo que se ve sale siempre en el idioma elegido.
+   No se traducen: el material, lo que escribe la IA (#mdview, #planView, campos de texto), los prompts ni los ficheros
+   exportados, que van en el idioma del material (Ajustes → Idioma del material). */
+const LANGS = {es: "Español", en: "English", pt: "Português"};
+const LOCALE = {es: "es-ES", en: "en-GB", pt: "pt-PT"};
+const APP_LANG_KEY = "nanoclase_lang";
+let LANG = "es";
+const locale = () => LOCALE[LANG] || "es-ES";
+const _norm = s => String(s).replace(/\s+/g, " ").trim();
+let _PAT = null;
+function _pats(){
+  if(_PAT && _PAT.l === LANG) return _PAT.v;
+  const d = (typeof I18N !== "undefined" && I18N[LANG]) || {}, v = [];
+  for(const k in d){
+    if(!/\{\d+\}/.test(k)) continue;
+    const parts = k.split(/\{(\d+)\}/), order = []; let rx = "^";
+    parts.forEach((p, i) => { if(i % 2){ rx += "([\\s\\S]+?)"; order.push(+p); } else rx += p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); });
+    v.push([new RegExp(rx + "$"), order, d[k], k.replace(/\{\d+\}/g, "").length]);
+  }
+  v.sort((a, b) => b[3] - a[3]);                       // los patrones más concretos primero
+  _PAT = {l: LANG, v}; return v;
+}
+function tr(s){
+  if(LANG === "es" || s == null) return undefined;
+  const d = I18N[LANG] || {}, n = _norm(s); if(!n) return undefined;
+  if(d[n] !== undefined) return d[n];
+  for(const [rx, order, out] of _pats()){
+    const m = n.match(rx); if(!m) continue;
+    const val = {}; order.forEach((ix, j) => val[ix] = m[j + 1]);
+    return out.replace(/\{(\d+)\}/g, (x, i) => { const v = val[i]; if(v == null) return x; const tv = tr(v); return tv !== undefined ? tv : v; });
+  }
+  if(n.includes(" · ")){                                 // «PDF · página 3 · Muy pequeña…»: se traduce por trozos
+    const p = n.split(" · "), q = p.map(x => tr(x));
+    if(q.some(x => x !== undefined)) return p.map((x, i) => q[i] !== undefined ? q[i] : x).join(" · ");
+  }
+  return undefined;
+}
+function t(k, ...a){
+  let s = LANG === "es" ? k : ((I18N[LANG] || {})[k] ?? k);
+  return a.length ? String(s).replace(/\{(\d+)\}/g, (m, i) => a[+i] ?? m) : String(s);
+}
+/* Zonas que no se traducen: el material y lo que escribe la IA. */
+const I18N_SKIP = "script,style,textarea,pre,code,svg,.mj,.mjb,#mdview,#planView,#lienzo,[data-noi18n]";
+const INLINE = new Set(["B", "EM", "I", "STRONG", "SMALL", "A", "BR", "CODE", "SPAN", "KBD"]);
+const ATTRS = ["placeholder", "title", "aria-label", "alt"];
+const _skip = el => !!(el && el.closest && el.closest(I18N_SKIP));
+function _frase(el){                                     // ¿es un elemento con texto e inline (<b>, <a>…) sin ids dentro?
+  if(!el.children.length || el.id && el.querySelector("[id]")) return false;
+  for(const c of el.querySelectorAll("*")) if(!INLINE.has(c.tagName) || c.id || c.attributes.length > 2) return false;
+  return true;
+}
+function _trElem(el){
+  if(el._trH !== undefined && el.innerHTML === el._trH) { if(LANG === "es"){ el.innerHTML = el._esH; el._trH = undefined; } else { const v = tr(el._esH); if(v !== undefined && v !== el._trH){ el._trH = v; el.innerHTML = v; } } return true; }
+  if(!_frase(el)) return false;
+  const es = el.innerHTML, v = tr(es);
+  if(v === undefined) return false;
+  el._esH = es; el._trH = v; el.innerHTML = v; return true;
+}
+function _trText(n){
+  const cur = n.data;
+  if(!(n._tr !== undefined && cur === n._tr)) n._es = cur;
+  const es = n._es, p = n.parentNode;
+  if(p && p.id === "registro"){                          // registro: línea a línea
+    const nv = LANG === "es" ? es : es.split("\n").map(l => { const lead = l.match(/^\s*/)[0], v = tr(l); return v !== undefined ? lead + v : l; }).join("\n");
+    n._tr = nv; if(nv !== cur) n.data = nv; return;
+  }
+  let nv = es;
+  if(LANG !== "es" && es.trim()){ const v = tr(es); if(v !== undefined) nv = es.match(/^\s*/)[0] + v + es.match(/\s*$/)[0]; }
+  if(p && p.tagName === "OPTION" && !p.hasAttribute("value")) p.setAttribute("value", es.trim());   // el valor sigue en español
+  n._tr = nv; if(nv !== cur) n.data = nv;
+}
+function _trAttr(el, at){
+  if(!el.hasAttribute(at)) return;
+  el._esA = el._esA || {}; el._trA = el._trA || {};
+  const cur = el.getAttribute(at);
+  if(!(el._trA[at] !== undefined && cur === el._trA[at])) el._esA[at] = cur;
+  const es = el._esA[at], v = LANG === "es" ? undefined : tr(es), nv = v !== undefined ? v : es;
+  el._trA[at] = nv; if(nv !== cur) el.setAttribute(at, nv);
+}
+let _i18nOcupado = false;
+function _walk(root){
+  if(!root) return;
+  if(root.nodeType === 3){ if(!_skip(root.parentElement)) _trText(root); return; }
+  if(root.nodeType !== 1 || _skip(root)) return;
+  const pila = [root];
+  while(pila.length){
+    const el = pila.pop();
+    ATTRS.forEach(a => _trAttr(el, a));
+    if(el !== document.body && el.id !== "registro" && _trElem(el)) continue;
+    for(const c of el.childNodes){
+      if(c.nodeType === 3) _trText(c);
+      else if(c.nodeType === 1 && !c.matches(I18N_SKIP)) pila.push(c);
+    }
+  }
+}
+const _obs = new MutationObserver(ms => {
+  if(_i18nOcupado) return; _i18nOcupado = true;
+  try{
+    for(const m of ms){
+      if(m.type === "characterData"){ if(!_skip(m.target.parentElement)) _trText(m.target); }
+      else if(m.type === "attributes"){ if(!_skip(m.target)) _trAttr(m.target, m.attributeName); }
+      else { const el = m.target; if(_skip(el)) continue; if(el._trH !== undefined && el.innerHTML !== el._trH) el._trH = undefined; _walk(el); }
+    }
+  } finally { _obs.takeRecords(); _i18nOcupado = false; }
+});
+function applyI18n(){
+  document.documentElement.lang = LANG;
+  _i18nOcupado = true;
+  try{
+    _walk(document.body);
+    if(applyI18n._tit === undefined) applyI18n._tit = document.title;
+    document.title = LANG === "es" ? applyI18n._tit : (tr(applyI18n._tit) || applyI18n._tit);
+  } finally { _obs.takeRecords(); _i18nOcupado = false; }
+}
+function setLang(l){
+  if(!LANGS[l]) l = "es";
+  LANG = l; _PAT = null; try{ localStorage.setItem(APP_LANG_KEY, l); }catch(e){}
+  const s = document.getElementById("selLang"); if(s) s.value = l;
+  applyI18n();
+  window.dispatchEvent(new CustomEvent("langchange", {detail: l}));
+}
+/* Una vez, al arrancar. Preferencia: ?lang=xx en la URL → elección guardada → español. */
+function initI18n(){
+  let l = "es"; try{ l = localStorage.getItem(APP_LANG_KEY) || "es"; }catch(e){}
+  const q = new URLSearchParams(location.search).get("lang"); if(q) l = q;
+  LANG = LANGS[l] ? l : "es"; _PAT = null;
+  if(q && LANGS[q]) try{ localStorage.setItem(APP_LANG_KEY, LANG); }catch(e){}
+  const sel = document.getElementById("selLang");
+  if(sel){ sel.innerHTML = Object.keys(LANGS).map(x => `<option value="${x}">${LANGS[x]}</option>`).join(""); sel.value = LANG; sel.onchange = () => setLang(sel.value); }
+  _obs.observe(document.body, {subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ATTRS});
+  applyI18n();
+}
+/* Para las pruebas: textos en español visibles en la página que no tienen traducción en el idioma activo ([] = completo). */
+function i18nFaltan(){
+  if(LANG === "es") return [];
+  const out = new Set(), ES = /[áéíóúñ¿¡]|\b(el|la|los|las|del|de|que|con|para|una?|por|sin|y|o|en|se|es|tu|al|lo|más|este|esta|hay|puedes|pulsa|aquí)\b/i;
+  const EJV = new Set(typeof EJ !== "undefined" && EJ[LANG] ? Object.values(EJ[LANG]).map(_norm) : []);   // el ejemplo ya está en el idioma activo
+  const ok = s => { s = _norm(s); return !s || EJV.has(s) || !/[a-zA-ZáéíóúñÁÉÍÓÚÑ]{3}/.test(s) || !ES.test(s) || I18N_OK.has(s) || tr(s) !== undefined; };
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for(let n = w.nextNode(); n; n = w.nextNode()){
+    const p = n.parentElement; if(!p || _skip(p) || p.closest(".hidden,[hidden]")) continue;
+    let e = p, dentro = false; while(e){ if(e._trH !== undefined && e.innerHTML === e._trH){ dentro = true; break; } e = e.parentElement; } if(dentro) continue;
+    const es = n._es !== undefined && n.data === n._tr ? n._es : n.data;
+    if(p.id === "registro"){ es.split("\n").forEach(l => { if(!ok(l)) out.add(_norm(l).slice(0, 90)); }); continue; }
+    if(!ok(es)) out.add(_norm(es).slice(0, 90));
+  }
+  document.querySelectorAll("[placeholder],[title],[aria-label],[alt]").forEach(el => { if(_skip(el)) return; ATTRS.forEach(a => { const v = el.getAttribute(a); if(!v) return; const es = el._esA && el._trA && el._trA[a] === v ? el._esA[a] : v; if(!ok(es)) out.add(`@${a}: ${_norm(es).slice(0, 80)}`); }); });
+  return [...out];
+}
+
+/* Diccionario de la interfaz: [español, inglés, portugués]. {0}, {1}… son huecos (números, nombres, mensajes).
+   Lo que no se traduce: el nombre de la app, nombres propios, productos (Word, PowerPoint, Moodle, GIFT, LaTeX…) y lo que escribe la IA. */
+const I18N_T = [
+// ── barra, pasos, navegación ──
+["Inicio","Home","Início"],["Ajustes","Settings","Definições"],["Partida","Starting point","Partida"],["Diagnóstico","Diagnosis","Diagnóstico"],["Material","Material","Material"],["Productos","Outputs","Produtos"],
+["Ayuda","Help","Ajuda"],["Cerrar","Close","Fechar"],["Atrás","Back","Voltar"],["Siguiente","Next","Seguinte"],["Anterior","Previous","Anterior"],["Pasos","Steps","Passos"],["Idioma","Language","Idioma"],["Ir al inicio","Go to the start","Ir para o início"],
+["Empezar","Start","Começar"],["Siguiente: el punto de partida","Next: the starting point","Seguinte: o ponto de partida"],["Siguiente: el diagnóstico","Next: the diagnosis","Seguinte: o diagnóstico"],["Siguiente: el material","Next: the material","Seguinte: o material"],["Siguiente: los productos","Next: the outputs","Seguinte: os produtos"],["Descargar todo","Download everything","Descarregar tudo"],["Crear el material","Create the material","Criar o material"],["Reescribir el material","Rewrite the material","Reescrever o material"],
+["Empieza con tu material o crea uno desde cero.","Start with your material or create one from scratch.","Comece com o seu material ou crie um de raiz."],
+["Elige la <b>variante</b> del idioma: cambia el vocabulario y el acento.","Choose the language <b>variant</b>: it changes the vocabulary and the accent.","Escolha a <b>variante</b> da língua: muda o vocabulário e o sotaque."],
+["Sube un documento o describe el <b>tema</b>.","Upload a document or describe the <b>topic</b>.","Carregue um documento ou descreva o <b>tema</b>."],
+["Mira qué falta antes de reescribir.","See what is missing before rewriting.","Veja o que falta antes de reescrever."],
+["Corrige el material antes de generar los productos: todo sale de aquí.","Correct the material before generating the outputs: everything comes from here.","Corrija o material antes de gerar os produtos: tudo sai daqui."],
+["Genera solo lo que necesites.","Generate only what you need.","Gere apenas o que precisar."],
+["Paso {0} de {1}","Step {0} of {1}","Passo {0} de {1}"],["Paso previo","Before you start","Passo prévio"],
+// ── portada ──
+["NanoClase · Contenido docente universitario con IA","NanoClase · University teaching content with AI","NanoClase · Conteúdo docente universitário com IA"],
+["Contenido docente para el profesorado universitario iberoamericano","Teaching content for university lecturers in Ibero-America","Conteúdo docente para o professorado universitário ibero-americano"],
+["De un tema o un apunte <em>a una clase completa</em>","From a topic or a set of notes <em>to a complete class</em>","De um tema ou de uns apontamentos <em>a uma aula completa</em>"],
+["Crea el material desde cero o mejora el que ya tienes. NanoClase lo evalúa con una rúbrica docente, lo reescribe y comprueba que no invente nada. Después genera, a partir del mismo material, un vídeo locutado, las diapositivas en PowerPoint, un banco de preguntas para Moodle y el plan de la sesión.","Create the material from scratch or improve the one you already have. NanoClase assesses it with a teaching rubric, rewrites it and checks that nothing is made up. Then, from the same material, it generates a narrated video, PowerPoint slides, a Moodle question bank and the session plan.","Crie o material de raiz ou melhore o que já tem. O NanoClase avalia-o com uma rubrica docente, reescreve-o e verifica que não inventa nada. Depois gera, a partir do mesmo material, um vídeo narrado, os diapositivos em PowerPoint, um banco de perguntas para o Moodle e o plano da sessão."],
+["Probar con un apunte de ejemplo","Try it with example notes","Experimentar com uns apontamentos de exemplo"],
+["Realizada por","Created by","Realizada por"],
+["Qué obtienes","What you get","O que obtém"],["Un solo material de partida, cinco productos coherentes entre sí.","One starting material, five outputs consistent with each other.","Um único material de partida, cinco produtos coerentes entre si."],
+["documento","document","documento"],["vídeo","video","vídeo"],["diapositivas","slides","diapositivos"],["evaluación","assessment","avaliação"],["sesión","session","sessão"],["control","checks","controlo"],
+["Material didáctico","Teaching material","Material didático"],
+["Objetivos observables, requisitos, bloques con entrada y salida, comprobaciones con la respuesta plegada, glosario, errores frecuentes y ejercicios, con las figuras y las fórmulas del original. En Word, Markdown o cuaderno Jupyter.","Observable objectives, prerequisites, blocks with an entry and an exit, checks with a folded answer, glossary, common mistakes and exercises, with the figures and formulas of the original. In Word, Markdown or a Jupyter notebook.","Objetivos observáveis, pré-requisitos, blocos com entrada e saída, verificações com a resposta recolhida, glossário, erros frequentes e exercícios, com as figuras e as fórmulas do original. Em Word, Markdown ou caderno Jupyter."],
+["Nanovídeo locutado","Narrated nanovideo","Nanovídeo narrado"],
+["De dos a cuatro minutos, con voz en el acento que elijas y el texto leído bajo cada diapositiva. Con subtítulos .srt.","Two to four minutes long, with a voice in the accent you choose and the spoken text under each slide. With .srt subtitles.","De dois a quatro minutos, com voz no sotaque que escolher e o texto lido sob cada diapositivo. Com legendas .srt."],
+["Diapositivas editables","Editable slides","Diapositivos editáveis"],
+["Las mismas diapositivas del vídeo, con figuras y fórmulas, en PowerPoint con la narración en las notas o en LaTeX Beamer con las fórmulas en LaTeX real.","The same slides as the video, with figures and formulas, in PowerPoint with the narration in the notes, or in LaTeX Beamer with the formulas in real LaTeX.","Os mesmos diapositivos do vídeo, com figuras e fórmulas, em PowerPoint com a narração nas notas ou em LaTeX Beamer com as fórmulas em LaTeX real."],
+["Banco de preguntas","Question bank","Banco de perguntas"],
+["Opción múltiple, verdadero o falso y respuesta corta, con retroalimentación. Se importa en Moodle en formato GIFT.","Multiple choice, true or false and short answer, with feedback. It is imported into Moodle in GIFT format.","Escolha múltipla, verdadeiro ou falso e resposta curta, com feedback. Importa-se no Moodle em formato GIFT."],
+["Plan de clase","Lesson plan","Plano de aula"],
+["Presencial, en línea o de clase invertida, con los tiempos, las actividades y cómo comprobar lo aprendido.","Face-to-face, online or flipped classroom, with timings, activities and how to check what has been learnt.","Presencial, em linha ou de aula invertida, com os tempos, as atividades e como verificar o que se aprendeu."],
+["Revisores","Reviewers","Revisores"],
+["Uno compara la reescritura con el original y señala lo añadido. Otro busca errores conceptuales. Otro compara cada fórmula en LaTeX con su recorte. Un último comprueba cada pregunta.","One compares the rewrite with the original and flags what was added. Another looks for conceptual errors. Another compares each LaTeX formula with its crop. A last one checks every question.","Um compara a reescrita com o original e assinala o que foi acrescentado. Outro procura erros concetuais. Outro compara cada fórmula em LaTeX com o seu recorte. Um último verifica cada pergunta."],
+["Cómo funciona","How it works","Como funciona"],
+["Punto de partida","Starting point","Ponto de partida"],
+["Sube un material (Word, PDF, PowerPoint, cuaderno, Markdown) o describe el tema. Revisa sus figuras y fórmulas.","Upload a material (Word, PDF, PowerPoint, notebook, Markdown) or describe the topic. Check its figures and formulas.","Carregue um material (Word, PDF, PowerPoint, caderno, Markdown) ou descreva o tema. Reveja as figuras e as fórmulas."],
+["Ocho dimensiones de calidad docente, de 0 a 10.","Eight dimensions of teaching quality, from 0 to 10.","Oito dimensões de qualidade docente, de 0 a 10."],
+["Reescrito o creado, revisado y reevaluado. Lo corriges tú.","Rewritten or created, reviewed and reassessed. You correct it.","Reescrito ou criado, revisto e reavaliado. É o utilizador que o corrige."],
+["Vídeo, diapositivas, preguntas y plan de clase.","Video, slides, questions and lesson plan.","Vídeo, diapositivos, perguntas e plano de aula."],
+// ── ajustes ──
+["Clave, idioma y voz","Key, language and voice","Chave, idioma e voz"],
+["La clave se queda en este navegador y viaja solo a OpenAI. El material puede salir en un idioma distinto al de entrada.","The key stays in this browser and is sent only to OpenAI. The material can come out in a language different from the input.","A chave fica neste navegador e só viaja para a OpenAI. O material pode sair numa língua diferente da de entrada."],
+["Clave de OpenAI","OpenAI key","Chave da OpenAI"],["Mostrar u ocultar","Show or hide","Mostrar ou ocultar"],["Comprobar clave","Check key","Verificar chave"],["Olvidarla","Forget it","Esquecê-la"],["Ver los modelos de mi clave","Show the models for my key","Ver os modelos da minha chave"],
+["Sin comprobar","Not checked","Por verificar"],["Sin clave todavía","No key yet","Ainda sem chave"],["Clave guardada · sin comprobar","Key saved · not checked","Chave guardada · por verificar"],["Clave guardada · pulsa «Comprobar clave» si quieres verificarla","Key saved · press “Check key” if you want to verify it","Chave guardada · prima «Verificar chave» se a quiser confirmar"],
+["Clave borrada de este navegador","Key removed from this browser","Chave apagada deste navegador"],["Primero pega la clave","Paste the key first","Cole primeiro a chave"],["Comprobando…","Checking…","A verificar…"],["Clave válida.","Valid key.","Chave válida."],["OpenAI no reconoce esta clave.","OpenAI does not recognise this key.","A OpenAI não reconhece esta chave."],["Error {0}","Error {0}","Erro {0}"],["No hay conexión con OpenAI.","No connection to OpenAI.","Sem ligação à OpenAI."],
+["Cargando los modelos de tu clave…","Loading the models for your key…","A carregar os modelos da sua chave…"],["{0} modelos disponibles en tu clave: elígelo en el desplegable.","{0} models available for your key: choose one from the drop-down list.","{0} modelos disponíveis na sua chave: escolha-o na lista pendente."],["Tu clave no devolvió ningún modelo de texto. Escribe el nombre con «Otro modelo».","Your key returned no text models. Type the name with “Another model”.","A sua chave não devolveu nenhum modelo de texto. Escreva o nome com «Outro modelo»."],
+["Idioma del material y del vídeo","Language of the material and the video","Idioma do material e do vídeo"],["Idioma y variante","Language and variant","Idioma e variante"],["¿Cuál?","Which one?","Qual?"],["Quechua, guaraní, aimara…","Quechua, Guarani, Aymara…","Quíchua, guarani, aimará…"],
+["La variante cambia el vocabulario (ordenador o computadora, vosotros o ustedes) y el acento de la voz.","The variant changes the vocabulary (for example, Spain or Latin American Spanish words) and the accent of the voice.","A variante muda o vocabulário (por exemplo, português de Portugal ou do Brasil) e o sotaque da voz."],
+["Voz y modelos","Voice and models","Voz e modelos"],["Modelo que escribe","Model that writes","Modelo que escreve"],["Modelo que locuta","Model that narrates","Modelo que narra"],["Voz","Voice","Voz"],["Modelo que mira las figuras y las fórmulas","Model that looks at figures and formulas","Modelo que analisa as figuras e as fórmulas"],["(con visión)","(with vision)","(com visão)"],
+["El mismo que escribe","The same as the writing model","O mesmo que escreve"],["actual","current","atual"],["no aparece en tu clave","not available for your key","não aparece na sua chave"],["Otro modelo (escribirlo)…","Another model (type it)…","Outro modelo (escrevê-lo)…"],["Escribe el nombre exacto del modelo","Type the exact model name","Escreva o nome exato do modelo"],
+["gpt-4o-mini-tts (con acento y tono)","gpt-4o-mini-tts (with accent and tone)","gpt-4o-mini-tts (com sotaque e tom)"],["tts-1 (más barato, plano)","tts-1 (cheaper, flat)","tts-1 (mais barato, monótono)"],
+["grave","deep","grave"],["neutra","neutral","neutra"],["clara","clear","clara"],["suave","soft","suave"],["cálida","warm","calorosa"],
+["¿Cuánto cuesta?","How much does it cost?","Quanto custa?"],["Todo se factura en tu cuenta de OpenAI.","Everything is billed to your OpenAI account.","Tudo é faturado na sua conta da OpenAI."],
+["Evaluar y reescribir un apunte de 10 páginas: unos céntimos.","Assessing and rewriting 10 pages of notes: a few cents.","Avaliar e reescrever uns apontamentos de 10 páginas: alguns cêntimos."],
+["Un nanovídeo de tres minutos: unos 10 céntimos de voz.","A three-minute nanovideo: about 10 cents of voice.","Um nanovídeo de três minutos: cerca de 10 cêntimos de voz."],
+["Banco de preguntas y plan de clase: unos céntimos cada uno.","Question bank and lesson plan: a few cents each.","Banco de perguntas e plano de aula: alguns cêntimos cada um."],
+["Describir una figura o pasar una fórmula a LaTeX: menos de un céntimo cada una.","Describing a figure or converting a formula to LaTeX: less than a cent each.","Descrever uma figura ou passar uma fórmula para LaTeX: menos de um cêntimo cada uma."],
+["La clave es la misma que usan el resto de herramientas del catálogo.","The key is the same one used by the other tools in the catalogue.","A chave é a mesma que usam as restantes ferramentas do catálogo."],
+// idiomas del material
+["El mismo del documento","The same as the document","O mesmo do documento"],["Español de España","Spanish (Spain)","Espanhol de Espanha"],["Español latinoamericano (neutro)","Latin American Spanish (neutral)","Espanhol latino-americano (neutro)"],["Español rioplatense","Rioplatense Spanish","Espanhol rio-platense"],["Español de México","Mexican Spanish","Espanhol do México"],["Portugués de Brasil","Brazilian Portuguese","Português do Brasil"],["Portugués de Portugal","European Portuguese","Português de Portugal"],["Español (sin variante)","Spanish (no variant)","Espanhol (sem variante)"],
+["Inglés","English","Inglês"],["Francés","French","Francês"],["Alemán","German","Alemão"],["Italiano","Italian","Italiano"],["Portugués","Portuguese","Português"],["Catalán","Catalan","Catalão"],["Gallego","Galician","Galego"],["Euskera","Basque","Basco"],["Neerlandés","Dutch","Neerlandês"],["Polaco","Polish","Polaco"],["Rumano","Romanian","Romeno"],["Sueco","Swedish","Sueco"],["Noruego","Norwegian","Norueguês"],["Danés","Danish","Dinamarquês"],["Finés","Finnish","Finlandês"],["Griego","Greek","Grego"],["Checo","Czech","Checo"],["Húngaro","Hungarian","Húngaro"],["Turco","Turkish","Turco"],["Ruso","Russian","Russo"],["Ucraniano","Ukrainian","Ucraniano"],["Árabe","Arabic","Árabe"],["Hebreo","Hebrew","Hebraico"],["Hindi","Hindi","Hindi"],["Chino mandarín","Mandarin Chinese","Chinês mandarim"],["Japonés","Japanese","Japonês"],["Coreano","Korean","Coreano"],["Indonesio","Indonesian","Indonésio"],["Vietnamita","Vietnamese","Vietnamita"],["Tailandés","Thai","Tailandês"],["Otro (lo escribo)","Other (I will type it)","Outro (escrevo-o)"],
+// ── punto de partida ──
+["Punto de partida","Starting point","Ponto de partida"],["¿Mejoramos un material que ya tienes o lo creamos desde cero?","Shall we improve a material you already have or create it from scratch?","Melhoramos um material que já tem ou criamo-lo de raiz?"],
+["Tengo un material","I have a material","Tenho um material"],["Apuntes, un tema en Word o PDF, unas diapositivas en PowerPoint o un cuaderno Jupyter, con sus figuras y fórmulas. Se evalúa y se reescribe sin inventar contenido.","Notes, a unit in Word or PDF, PowerPoint slides or a Jupyter notebook, with its figures and formulas. It is assessed and rewritten without inventing content.","Apontamentos, um tema em Word ou PDF, diapositivos em PowerPoint ou um caderno Jupyter, com as suas figuras e fórmulas. É avaliado e reescrito sem inventar conteúdo."],
+["Empiezo de cero","I start from scratch","Começo de raiz"],["Describe el tema y el nivel. NanoClase escribe el material y un revisor disciplinar busca errores conceptuales.","Describe the topic and the level. NanoClase writes the material and a subject reviewer looks for conceptual errors.","Descreva o tema e o nível. O NanoClase escreve o material e um revisor disciplinar procura erros concetuais."],
+["Tu material","Your material","O seu material"],["Arrastra el documento aquí o pulsa para elegirlo","Drag the document here or click to choose it","Arraste o documento para aqui ou clique para o escolher"],
+["Word, PDF con texto seleccionable, PowerPoint, cuaderno Jupyter, Markdown o texto. Las imágenes y las ecuaciones se conservan.","Word, PDF with selectable text, PowerPoint, Jupyter notebook, Markdown or text. Images and equations are preserved.","Word, PDF com texto selecionável, PowerPoint, caderno Jupyter, Markdown ou texto. As imagens e as equações são conservadas."],
+["…o pega el texto","…or paste the text","…ou cole o texto"],["Pega aquí el contenido del material","Paste the content of the material here","Cole aqui o conteúdo do material"],["Usar este texto","Use this text","Usar este texto"],
+["¿Sin material a mano?","No material at hand?","Sem material à mão?"],["Carga el apunte de ejemplo","Load the example notes","Carregue os apontamentos de exemplo"],
+["El tema","The topic","O tema"],["Asignatura","Course","Unidade curricular"],["Titulación","Degree","Curso"],["Bioestadística","Biostatistics","Bioestatística"],["Grado en Enfermería","Bachelor's degree in Nursing","Licenciatura em Enfermagem"],["Tema de la clase","Topic of the class","Tema da aula"],
+["Nivel","Level","Nível"],["Primer curso de grado","First year of a bachelor's degree","Primeiro ano de licenciatura"],["Grado, cursos intermedios","Bachelor's degree, intermediate years","Licenciatura, anos intermédios"],["Último curso de grado","Final year of a bachelor's degree","Último ano de licenciatura"],["Máster","Master's degree","Mestrado"],["Doctorado","Doctorate","Doutoramento"],
+["Extensión","Length","Extensão"],["Breve · una sesión","Short · one session","Breve · uma sessão"],["Media · un tema","Medium · one unit","Média · um tema"],["Extensa · un bloque","Long · one block","Extensa · um bloco"],
+["Enfoque","Approach","Abordagem"],["Conceptual, con ejemplos de la disciplina","Conceptual, with examples from the discipline","Concetual, com exemplos da disciplina"],["Práctico, con casos resueltos","Practical, with worked cases","Prática, com casos resolvidos"],["Con código Python ejecutable","With runnable Python code","Com código Python executável"],["Con cálculos paso a paso","With step-by-step calculations","Com cálculos passo a passo"],
+["Lo que no puede faltar","What must not be missing","O que não pode faltar"],["(opcional)","(optional)","(opcional)"],
+["Que se entienda la diferencia entre desviación típica y error estándar. Ejemplos clínicos.","Make clear the difference between standard deviation and standard error. Clinical examples.","Que se perceba a diferença entre desvio-padrão e erro-padrão. Exemplos clínicos."],
+["Intervalos de confianza para una media","Confidence intervals for a mean","Intervalos de confiança para uma média"],["Contraste de hipótesis y valor p","Hypothesis testing and p-value","Teste de hipóteses e valor p"],["Derecho Civil","Civil Law","Direito Civil"],["El contrato: elementos esenciales","The contract: essential elements","O contrato: elementos essenciais"],["Biología Celular","Cell Biology","Biologia Celular"],["La célula eucariota y sus orgánulos","The eukaryotic cell and its organelles","A célula eucariota e os seus organelos"],["Economía","Economics","Economia"],["Elasticidad precio de la demanda","Price elasticity of demand","Elasticidade-preço da procura"],["Programación","Programming","Programação"],["Bucles y funciones en Python","Loops and functions in Python","Ciclos e funções em Python"],
+["Figuras y fórmulas","Figures and formulas","Figuras e fórmulas"],
+["Las imágenes y las ecuaciones del material. Marca cuáles usar, corrige el pie y comprueba el LaTeX: de aquí salen las figuras del material, del vídeo y de las diapositivas.","The images and equations of the material. Mark which ones to use, correct the caption and check the LaTeX: the figures of the material, the video and the slides come from here.","As imagens e as equações do material. Marque quais usar, corrija a legenda e verifique o LaTeX: daqui saem as figuras do material, do vídeo e dos diapositivos."],
+["Opcional: imágenes tuyas que quieras que use el material. Marca las importantes para que salgan en el vídeo.","Optional: images of yours that you want the material to use. Mark the important ones so that they appear in the video.","Opcional: imagens suas que queira que o material use. Marque as importantes para que apareçam no vídeo."],
+["Analizar con IA","Analyse with AI","Analisar com IA"],["Analizar con IA ({0})","Analyse with AI ({0})","Analisar com IA ({0})"],["Recortar de una página","Crop from a page","Recortar de uma página"],["Añadir imagen","Add image","Adicionar imagem"],["Verificar fórmulas","Check formulas","Verificar fórmulas"],["Verificando…","Checking…","A verificar…"],["Todas","All","Todas"],["En uso","In use","Em uso"],["Descartadas","Discarded","Descartadas"],
+["En un PDF, las figuras vectoriales y casi todas las fórmulas no son imágenes: márcalas con <b>Recortar de una página</b>. También puedes pegar una captura con Ctrl+V. Al analizarlas, las imágenes viajan a OpenAI tal cual, sin anonimizar: descarta antes las que tengan datos personales.","In a PDF, vector figures and almost all formulas are not images: mark them with <b>Crop from a page</b>. You can also paste a screenshot with Ctrl+V. When they are analysed, images are sent to OpenAI as they are, without anonymisation: discard first any that contain personal data.","Num PDF, as figuras vetoriais e quase todas as fórmulas não são imagens: marque-as com <b>Recortar de uma página</b>. Também pode colar uma captura com Ctrl+V. Ao serem analisadas, as imagens viajam para a OpenAI tal como estão, sem anonimização: descarte antes as que tenham dados pessoais."],
+["Al cargar un PDF, un Word, un PowerPoint o un cuaderno aparecerán aquí sus imágenes y sus ecuaciones.","When you load a PDF, a Word file, a PowerPoint or a notebook, its images and equations will appear here.","Ao carregar um PDF, um Word, um PowerPoint ou um caderno, as suas imagens e equações aparecerão aqui."],
+["Opcional: añade las imágenes que quieras que use el material y el vídeo.","Optional: add the images you want the material and the video to use.","Opcional: adicione as imagens que quer que o material e o vídeo usem."],
+["Nada con este filtro.","Nothing with this filter.","Nada com este filtro."],
+["{0} figura y {1} fórmula en uso","{0} figure and {1} formula in use","{0} figura e {1} fórmula em uso"],["{0} figuras y {1} fórmula en uso","{0} figures and {1} formula in use","{0} figuras e {1} fórmula em uso"],["{0} figura y {1} fórmulas en uso","{0} figure and {1} formulas in use","{0} figura e {1} fórmulas em uso"],["{0} figuras y {1} fórmulas en uso","{0} figures and {1} formulas in use","{0} figuras e {1} fórmulas em uso"],
+["{0} descartada","{0} discarded","{0} descartada"],["{0} descartadas","{0} discarded","{0} descartadas"],["analizando…","analysing…","a analisar…"],
+["Disponible con un PDF o con imágenes en la galería","Available with a PDF or with images in the gallery","Disponível com um PDF ou com imagens na galeria"],
+["Sin analizar","Not analysed","Por analisar"],["Analizando…","Analysing…","A analisar…"],["Ecuación del original","Equation from the original","Equação do original"],["En LaTeX","In LaTeX","Em LaTeX"],["Descrita","Described","Descrita"],["Error","Error","Erro"],["Descartada automáticamente","Discarded automatically","Descartada automaticamente"],["Coincide con el recorte","Matches the crop","Coincide com o recorte"],["No coincide","Does not match","Não coincide"],
+["Recorte original de {0}","Original crop of {0}","Recorte original de {0}"],["Sin LaTeX todavía","No LaTeX yet","Ainda sem LaTeX"],["Tipo de {0}","Type of {0}","Tipo de {0}"],["Figura","Figure","Figura"],["Fórmula","Formula","Fórmula"],["Usar","Use","Usar"],
+["Importante: tiene que salir en el vídeo","Important: it must appear in the video","Importante: tem de aparecer no vídeo"],["Recortar dentro de esta imagen","Crop inside this image","Recortar dentro desta imagem"],["Pasar a LaTeX con IA","Convert to LaTeX with AI","Passar para LaTeX com IA"],["Describir con IA","Describe with AI","Descrever com IA"],["Quitar de la galería","Remove from the gallery","Retirar da galeria"],
+["LaTeX","LaTeX","LaTeX"],["Cómo se lee en voz alta","How it is read aloud","Como se lê em voz alta"],["a partido por b","a over b","a a dividir por b"],["Pie de figura","Figure caption","Legenda da figura"],["Qué es, en una línea","What it is, in one line","O que é, numa linha"],["Texto alternativo","Alternative text","Texto alternativo"],["(accesibilidad)","(accessibility)","(acessibilidade)"],["Qué muestra y qué se ve en ella","What it shows and what can be seen in it","O que mostra e o que se vê nela"],["Fuente o licencia","Source or licence","Fonte ou licença"],["(sale en la diapositiva)","(shown on the slide)","(aparece no diapositivo)"],["Elaboración propia · CC BY 4.0 · Autor (año)","Own work · CC BY 4.0 · Author (year)","Elaboração própria · CC BY 4.0 · Autor (ano)"],
+["El revisor ve diferencias con el recorte.","The reviewer sees differences with the crop.","O revisor vê diferenças em relação ao recorte."],["Usar el LaTeX propuesto","Use the proposed LaTeX","Usar o LaTeX proposto"],
+["Ejemplo","Example","Exemplo"],["Ejemplo · ecuación","Example · equation","Exemplo · equação"],["Imagen añadida","Added image","Imagem adicionada"],["Word","Word","Word"],["Word · ecuación","Word · equation","Word · equação"],["Ecuaciones de Word","Word equations","Equações do Word"],["Imágenes de la página","Images on the page","Imagens da página"],["PDF · página {0}","PDF · page {0}","PDF · página {0}"],["página {0}","page {0}","página {0}"],["PDF · recorte de la página {0}","PDF · crop of page {0}","PDF · recorte da página {0}"],["recorte de la página {0}","crop of page {0}","recorte da página {0}"],["Recorte de {0}","Crop of {0}","Recorte de {0}"],["Cuaderno · salida de la celda {0}","Notebook · output of cell {0}","Caderno · saída da célula {0}"],["salida de la celda {0}","output of cell {0}","saída da célula {0}"],["Cuaderno","Notebook","Caderno"],
+["Aparece {0} veces: probablemente un logotipo o un adorno.","It appears {0} times: probably a logo or a decoration.","Aparece {0} vezes: provavelmente um logótipo ou um adorno."],["Muy pequeña: probablemente un icono o un adorno.","Very small: probably an icon or a decoration.","Muito pequena: provavelmente um ícone ou um adorno."],["La IA la ha tomado por un logotipo o un adorno. Marca «Usar» si la quieres.","The AI took it for a logo or a decoration. Tick “Use” if you want it.","A IA tomou-a por um logótipo ou um adorno. Marque «Usar» se a quiser."],
+["Confianza {0}: {1}. Compara el LaTeX con el recorte.","{0} confidence: {1}. Compare the LaTeX with the crop.","Confiança {0}: {1}. Compare o LaTeX com o recorte."],["Confianza {0}. Compara el LaTeX con el recorte.","{0} confidence. Compare the LaTeX with the crop.","Confiança {0}. Compare o LaTeX com o recorte."],["media","medium","média"],["baja","low","baixa"],["alta","high","alta"],
+["El LaTeX no compila: {0}","The LaTeX does not compile: {0}","O LaTeX não compila: {0}"],["LaTeX corregido con la propuesta del revisor.","LaTeX corrected with the reviewer's proposal.","LaTeX corrigido com a proposta do revisor."],["No se pudo verificar: {0}","Could not verify: {0}","Não foi possível verificar: {0}"],["La IA no ha devuelto LaTeX.","The AI did not return LaTeX.","A IA não devolveu LaTeX."],["LaTeX no válido","Invalid LaTeX","LaTeX inválido"],
+["{0} imagen(es) en EMF o WMF no se pueden mostrar en el navegador: guarda el documento como PDF y recórtalas desde ahí.","{0} image(s) in EMF or WMF cannot be shown in the browser: save the document as PDF and crop them from there.","{0} imagem(ns) em EMF ou WMF não podem ser mostradas no navegador: guarde o documento como PDF e recorte-as a partir daí."],
+["{0} imagen(es) en EMF, WMF o SVG no se pueden mostrar en el navegador: exporta las diapositivas a PDF y recórtalas desde ahí.","{0} image(s) in EMF, WMF or SVG cannot be shown in the browser: export the slides to PDF and crop them from there.","{0} imagem(ns) em EMF, WMF ou SVG não podem ser mostradas no navegador: exporte os diapositivos para PDF e recorte-as a partir daí."],
+["Leyendo…","Reading…","A ler…"],["Leyendo el PDF: página {0} de {1}.","Reading the PDF: page {0} of {1}.","A ler o PDF: página {0} de {1}."],
+["{0} palabras leídas","{0} words read","{0} palavras lidas"],["{0} palabras leídas.","{0} words read.","{0} palavras lidas."],
+["{0} figura y {1} fórmula.","{0} figure and {1} formula.","{0} figura e {1} fórmula."],["{0} figuras y {1} fórmula.","{0} figures and {1} formula.","{0} figuras e {1} fórmula."],["{0} figura y {1} fórmulas.","{0} figure and {1} formulas.","{0} figura e {1} fórmulas."],["{0} figuras y {1} fórmulas.","{0} figures and {1} formulas.","{0} figuras e {1} fórmulas."],
+["Texto pegado","Pasted text","Texto colado"],["{0} palabras.","{0} words.","{0} palavras."],
+["Apunte de ejemplo","Example notes","Apontamentos de exemplo"],["{0} palabras, una fórmula y una figura. Tiene buen contenido pero poca didáctica: sin objetivos, sin comprobaciones, sin ejercicios.","{0} words, one formula and one figure. Good content but little teaching design: no objectives, no checks, no exercises.","{0} palavras, uma fórmula e uma figura. Tem bom conteúdo mas pouca didática: sem objetivos, sem verificações, sem exercícios."],
+["Casi no hay texto. Si es un PDF escaneado, necesita un OCR antes.","There is hardly any text. If it is a scanned PDF, it needs OCR first.","Quase não há texto. Se for um PDF digitalizado, precisa antes de OCR."],
+["Material cargado. Pulsa «Siguiente» para diagnosticarlo.","Material loaded. Press “Next” to diagnose it.","Material carregado. Prima «Seguinte» para o diagnosticar."],
+["Pega un texto algo más largo (al menos un par de párrafos)","Paste a somewhat longer text (at least a couple of paragraphs)","Cole um texto um pouco mais longo (pelo menos um par de parágrafos)"],
+["Escribe el tema de la clase","Write the topic of the class","Escreva o tema da aula"],["Escribe el tema","Write the topic","Escreva o tema"],["Carga o pega antes el material","Load or paste the material first","Carregue ou cole antes o material"],["Pega antes tu clave","Paste your key first","Cole antes a sua chave"],["Pega antes tu clave de OpenAI","Paste your OpenAI key first","Cole antes a sua chave da OpenAI"],["Pega antes tu clave de OpenAI en «Ajustes»","Paste your OpenAI key in “Settings” first","Cole antes a sua chave da OpenAI em «Definições»"],
+["Hay {0} figuras o fórmulas sin analizar: pega tu clave y pulsa «Analizar con IA»","There are {0} figures or formulas not yet analysed: paste your key and press “Analyse with AI”","Há {0} figuras ou fórmulas por analisar: cole a sua chave e prima «Analisar com IA»"],
+["Hay {0} figura(s) o fórmula(s) sin analizar. ¿Las analizo ahora con IA?\n\nLas imágenes se envían a OpenAI tal cual. Mientras tanto, puedes seguir.","There are {0} figure(s) or formula(s) not yet analysed. Shall I analyse them now with AI?\n\nImages are sent to OpenAI as they are. Meanwhile, you can carry on.","Há {0} figura(s) ou fórmula(s) por analisar. Analiso-as agora com IA?\n\nAs imagens são enviadas para a OpenAI tal como estão. Entretanto, pode continuar."],
+["Al crear desde cero no hay material que diagnosticar: pasamos al material","When creating from scratch there is no material to diagnose: let's go to the material","Ao criar de raiz não há material para diagnosticar: passamos ao material"],
+["{0} es ahora {1}: vuelve a generar el material para que lo use.","{0} is now {1}: generate the material again so that it uses it.","{0} é agora {1}: volte a gerar o material para que o use."],
+["{0} imagen(es) añadida(s)","{0} image(s) added","{0} imagem(ns) adicionada(s)"],["{0} imagen(es) añadida(s): la IA las está describiendo","{0} image(s) added: the AI is describing them","{0} imagem(ns) adicionada(s): a IA está a descrevê-las"],
+["{0} guardada: la IA la está pasando a LaTeX","{0} saved: the AI is converting it to LaTeX","{0} guardada: a IA está a passá-la para LaTeX"],["{0} guardada: la IA la está describiendo","{0} saved: the AI is describing it","{0} guardada: a IA está a descrevê-la"],["{0} guardada. Pega tu clave para que la IA la analice","{0} saved. Paste your key so that the AI can analyse it","{0} guardada. Cole a sua chave para que a IA a analise"],
+["{0} fórmula(s) comparadas con su recorte","{0} formula(s) compared with their crop","{0} fórmula(s) comparadas com o seu recorte"],["No hay fórmulas nuevas que comparar","There are no new formulas to compare","Não há fórmulas novas para comparar"],
+["Esperando a que terminen de analizarse las figuras y las fórmulas…","Waiting for the figures and formulas to finish being analysed…","À espera de que terminem de ser analisadas as figuras e as fórmulas…"],
+["No se pudo leer una imagen","Could not read an image","Não foi possível ler uma imagem"],["No se pudo leer el fichero","Could not read the file","Não foi possível ler o ficheiro"],["El PowerPoint no tiene diapositivas.","The PowerPoint has no slides.","O PowerPoint não tem diapositivos."],["No se pudo cargar una librería. ¿Hay conexión?","Could not load a library. Is there a connection?","Não foi possível carregar uma biblioteca. Há ligação?"],
+["El modelo «{0}» no admite imágenes: elige uno con visión en «Ajustes».","The model “{0}” does not accept images: choose one with vision in “Settings”.","O modelo «{0}» não aceita imagens: escolha um com visão em «Definições»."],
+// recorte
+["Recortar una figura o una fórmula","Crop a figure or a formula","Recortar uma figura ou uma fórmula"],["Página para recortar","Page to crop","Página para recortar"],["Guardar como figura","Save as figure","Guardar como figura"],["Guardar como fórmula","Save as formula","Guardar como fórmula"],
+["Una fórmula se envía a OpenAI para pasarla a LaTeX. El texto que quede dentro del recorte deja de leerse como texto.","A formula is sent to OpenAI to convert it to LaTeX. Any text inside the crop is no longer read as text.","Uma fórmula é enviada para a OpenAI para ser passada para LaTeX. O texto que fique dentro do recorte deixa de ser lido como texto."],
+["Preparando la página…","Preparing the page…","A preparar a página…"],["Arrastra para marcar un rectángulo alrededor de la figura o de la fórmula.","Drag to draw a rectangle around the figure or the formula.","Arraste para marcar um retângulo em torno da figura ou da fórmula."],["No se pudo mostrar: {0}","Could not show it: {0}","Não foi possível mostrar: {0}"],["Página {0} de {1}","Page {0} of {1}","Página {0} de {1}"],["Figura {0}","Figure {0}","Figura {0}"],["Fórmula {0}","Formula {0}","Fórmula {0}"],["Carga antes un PDF o añade una imagen","Load a PDF or add an image first","Carregue antes um PDF ou adicione uma imagem"],
+// ── diagnóstico ──
+["Cómo está ahora","How it stands now","Como está agora"],["Ocho dimensiones de calidad docente, de cero a diez. La nota mide cuánto ayuda a aprender sin nadie al lado, no cuánto sabe quien lo escribió.","Eight dimensions of teaching quality, from zero to ten. The score measures how much it helps someone learn on their own, not how much the author knows.","Oito dimensões de qualidade docente, de zero a dez. A nota mede quanto ajuda a aprender sem ninguém ao lado, não quanto sabe quem o escreveu."],
+["Evaluar el material","Assess the material","Avaliar o material"],["Evaluando…","Assessing…","A avaliar…"],["Volver a evaluar","Assess again","Voltar a avaliar"],["Carga antes el material","Load the material first","Carregue antes o material"],
+["Media {0} sobre 10. Pulsa «Siguiente» para reescribirlo.","Mean {0} out of 10. Press “Next” to rewrite it.","Média {0} em 10. Prima «Seguinte» para o reescrever."],["No se pudo evaluar. {0}","Could not assess it. {0}","Não foi possível avaliar. {0}"],
+["Dimensión","Dimension","Dimensão"],["Nota","Score","Nota"],["Antes","Before","Antes"],["Después","After","Depois"],["Cambio","Change","Variação"],["Qué dice","What it says","O que diz"],["Media","Mean","Média"],["Lo que ya funciona","What already works","O que já funciona"],["Lo que falta","What is missing","O que falta"],["Lo primero:","First of all:","Primeiro:"],
+["Objetivos observables","Observable objectives","Objetivos observáveis"],["Requisitos previos declarados","Stated prerequisites","Pré-requisitos declarados"],["Estructura y progresión","Structure and progression","Estrutura e progressão"],["Entrada y salida de cada bloque","Entry and exit of each block","Entrada e saída de cada bloco"],["Comprobaciones de comprensión","Comprehension checks","Verificações de compreensão"],["Ejemplos concretos","Concrete examples","Exemplos concretos"],["Claridad del lenguaje","Clarity of language","Clareza da linguagem"],["Resumen, glosario, errores y ejercicios","Summary, glossary, mistakes and exercises","Resumo, glossário, erros e exercícios"],
+// ── material ──
+["El material","The material","O material"],["El material creado","The created material","O material criado"],["El material reescrito","The rewritten material","O material reescrito"],
+["Léelo y corrígelo: de aquí salen el vídeo, las diapositivas, las preguntas y el plan de clase.","Read and correct it: the video, slides, questions and lesson plan come from here.","Leia-o e corrija-o: daqui saem o vídeo, os diapositivos, as perguntas e o plano de aula."],
+["Escrito desde cero y revisado por un revisor disciplinar. Léelo y corrígelo: todo lo demás sale de aquí.","Written from scratch and checked by a subject reviewer. Read and correct it: everything else comes from here.","Escrito de raiz e revisto por um revisor disciplinar. Leia-o e corrija-o: tudo o resto sai daqui."],
+["Reescrito sin inventar contenido y comparado con el original. Léelo y corrígelo: todo lo demás sale de aquí.","Rewritten without inventing content and compared with the original. Read and correct it: everything else comes from here.","Reescrito sem inventar conteúdo e comparado com o original. Leia-o e corrija-o: tudo o resto sai daqui."],
+["Usarlo tal cual","Use it as it is","Usá-lo tal como está"],["Escribiendo…","Writing…","A escrever…"],["Volver a crear","Create again","Voltar a criar"],["Volver a reescribir","Rewrite again","Voltar a reescrever"],["No hay material de partida","There is no starting material","Não há material de partida"],["No se pudo reescribir: {0}","Could not rewrite it: {0}","Não foi possível reescrever: {0}"],["No se pudo crear: {0}","Could not create it: {0}","Não foi possível criar: {0}"],
+["Vista","View","Vista"],["Editar el texto","Edit the text","Editar o texto"],["Aún no hay material.","There is no material yet.","Ainda não há material."],["Cuaderno .ipynb","Notebook .ipynb","Caderno .ipynb"],["Markdown","Markdown","Markdown"],
+["Revisión","Review","Revisão"],["Aparecerá al generar el material","It will appear when the material is generated","Aparecerá ao gerar o material"],["Calidad docente","Teaching quality","Qualidade docente"],["Antes {0} → ahora {1}","Before {0} → now {1}","Antes {0} → agora {1}"],["Media de la rúbrica sobre 10","Rubric mean out of 10","Média da rubrica em 10"],["Sin evaluar","Not assessed","Por avaliar"],["Estructura","Structure","Estrutura"],
+["Requisitos previos","Prerequisites","Pré-requisitos"],["Resumen final","Final summary","Resumo final"],["Glosario","Glossary","Glossário"],["Errores frecuentes","Common mistakes","Erros frequentes"],["Ejercicios propuestos","Proposed exercises","Exercícios propostos"],["Comprobaciones con respuesta plegada ({0})","Checks with a folded answer ({0})","Verificações com resposta recolhida ({0})"],
+["Revisor disciplinar trabajando…","Subject reviewer at work…","Revisor disciplinar a trabalhar…"],["Revisor de fidelidad trabajando…","Fidelity reviewer at work…","Revisor de fidelidade a trabalhar…"],["Revisor disciplinar","Subject reviewer","Revisor disciplinar"],["Revisor de fidelidad","Fidelity reviewer","Revisor de fidelidade"],["Añadido","Added","Acrescentado"],["Aplicar la corrección","Apply the correction","Aplicar a correção"],["✓ Aplicada","✓ Applied","✓ Aplicada"],
+["No ha encontrado errores de contenido.","No content errors found.","Não encontrou erros de conteúdo."],["No ha encontrado contenido inventado.","No invented content found.","Não encontrou conteúdo inventado."],["Se ha perdido del original","Lost from the original","Perdeu-se do original"],["Revisar de nuevo tras editar","Review again after editing","Rever de novo após editar"],["Los revisores reducen errores, no los eliminan.","Reviewers reduce errors; they do not eliminate them.","Os revisores reduzem erros, não os eliminam."],
+["Todas las figuras y fórmulas en uso están en el material.","All figures and formulas in use are in the material.","Todas as figuras e fórmulas em uso estão no material."],["Todas las figuras y fórmulas en uso están en el material; {0} fórmula(s) coinciden con su recorte.","All figures and formulas in use are in the material; {0} formula(s) match their crop.","Todas as figuras e fórmulas em uso estão no material; {0} fórmula(s) coincidem com o seu recorte."],
+["Falta","Missing","Falta"],["(importante)","(important)","(importante)"],["No aparece en el material. Vuelve a generarlo o añádela en «Editar el texto» con","It does not appear in the material. Generate it again or add it in “Edit the text” with","Não aparece no material. Volte a gerá-lo ou adicione-a em «Editar o texto» com"],["{0}: el LaTeX no coincide con el recorte.","{0}: the LaTeX does not match the crop.","{0}: o LaTeX não coincide com o recorte."],["{0} fórmula(s) sin comparar con su recorte.","{0} formula(s) not yet compared with their crop.","{0} fórmula(s) por comparar com o seu recorte."],
+["Comparando con el original y evaluando…","Comparing with the original and assessing…","A comparar com o original e a avaliar…"],["Revisando el contenido y evaluando…","Reviewing the content and assessing…","A rever o conteúdo e a avaliar…"],["El revisor no respondió: {0}","The reviewer did not respond: {0}","O revisor não respondeu: {0}"],
+["Qué ha cambiado","What has changed","O que mudou"],["Cómo ha quedado","How it turned out","Como ficou"],["La misma rúbrica sobre el material nuevo. Si una dimensión no ha subido, conviene mirarla a mano.","The same rubric on the new material. If a dimension has not gone up, it is worth checking it by hand.","A mesma rubrica sobre o material novo. Se uma dimensão não subiu, convém vê-la à mão."],["La rúbrica de calidad docente sobre el material creado.","The teaching quality rubric on the created material.","A rubrica de qualidade docente sobre o material criado."],
+["Material listo y revisado","Material ready and reviewed","Material pronto e revisto"],["No encuentro ese texto literal; corrígelo a mano en «Editar el texto»","I cannot find that literal text; correct it by hand in “Edit the text”","Não encontro esse texto literal; corrija-o à mão em «Editar o texto»"],["Corrección aplicada","Correction applied","Correção aplicada"],["LaTeX corregido en la galería y en el material","LaTeX corrected in the gallery and in the material","LaTeX corrigido na galeria e no material"],
+["Todavía no hay material","There is no material yet","Ainda não há material"],["Markdown con sus figuras en un .zip","Markdown with its figures in a .zip","Markdown com as suas figuras num .zip"],["Falta la figura {0}.","Figure {0} is missing.","Falta a figura {0}."],["Fuente: {0}","Source: {0}","Fonte: {0}"],["Fuente: {0}.","Source: {0}.","Fonte: {0}."],["Figura {0}.","Figure {0}.","Figura {0}."],["Fórmula en LaTeX: {0}","Formula in LaTeX: {0}","Fórmula em LaTeX: {0}"],["Se lee: {0}","Read aloud as: {0}","Lê-se: {0}"],["Preguntas","Questions","Perguntas"],["Soluciones","Solutions","Soluções"],
+// ── productos ──
+["Todos salen del material revisado. Genera los que necesites, en cualquier orden.","They all come from the reviewed material. Generate the ones you need, in any order.","Todos saem do material revisto. Gere os que precisar, por qualquer ordem."],
+["Vídeo y diapositivas","Video and slides","Vídeo e diapositivos"],["El guion","The script","O guião"],["Diapositivas:","Slides:","Diapositivos:"],["palabras","words","palavras"],["Unos 22 segundos por diapositiva.","About 22 seconds per slide.","Cerca de 22 segundos por diapositivo."],["Pie de las diapositivas","Slide footer","Rodapé dos diapositivos"],["Bioestadística · Universidad…","Biostatistics · University…","Bioestatística · Universidade…"],["Color institucional","Institutional colour","Cor institucional"],
+["Texto leído bajo la diapositiva","Spoken text under the slide","Texto lido sob o diapositivo"],["Sí, escrito en el vídeo","Yes, written in the video","Sim, escrito no vídeo"],["No, solo en el fichero .srt","No, only in the .srt file","Não, só no ficheiro .srt"],["Escribir el guion","Write the script","Escrever o guião"],["Volver a escribir el guion","Write the script again","Voltar a escrever o guião"],
+["{0} diapositivas dibujadas","{0} slides drawn","{0} diapositivos desenhados"],["{0} diapositivas previstas","{0} slides planned","{0} diapositivos previstos"],["duración real {0}","actual length {0}","duração real {0}"],["duración estimada {0}","estimated length {0}","duração estimada {0}"],["Diapositiva {0}","Slide {0}","Diapositivo {0}"],
+["Escena a escena","Scene by scene","Cena a cena"],["JSON completo","Full JSON","JSON completo"],["Aplicar el JSON","Apply the JSON","Aplicar o JSON"],["Descartar mis cambios","Discard my changes","Descartar as minhas alterações"],["Redibujar las diapositivas","Redraw the slides","Redesenhar os diapositivos"],["PowerPoint editable (.pptx)","Editable PowerPoint (.pptx)","PowerPoint editável (.pptx)"],["LaTeX Beamer (.zip)","LaTeX Beamer (.zip)","LaTeX Beamer (.zip)"],["Guion (.json)","Script (.json)","Guião (.json)"],
+["Título de la diapositiva","Slide title","Título do diapositivo"],["Subtítulo","Subtitle","Subtítulo"],["Puntos, uno por línea (máximo 4)","Bullet points, one per line (maximum 4)","Pontos, um por linha (máximo 4)"],["Plantilla","Template","Modelo"],["Figuras","Figures","Figuras"],["(F1, F2)","(F1, F2)","(F1, F2)"],["(E1 o LaTeX)","(E1 or LaTeX)","(E1 ou LaTeX)"],["Cómo se lee la fórmula en voz alta","How the formula is read aloud","Como se lê a fórmula em voz alta"],["Narración, que es lo que se oye y lo que se escribe debajo","Narration: what is heard and what is written underneath","Narração, que é o que se ouve e o que se escreve por baixo"],
+["Texto","Text","Texto"],["Texto y figura","Text and figure","Texto e figura"],["Figura grande","Large figure","Figura grande"],["Dos figuras","Two figures","Duas figuras"],["Fórmula destacada","Highlighted formula","Fórmula em destaque"],
+["{0} palabras · unos {1} s","{0} words · about {1} s","{0} palavras · cerca de {1} s"],["Revisa antes de locutar","Check before narrating","Reveja antes de narrar"],
+["Escena {0}: «{1}» no es una figura en uso; se ha quitado.","Scene {0}: “{1}” is not a figure in use; it has been removed.","Cena {0}: «{1}» não é uma figura em uso; foi retirada."],["Escena {0}: «{1}» no es una fórmula en uso; se ha quitado.","Scene {0}: “{1}” is not a formula in use; it has been removed.","Cena {0}: «{1}» não é uma fórmula em uso; foi retirada."],
+["{0} está marcada como importante y no sale en ninguna diapositiva.","{0} is marked as important and does not appear on any slide.","{0} está marcada como importante e não aparece em nenhum diapositivo."],["Escena {0}: la narración tiene LaTeX o símbolos que la voz leería mal. Escríbelos con palabras.","Scene {0}: the narration contains LaTeX or symbols that the voice would read badly. Write them in words.","Cena {0}: a narração tem LaTeX ou símbolos que a voz leria mal. Escreva-os por palavras."],["Escena {0}: la narración nombra «{1}» y la voz lo leería tal cual.","Scene {0}: the narration mentions “{1}” and the voice would read it literally.","Cena {0}: a narração refere «{1}» e a voz lê-lo-ia tal como está."],
+["Primero prepara el material","Prepare the material first","Prepare primeiro o material"],["Escribe antes el guion","Write the script first","Escreva antes o guião"],["No se pudo escribir el guion. {0}","Could not write the script. {0}","Não foi possível escrever o guião. {0}"],["El guion no trae escenas.","The script has no scenes.","O guião não traz cenas."],["No se pudieron preparar las figuras: {0}","Could not prepare the figures: {0}","Não foi possível preparar as figuras: {0}"],
+["El JSON no se pudo aplicar. {0}","The JSON could not be applied. {0}","Não foi possível aplicar o JSON. {0}"],["Falta la lista \"escenas\" o está vacía.","The \"escenas\" list is missing or empty.","Falta a lista \"escenas\" ou está vazia."],["La escena {0} no tiene \"titulo\" de texto.","Scene {0} has no text \"titulo\".","A cena {0} não tem \"titulo\" de texto."],["La escena {0} no tiene \"narracion\" de texto.","Scene {0} has no text \"narracion\".","A cena {0} não tem \"narracion\" de texto."],["Los \"puntos\" de la escena {0} deben ser una lista.","The \"puntos\" of scene {0} must be a list.","Os \"puntos\" da cena {0} devem ser uma lista."],["Aplicado: {0} escenas redibujadas.","Applied: {0} scenes redrawn.","Aplicado: {0} cenas redesenhadas."],
+["La voz y el montaje","Voice and editing","A voz e a montagem"],["Una llamada de voz por escena. El montaje se graba en tiempo real: un vídeo de tres minutos tarda tres minutos y la pestaña debe quedarse delante.","One voice call per scene. The video is recorded in real time: a three-minute video takes three minutes and the tab must stay in front.","Uma chamada de voz por cena. A montagem é gravada em tempo real: um vídeo de três minutos demora três minutos e o separador deve ficar à frente."],
+["El vídeo sale en WebM, que es lo que un navegador puede grabar sin servidor. Se ve en cualquier navegador y en Moodle. Si lo necesitas en MP4, descarga el zip y móntalo con ffmpeg.","The video comes out as WebM, which is what a browser can record without a server. It plays in any browser and in Moodle. If you need it as MP4, download the zip and assemble it with ffmpeg.","O vídeo sai em WebM, que é o que um navegador consegue gravar sem servidor. Vê-se em qualquer navegador e no Moodle. Se precisar dele em MP4, descarregue o zip e monte-o com o ffmpeg."],
+["Este navegador no sabe grabar vídeo. Usa Chrome, Edge o Firefox, o genera la voz igualmente y descarga el zip para montarlo por tu cuenta.","This browser cannot record video. Use Chrome, Edge or Firefox, or generate the voice anyway and download the zip to assemble it yourself.","Este navegador não consegue gravar vídeo. Use o Chrome, o Edge ou o Firefox, ou gere a voz na mesma e descarregue o zip para o montar por sua conta."],
+["Locutar las escenas","Narrate the scenes","Narrar as cenas"],["Locutando…","Narrating…","A narrar…"],["Volver a locutar","Narrate again","Voltar a narrar"],["Montar el vídeo","Assemble the video","Montar o vídeo"],["Grabando…","Recording…","A gravar…"],["Grabando… {0}%","Recording… {0}%","A gravar… {0}%"],["Volver a montar","Assemble again","Voltar a montar"],["Vídeo","Video","Vídeo"],["Subtítulos .srt","Subtitles .srt","Legendas .srt"],
+["Escena {0} de {1}: {2}","Scene {0} of {1}: {2}","Cena {0} de {1}: {2}"],["Duración total: {0}","Total length: {0}","Duração total: {0}"],["Vídeo montado: {0} MB","Video assembled: {0} MB","Vídeo montado: {0} MB"],["Sin grabador de vídeo en este navegador.","No video recorder in this browser.","Sem gravador de vídeo neste navegador."],["ERROR","ERROR","ERRO"],["Voz: {0}","Voice: {0}","Voz: {0}"],
+["PowerPoint descargado: la narración va en las notas del orador","PowerPoint downloaded: the narration is in the speaker notes","PowerPoint descarregado: a narração vai nas notas do orador"],["Beamer descargado: presentacion.tex con sus figuras","Beamer downloaded: presentacion.tex with its figures","Beamer descarregado: presentacion.tex com as suas figuras"],
+// preguntas
+["Qué preguntas","Which questions","Que perguntas"],["Número","Number","Número"],["Tipos","Types","Tipos"],["Mixto","Mixed","Misto"],["Solo opción múltiple","Multiple choice only","Só escolha múltipla"],["Solo verdadero o falso","True or false only","Só verdadeiro ou falso"],["Exigencia","Difficulty","Exigência"],["Equilibrada (recordar, aplicar, analizar)","Balanced (remember, apply, analyse)","Equilibrada (recordar, aplicar, analisar)"],["Básica (comprobar lectura)","Basic (check reading)","Básica (verificar a leitura)"],["Alta (aplicar y analizar)","High (apply and analyse)","Alta (aplicar e analisar)"],
+["Generar y revisar las preguntas","Generate and review the questions","Gerar e rever as perguntas"],["Escribiendo las preguntas…","Writing the questions…","A escrever as perguntas…"],["Un revisor comprueba cada pregunta contra el material…","A reviewer checks each question against the material…","Um revisor verifica cada pergunta face ao material…"],["El revisor de preguntas no respondió; revísalas a mano","The question reviewer did not respond; review them by hand","O revisor de perguntas não respondeu; reveja-as à mão"],["No se pudo: {0}","It could not be done: {0}","Não foi possível: {0}"],["Prepara antes el material","Prepare the material first","Prepare antes o material"],
+["{0} preguntas útiles","{0} usable questions","{0} perguntas úteis"],["{0} correctas a la primera","{0} correct at first","{0} corretas à primeira"],["{0} corregidas por el revisor","{0} corrected by the reviewer","{0} corrigidas pelo revisor"],["{0} para revisar a mano","{0} to review by hand","{0} para rever à mão"],
+["Opción múltiple","Multiple choice","Escolha múltipla"],["Verdadero o falso","True or false","Verdadeiro ou falso"],["Respuesta corta","Short answer","Resposta curta"],["Revisada","Reviewed","Revista"],["Corregida por el revisor","Corrected by the reviewer","Corrigida pelo revisor"],["Revísala","Review it","Reveja-a"],["Descartada","Discarded","Descartada"],["Verdadero","True","Verdadeiro"],["Falso","False","Falso"],["Respuestas aceptadas:","Accepted answers:","Respostas aceites:"],
+["recordar","remember","recordar"],["aplicar","apply","aplicar"],["analizar","analyse","analisar"],
+["Sin enunciado","No question stem","Sem enunciado"],["Menos de tres opciones","Fewer than three options","Menos de três opções"],["Opciones repetidas","Repeated options","Opções repetidas"],["La respuesta correcta no apunta a ninguna opción","The correct answer does not point to any option","A resposta correta não aponta para nenhuma opção"],["Usa «todas/ninguna de las anteriores»","Uses “all/none of the above”","Usa «todas/nenhuma das anteriores»"],["Falta si es verdadero o falso","It does not say whether it is true or false","Falta indicar se é verdadeiro ou falso"],["Faltan las respuestas aceptadas","The accepted answers are missing","Faltam as respostas aceites"],["Tipo desconocido","Unknown type","Tipo desconhecido"],["Sin retroalimentación","No feedback","Sem feedback"],
+["Moodle (GIFT)","Moodle (GIFT)","Moodle (GIFT)"],["Para imprimir (.md)","For printing (.md)","Para imprimir (.md)"],["JSON","JSON","JSON"],
+["Exportado a GIFT: en Moodle, Banco de preguntas → Importar → formato GIFT","Exported to GIFT: in Moodle, Question bank → Import → GIFT format","Exportado para GIFT: no Moodle, Banco de perguntas → Importar → formato GIFT"],["Exportado a GIFT. {0} pregunta(s) con problemas no se han incluido.","Exported to GIFT. {0} question(s) with problems have not been included.","Exportado para GIFT. {0} pergunta(s) com problemas não foram incluídas."],
+// plan
+["La sesión","The session","A sessão"],["Duración","Length","Duração"],["{0} minutos","{0} minutes","{0} minutos"],["Modalidad","Mode","Modalidade"],["Presencial","Face-to-face","Presencial"],["En línea síncrona","Synchronous online","Em linha síncrona"],["Clase invertida (el vídeo antes, la práctica en clase)","Flipped classroom (the video before, practice in class)","Aula invertida (o vídeo antes, a prática na aula)"],["Híbrida","Hybrid","Híbrida"],["Tamaño del grupo","Group size","Dimensão do grupo"],["Menos de 25","Fewer than 25","Menos de 25"],["25 a 60","25 to 60","25 a 60"],["Más de 60","More than 60","Mais de 60"],["Escribir el plan de clase","Write the lesson plan","Escrever o plano de aula"],
+// paquete
+["Descargar el paquete (.zip)","Download the package (.zip)","Descarregar o pacote (.zip)"],["Todo en un paquete","Everything in one package","Tudo num pacote"],
+["Material en Word y Markdown, figuras y fórmulas, informe de revisión, guion, diapositivas en PNG, PowerPoint y LaTeX Beamer, audios, subtítulos, banco de preguntas para Moodle y plan de clase. Incluye las órdenes de ffmpeg para montar un MP4.","Material in Word and Markdown, figures and formulas, review report, script, slides in PNG, PowerPoint and LaTeX Beamer, audio, subtitles, Moodle question bank and lesson plan. It includes the ffmpeg commands to assemble an MP4.","Material em Word e Markdown, figuras e fórmulas, relatório de revisão, guião, diapositivos em PNG, PowerPoint e LaTeX Beamer, áudios, legendas, banco de perguntas para o Moodle e plano de aula. Inclui os comandos do ffmpeg para montar um MP4."],
+["Material (Word y Markdown)","Material (Word and Markdown)","Material (Word e Markdown)"],["Informe de revisión","Review report","Relatório de revisão"],["Figuras y fórmulas (imágenes y LaTeX)","Figures and formulas (images and LaTeX)","Figuras e fórmulas (imagens e LaTeX)"],["Guion, diapositivas PNG, PowerPoint y LaTeX Beamer","Script, PNG slides, PowerPoint and LaTeX Beamer","Guião, diapositivos PNG, PowerPoint e LaTeX Beamer"],["Audios y subtítulos","Audio and subtitles","Áudios e legendas"],["Banco de preguntas (GIFT para Moodle)","Question bank (GIFT for Moodle)","Banco de perguntas (GIFT para o Moodle)"],["Todavía no hay nada que empaquetar","There is nothing to package yet","Ainda não há nada para empacotar"],
+// ── ayuda ──
+["Rúbrica de calidad docente","Teaching quality rubric","Rubrica de qualidade docente"],["Ocho dimensiones de 0 a 10: objetivos, requisitos, estructura, entrada y salida de cada bloque, comprobaciones, ejemplos, lenguaje y cierre.","Eight dimensions from 0 to 10: objectives, prerequisites, structure, entry and exit of each block, checks, examples, language and closing.","Oito dimensões de 0 a 10: objetivos, pré-requisitos, estrutura, entrada e saída de cada bloco, verificações, exemplos, linguagem e encerramento."],
+["Compara el material reescrito con el original y señala lo añadido que no procede del original, lo que se ha perdido y los cambios de significado.","It compares the rewritten material with the original and flags what was added that does not come from the original, what has been lost and changes of meaning.","Compara o material reescrito com o original e assinala o que foi acrescentado e não procede do original, o que se perdeu e as mudanças de significado."],
+["En el material creado desde cero busca errores de contenido: definiciones, fórmulas, respuestas incorrectas o datos inventados.","In material created from scratch it looks for content errors: definitions, formulas, wrong answers or invented data.","No material criado de raiz procura erros de conteúdo: definições, fórmulas, respostas incorretas ou dados inventados."],
+["Variante lingüística","Language variant","Variante linguística"],["Cambia el vocabulario y el acento de la voz: español de España o latinoamericano, portugués de Brasil o de Portugal.","It changes the vocabulary and the accent of the voice: Spanish from Spain or Latin America, Portuguese from Brazil or Portugal.","Muda o vocabulário e o sotaque da voz: espanhol de Espanha ou latino-americano, português do Brasil ou de Portugal."],
+["GIFT","GIFT","GIFT"],["Formato de texto que Moodle importa directamente: Banco de preguntas → Importar → GIFT.","Text format that Moodle imports directly: Question bank → Import → GIFT.","Formato de texto que o Moodle importa diretamente: Banco de perguntas → Importar → GIFT."],
+["Revisor de preguntas","Question reviewer","Revisor de perguntas"],["Comprueba que la respuesta marcada sea correcta según el material y que no haya otra defendible. Corrige o descarta.","It checks that the marked answer is correct according to the material and that no other one is defensible. It corrects or discards.","Verifica que a resposta marcada é correta segundo o material e que não há outra defensável. Corrige ou descarta."],
+["PowerPoint editable","Editable PowerPoint","PowerPoint editável"],["Las diapositivas del vídeo como texto editable, con la narración en las notas del orador.","The slides of the video as editable text, with the narration in the speaker notes.","Os diapositivos do vídeo como texto editável, com a narração nas notas do orador."],
+["Clase invertida","Flipped classroom","Aula invertida"],["El estudiantado ve el vídeo antes; la sesión se dedica a practicar y resolver dudas.","Students watch the video beforehand; the session is devoted to practice and answering questions.","O estudantado vê o vídeo antes; a sessão dedica-se a praticar e a esclarecer dúvidas."],
+["Se extraen las imágenes del PDF, el Word, el PowerPoint o el cuaderno. Las ecuaciones de Word y PowerPoint pasan a LaTeX sin IA. Lo vectorial de un PDF se recorta sobre la página.","Images are extracted from the PDF, Word file, PowerPoint or notebook. Word and PowerPoint equations are converted to LaTeX without AI. Vector content in a PDF is cropped on the page.","As imagens são extraídas do PDF, do Word, do PowerPoint ou do caderno. As equações do Word e do PowerPoint passam para LaTeX sem IA. O conteúdo vetorial de um PDF recorta-se sobre a página."],
+["Recorte","Crop","Recorte"],["Marca un rectángulo sobre una página del PDF o sobre una imagen. El texto que queda dentro deja de leerse como texto, así una fórmula rota no confunde a la IA.","Draw a rectangle on a PDF page or on an image. The text inside is no longer read as text, so a broken formula does not confuse the AI.","Marque um retângulo sobre uma página do PDF ou sobre uma imagem. O texto que fica dentro deixa de ser lido como texto, para que uma fórmula partida não confunda a IA."],
+["Fórmula en LaTeX","Formula in LaTeX","Fórmula em LaTeX"],["La IA con visión transcribe cada recorte a LaTeX. Lo ves al lado del original y lo corriges; un revisor compara después el LaTeX compilado con el recorte.","The AI with vision transcribes each crop to LaTeX. You see it next to the original and correct it; a reviewer then compares the compiled LaTeX with the crop.","A IA com visão transcreve cada recorte para LaTeX. Vê-o ao lado do original e corrige-o; depois, um revisor compara o LaTeX compilado com o recorte."],
+["Lectura hablada","Spoken reading","Leitura falada"],["La voz no puede leer LaTeX: el guion dice cada fórmula con palabras, como en clase, y la diapositiva la muestra escrita.","The voice cannot read LaTeX: the script says each formula in words, as in class, and the slide shows it written.","A voz não consegue ler LaTeX: o guião diz cada fórmula por palavras, como na aula, e o diapositivo mostra-a escrita."],
+["Plantillas de diapositiva","Slide templates","Modelos de diapositivo"],["Texto, texto con figura, figura grande, dos figuras y fórmula destacada. El guion elige y tú puedes cambiarla en cada escena.","Text, text with figure, large figure, two figures and highlighted formula. The script chooses and you can change it in each scene.","Texto, texto com figura, figura grande, duas figuras e fórmula em destaque. O guião escolhe e pode mudá-lo em cada cena."],
+["LaTeX Beamer","LaTeX Beamer","LaTeX Beamer"],["Las diapositivas en un .tex con las fórmulas en LaTeX real y las figuras en una carpeta. Se compila con pdflatex o en Overleaf.","The slides in a .tex file with the formulas in real LaTeX and the figures in a folder. It compiles with pdflatex or in Overleaf.","Os diapositivos num .tex com as fórmulas em LaTeX real e as figuras numa pasta. Compila-se com pdflatex ou no Overleaf."],
+["Fuente y texto alternativo","Source and alternative text","Fonte e texto alternativo"],["Cada figura lleva su fuente o licencia, que sale en la diapositiva, y un texto alternativo para lectores de pantalla, en Word, PowerPoint y HTML.","Each figure carries its source or licence, shown on the slide, and an alternative text for screen readers, in Word, PowerPoint and HTML.","Cada figura leva a sua fonte ou licença, que aparece no diapositivo, e um texto alternativo para leitores de ecrã, em Word, PowerPoint e HTML."],
+// pie y errores de la IA
+["NanoClase 2.2 · Herramientas IA para la academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Todo ocurre en tu navegador con tu clave de OpenAI. Revisa siempre el material antes de usarlo con estudiantes: los revisores reducen errores, no los eliminan.","NanoClase 2.2 · AI tools for academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Everything happens in your browser with your OpenAI key. Always review the material before using it with students: reviewers reduce errors; they do not eliminate them.","NanoClase 2.2 · Ferramentas de IA para a academia · Fernando Borrás Rocher · Universidad Miguel Hernández de Elche. Tudo acontece no seu navegador com a sua chave da OpenAI. Reveja sempre o material antes de o usar com estudantes: os revisores reduzem erros, não os eliminam."],
+["Falta la clave de OpenAI: pégala en «Ajustes».","The OpenAI key is missing: paste it in “Settings”.","Falta a chave da OpenAI: cole-a em «Definições»."],["Tu cuenta de OpenAI no tiene saldo. Añade crédito en platform.openai.com → Billing.","Your OpenAI account has no balance. Add credit at platform.openai.com → Billing.","A sua conta da OpenAI não tem saldo. Adicione crédito em platform.openai.com → Billing."],["OpenAI no reconoce tu clave (401). Revísala en «Ajustes».","OpenAI does not recognise your key (401). Check it in “Settings”.","A OpenAI não reconhece a sua chave (401). Verifique-a em «Definições»."],["La API respondió {0}","The API responded {0}","A API respondeu {0}"]
+];
+const I18N = {en: {}, pt: {}};
+I18N_T.forEach(([es, en, pt]) => { const k = _norm(es); I18N.en[k] = en; I18N.pt[k] = pt; });
+/* Textos que pueden quedarse igual en todos los idiomas (nombres propios y de la app). */
+const I18N_OK = new Set(["Nano", "Clase", "Fernando Borrás Rocher", "Universidad Miguel Hernández de Elche", "Español", "English", "Português", "ORCID 0000-0002-5519-4573"]);
+
+</script>
 <script>
 
 "use strict";
@@ -1061,7 +1435,7 @@ function instruccionIdioma(){
 }
 
 /* ===================== utilidades ===================== */
-function log(t){ const r=$("registro"); r.classList.add("visible"); r.textContent+=t+"\n"; r.scrollTop=r.scrollHeight; }
+function log(t){ const r=$("registro"); r.classList.add("visible"); r._raw=(r._raw||"")+t+"\n"; r.textContent=r._raw; r.scrollTop=r.scrollHeight; }
 function barra(id,f){ const b=$(id); b.classList.add("visible"); b.querySelector("i").style.width=Math.round(f*100)+"%"; }
 function abrirPaso(n){}
 function marcar(n,t){}
@@ -1077,7 +1451,7 @@ function esc(s){ const d=document.createElement("div"); d.textContent=s==null?""
 /* ===================== clave ===================== */
 const CLAVE="ia_openai_key";
 $("clave").value = localStorage.getItem(CLAVE) || "";
-$("clave").addEventListener("input",()=>{ const v=$("clave").value.trim(); if(v) localStorage.setItem(CLAVE,v); setLight("", v?"Clave guardada · sin comprobar":"Sin clave todavía"); });
+$("clave").addEventListener("input",()=>{ const v=$("clave").value.trim(); if(v) localStorage.setItem(CLAVE,v); setLight("", v?"Clave guardada · sin comprobar":"Sin clave todavía"); localStorage.removeItem("nanoclase_models"); clearTimeout(cargaModelos._t); if(v) cargaModelos._t=setTimeout(()=>cargaModelos(true),900); else pintaModelos(); });
 $("btnOlvidarClave").onclick=()=>{ localStorage.removeItem(CLAVE); $("clave").value=""; setLight("","Clave borrada de este navegador"); };
 const laClave=()=>$("clave").value.trim();
 
@@ -1272,7 +1646,7 @@ $("btnEvalInicial").onclick=async()=>{
     barra("barra3",1);
     pintarEvaluacion("evalInicial",S.evalIni,null);
     $("evalInicialBox").classList.remove("hidden");
-    $("diagInfo").textContent="Media "+media(S.evalIni).toFixed(1).replace(".",",")+" sobre 10. Pulsa «Siguiente» para reescribirlo.";
+    $("diagInfo").textContent="Media "+media(S.evalIni).toFixed(1).replace(".",LANG==="en"?".":",")+" sobre 10. Pulsa «Siguiente» para reescribirlo.";
   }catch(e){ $("evalInicial").innerHTML='<div class="alerta">No se pudo evaluar. '+esc(e.message)+"</div>"; }
   finally{ b.disabled=false; b.innerHTML=ico("scale")+"Volver a evaluar"; }
 };
@@ -1640,7 +2014,7 @@ const audioCtx=()=>(ac||=new (window.AudioContext||window.webkitAudioContext)())
 $("btnVoz").onclick=async()=>{
   if(!S.guion) return toast("Escribe antes el guion");
   const b=$("btnVoz"); b.disabled=true; b.textContent="Locutando…";
-  S.audios=[]; $("registro").textContent="";
+  S.audios=[]; $("registro").textContent=""; $("registro")._raw="";
   const esc_=S.guion.escenas;
   try{
     for(let i=0;i<esc_.length;i++){
@@ -1797,7 +2171,7 @@ $("btnDescargarZip").onclick=async()=>{
   try{ if($("mejorado").value) zip.file("material/"+S.nombre+".docx", await mdADocx($("mejorado").value, tituloMat())); }catch(e){}
   if(S.revision) zip.file("material/informe_de_revision.md", informeRevisionMd());
   if(S.preguntas) { zip.file("preguntas/banco_moodle.gift.txt", gift()); zip.file("preguntas/preguntas.md", preguntasMd()); zip.file("preguntas/preguntas.json", JSON.stringify(S.preguntas,null,2)); }
-  if(S.plan) { zip.file("plan_de_clase/plan.md", S.plan); try{ zip.file("plan_de_clase/plan.docx", await mdADocx(S.plan,"Plan de clase")); }catch(e){} }
+  if(S.plan) { zip.file("plan_de_clase/plan.md", S.plan); try{ zip.file("plan_de_clase/plan.docx", await mdADocx(S.plan,t("Plan de clase"))); }catch(e){} }
   if(S.guion) { try{ zip.file("diapositivas/"+S.nombre+".pptx", await pptxBlob()); }catch(e){} try{ await beamerEn(zip.folder("beamer")); }catch(e){} }
   if(S.evalIni) zip.file("evaluacion_inicial.json",JSON.stringify(S.evalIni,null,2));
   if(S.evalFin) zip.file("evaluacion_final.json",JSON.stringify(S.evalFin,null,2));
@@ -1885,7 +2259,7 @@ function go(i){
   $$(".screen").forEach(s => s.classList.toggle("on", +s.dataset.step === i));
   $("progBar").style.width = (i / 5 * 100) + "%";
   buildStepper(); updateNav();
-  if(i === 1) refreshKeyLight();
+  if(i === 1){ refreshKeyLight(); if(laClave() && !modelosClave().length) cargaModelos(true); }
   if(i === 2) pintaGaleria();
   if(i === 4) pintaMat();
   if(i === 5){ refrescarLectura(); pintaPack(); }
@@ -1917,7 +2291,7 @@ function avisoPendientes(){
   const pend = pendientesIA(); if(!pend.length || S._analisis || S._avisadoPend) return;
   S._avisadoPend = true;
   if(!laClave()) return toast(`Hay ${pend.length} figuras o fórmulas sin analizar: pega tu clave y pulsa «Analizar con IA»`, 5000);
-  if(confirm(`Hay ${pend.length} figura(s) o fórmula(s) sin analizar. ¿Las analizo ahora con IA?\n\nLas imágenes se envían a OpenAI tal cual. Mientras tanto, puedes seguir.`)) analizarTodo(pend);
+  if(confirm(t("Hay {0} figura(s) o fórmula(s) sin analizar. ¿Las analizo ahora con IA?\n\nLas imágenes se envían a OpenAI tal cual. Mientras tanto, puedes seguir.", pend.length))) analizarTodo(pend);
 }
 function setModo(m){ S.modo = m; $$(".modo [data-modo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modo === m))); $("boxMejorar").classList.toggle("hidden", m !== "mejorar"); $("boxCrear").classList.toggle("hidden", m !== "crear"); $("btnSaltarMejora").classList.toggle("hidden", m === "crear"); $("btnMejorarTxt").textContent = m === "crear" ? "Crear el material" : "Reescribir el material"; $("galSub").textContent = m === "crear" ? "Opcional: imágenes tuyas que quieras que use el material. Marca las importantes para que salgan en el vídeo." : "Las imágenes y las ecuaciones del material. Marca cuáles usar, corrige el pie y comprueba el LaTeX: de aquí salen las figuras del material, del vídeo y de las diapositivas."; pintaGaleria(); updateNav(); }
 $$(".modo [data-modo]").forEach(b => b.onclick = () => setModo(b.dataset.modo));
@@ -1929,16 +2303,44 @@ $("btnEye").onclick = () => { const k = $("clave"); k.type = k.type === "passwor
 $("btnTest").onclick = async () => {
   const k = laClave(); if(!k) return setLight("err", "Primero pega la clave");
   setLight("wait", "Comprobando…");
-  try{ const r = await fetch(API + "/models", {headers:{Authorization:"Bearer " + k}}); r.ok ? setLight("ok", "Clave válida.") : setLight("err", r.status === 401 ? "OpenAI no reconoce esta clave." : "Error " + r.status); }
+  try{ const r = await fetch(API + "/models", {headers:{Authorization:"Bearer " + k}}); if(r.ok){ guardaModelos(await r.json().catch(() => ({}))); setLight("ok", "Clave válida."); } else setLight("err", r.status === 401 ? "OpenAI no reconoce esta clave." : "Error " + r.status); }
   catch(e){ setLight("err", "No hay conexión con OpenAI."); }
 };
 const PREFS = ["modeloTexto","modeloVision","modeloVoz","voz","idiomaSalida","marca","colorAcento","subtituloDentro"];
 function cargaPrefs(){ try{ const p = JSON.parse(localStorage.getItem("nanoclase_prefs") || "{}"); PREFS.forEach(k => { if(p[k] != null && $(k)) $(k).value = p[k]; }); }catch(e){} if(!$("modeloTexto").value) $("modeloTexto").value = "gpt-6-luna"; $("cajaOtroIdioma").style.display = $("idiomaSalida").value === "otro" ? "" : "none"; }
 PREFS.forEach(k => $(k).addEventListener("change", () => { const p = {}; PREFS.forEach(x => p[x] = $(x).value); localStorage.setItem("nanoclase_prefs", JSON.stringify(p)); }));
+/* ── modelos de la clave: <select> con el actual, los de la clave y el de serie, y «Otro modelo» (patrón Forja §4) ── */
+const MODELO_SERIE = "gpt-6-luna";
+const esModeloTexto = id => /^(gpt|o\d|chatgpt)/i.test(id) && !/(tts|whisper|transcri|audio|realtime|embed|image|dall|moderation|search|instruct)/i.test(id);
+function modelosClave(){ try{ return JSON.parse(localStorage.getItem("nanoclase_models") || "[]"); }catch(e){ return []; } }
+function guardaModelos(j){ const L = ((j && j.data) || []).map(m => m.id).filter(esModeloTexto).sort(); if(L.length) localStorage.setItem("nanoclase_models", JSON.stringify(L)); pintaModelos(); return L; }
+function pintaModelos(){
+  const L = modelosClave();
+  [["selModeloTexto", "modeloTexto", false], ["selModeloVision", "modeloVision", true]].forEach(([sid, iid, vacio]) => {
+    const s = $(sid), inp = $(iid), act = inp.value.trim();
+    const ids = [...new Set([act, ...L, MODELO_SERIE].filter(Boolean))];
+    s.innerHTML = (vacio ? `<option value="">El mismo que escribe</option>` : "") + ids.map(m => `<option value="${escA(m)}">${esc(m)}${m === act ? " · actual" : ""}${L.length && !L.includes(m) ? " · no aparece en tu clave" : ""}</option>`).join("") + `<option value="__otro">Otro modelo (escribirlo)…</option>`;
+    s.value = act; if(inp.hidden === false && !act) s.value = "__otro";
+  });
+}
+async function cargaModelos(silencio){
+  const k = laClave(); if(!k){ if(!silencio) setLight("err", "Primero pega la clave"); return; }
+  if(!silencio) setLight("wait", "Cargando los modelos de tu clave…");
+  try{ const r = await fetch(API + "/models", {headers:{Authorization:"Bearer " + k}}); if(!r.ok) throw new Error(r.status === 401 ? "OpenAI no reconoce esta clave." : "Error " + r.status);
+    const L = guardaModelos(await r.json()); setLight("ok", L.length ? t("{0} modelos disponibles en tu clave: elígelo en el desplegable.", L.length) : "Tu clave no devolvió ningún modelo de texto. Escribe el nombre con «Otro modelo».");
+  }catch(e){ if(!silencio) setLight("err", e.message === "Failed to fetch" ? "No hay conexión con OpenAI." : e.message); }
+}
+[["selModeloTexto", "modeloTexto"], ["selModeloVision", "modeloVision"]].forEach(([sid, iid]) => {
+  $(sid).addEventListener("change", () => { const s = $(sid), inp = $(iid);
+    if(s.value === "__otro"){ inp.hidden = false; inp.value = ""; inp.focus(); return; }
+    inp.hidden = true; inp.value = s.value; inp.dispatchEvent(new Event("change")); pintaModelos(); });
+  $(iid).addEventListener("change", () => { if(!$(iid).hidden && $(iid).value.trim()){ $(iid).hidden = true; pintaModelos(); } });
+});
+$("btnModelos").onclick = () => cargaModelos(false);
 
 /* ══════════ PUNTO DE PARTIDA ══════════ */
 function tras_cargar(nombre){
-  $("zonaT").textContent = nombre; S.creadoPara = null;
+  $("zonaT").textContent = nombre; S.creadoPara = null; S.esEjemplo = null;
   ["okVideo","okPreg","okPlan"].forEach(id => $(id).classList.add("hidden")); $("pregList").innerHTML = ""; $("pregExp").style.display = "none"; $("planBox").classList.add("hidden"); S.evalIni = null; S.evalFin = null; S.mejorado = ""; $("mejorado").value = ""; S.revision = null; S.guion = null; S.preguntas = null; S.plan = null;
   $("evalInicialBox").classList.add("hidden"); $("evalFinalBox").classList.add("hidden");
   toast("Material cargado. Pulsa «Siguiente» para diagnosticarlo.");
@@ -1946,7 +2348,7 @@ function tras_cargar(nombre){
 $("btnPegado").onclick = () => { const t = $("pegado").value.trim(); if(t.length < 200) return toast("Pega un texto algo más largo (al menos un par de párrafos)"); reiniciarRecursos(); S.fuente = {tipo:"texto", base:t}; S.bruto = t; pintaGaleria(); S.tipo = "md"; S.nombre = "material"; $("notaDoc").textContent = `Texto pegado · ${t.split(/\s+/).length.toLocaleString("es")} palabras.`; tras_cargar("Texto pegado"); };
 const TEMAS_EJ = [["Bioestadística","Intervalos de confianza para una media"],["Bioestadística","Contraste de hipótesis y valor p"],["Derecho Civil","El contrato: elementos esenciales"],["Biología Celular","La célula eucariota y sus orgánulos"],["Economía","Elasticidad precio de la demanda"],["Programación","Bucles y funciones en Python"]];
 $("temasEj").innerHTML = TEMAS_EJ.map(([a,t],i) => `<button type="button" class="chip mini-ex" data-t="${i}">${esc(t)}</button>`).join("");
-$$("#temasEj [data-t]").forEach(b => b.onclick = () => { const [a,t] = TEMAS_EJ[+b.dataset.t]; $("cTema").value = t; if(!$("cAsig").value) $("cAsig").value = a; $("cTema").classList.remove("bad"); });
+$$("#temasEj [data-t]").forEach(b => b.onclick = () => { const [a,tm] = TEMAS_EJ[+b.dataset.t]; $("cTema").value = tr(tm) || tm; if(!$("cAsig").value) $("cAsig").value = tr(a) || a; $("cTema").classList.remove("bad"); });
 
 /* ══════════ CREAR DESDE CERO ══════════ */
 const claveCrear = () => ["cAsig","cTitu","cTema","cNivel","cExt","cEnfoque","cNotas"].map(id => $(id).value.trim()).join("|");
@@ -2060,7 +2462,7 @@ function pintaQA(){
   if(!S.mejorado){ box.innerHTML = `<div class="qa-top"><div class="ring" style="--p:0"><b>–</b></div><div><h3>Revisión</h3><span>Aparecerá al generar el material</span></div></div>`; return; }
   const nota = E ? media(E) : null, col = nota == null ? "#7C93AC" : nota >= 8 ? "var(--forjado)" : nota >= 6 ? "#F59E0B" : "var(--brasa)";
   const est = estructura(S.mejorado);
-  let h = `<div class="qa-top"><div class="ring" style="--p:${nota == null ? 0 : nota * 10};--rc:${col}"><b>${nota == null ? "–" : nota.toFixed(1).replace(".", ",")}</b></div><div><h3>Calidad docente</h3><span>${S.evalIni && E ? `Antes ${media(S.evalIni).toFixed(1).replace(".", ",")} → ahora ${nota.toFixed(1).replace(".", ",")}` : E ? "Media de la rúbrica sobre 10" : R && R.cargando ? "Evaluando…" : "Sin evaluar"}</span></div></div><div style="padding:12px 16px">`;
+  let h = `<div class="qa-top"><div class="ring" style="--p:${nota == null ? 0 : nota * 10};--rc:${col}"><b>${nota == null ? "–" : nota.toFixed(1).replace(".", LANG === "en" ? "." : ",")}</b></div><div><h3>Calidad docente</h3><span>${S.evalIni && E ? `Antes ${media(S.evalIni).toFixed(1).replace(".", LANG === "en" ? "." : ",")} → ahora ${nota.toFixed(1).replace(".", LANG === "en" ? "." : ",")}` : E ? "Media de la rúbrica sobre 10" : R && R.cargando ? "Evaluando…" : "Sin evaluar"}</span></div></div><div style="padding:12px 16px">`;
   h += `<p class="sublab" style="margin-top:0">Estructura</p><ul class="checks">${est.map(([t,ok]) => `<li class="${ok ? "on" : ""}"><span class="ck">${ok ? ico("check") : ""}</span>${esc(t)}</li>`).join("")}</ul>`;
   if(R && R.cargando) h += `<p class="help"><span class="spin"></span> ${S.modo === "crear" ? "Revisor disciplinar" : "Revisor de fidelidad"} trabajando…</p>`;
   else if(R){
@@ -2113,7 +2515,7 @@ async function mdADocx(md, titulo){
       if(!r || !r.src){ kids.push(await P(`[Falta la figura ${m[2]}]`, {it:true})); continue; }
       const t = encajar(r.w, r.h, 600, 460, 1);
       kids.push(centrado([imgRun(r.src, t.w, t.h, r.alt || r.pie || r.id)], 40));
-      kids.push(centrado(texto([`Figura ${r.id}.`, r.pie || m[1], r.fuente ? `Fuente: ${r.fuente}.` : ""].filter(Boolean).join(" "), {it:true, size:18}), 160));
+      kids.push(centrado(texto([t("Figura {0}.", r.id), r.pie || m[1], r.fuente ? t("Fuente: {0}.", r.fuente) : ""].filter(Boolean).join(" "), {it:true, size:18}), 160));
       continue;
     }
     if((m = l.match(/^\s*\$\$(.+?)\$\$\s*(?:\{#E\d+\})?\s*$/))){ kids.push(centrado([await formulaRun(m[1].trim(), true)])); i++; continue; }
@@ -2228,10 +2630,10 @@ function gift(){
   }).join("\n\n") + "\n";
 }
 function preguntasMd(){
-  let m = `# Preguntas · ${tituloMat()}\n\n`, k = "## Soluciones\n\n", n = 0;
+  let m = `# ${t("Preguntas")} · ${tituloMat()}\n\n`, k = `## ${t("Soluciones")}\n\n`, n = 0;
   (S.preguntas || []).filter(q => q.estado !== "descartada").forEach(q => { n++;
-    m += `**${n}.** ${q.enunciado}\n\n` + (q.tipo === "mc" ? q.opciones.map((o,i) => `   ${"ABCDEF"[i]}) ${o}`).join("\n") + "\n\n" : q.tipo === "vf" ? "   Verdadero / Falso\n\n" : "   ____________________\n\n");
-    k += `${n}. ${q.tipo === "mc" ? "ABCDEF"[q.correcta] : q.tipo === "vf" ? (q.respuesta ? "Verdadero" : "Falso") : (q.respuesta || []).join(" / ")}. ${q.retro || ""}\n`; });
+    m += `**${n}.** ${q.enunciado}\n\n` + (q.tipo === "mc" ? q.opciones.map((o,i) => `   ${"ABCDEF"[i]}) ${o}`).join("\n") + "\n\n" : q.tipo === "vf" ? `   ${t("Verdadero")} / ${t("Falso")}\n\n` : "   ____________________\n\n");
+    k += `${n}. ${q.tipo === "mc" ? "ABCDEF"[q.correcta] : q.tipo === "vf" ? (q.respuesta ? t("Verdadero") : t("Falso")) : (q.respuesta || []).join(" / ")}. ${q.retro || ""}\n`; });
   return m + "\n" + k;
 }
 $("btnGift").onclick = () => { const excl = (S.preguntas || []).filter(q => q.estado !== "descartada" && (q.problemas || []).length).length; descargar(new Blob([gift()], {type:"text/plain"}), S.nombre + "_moodle.gift.txt"); toast(excl ? `Exportado a GIFT. ${excl} pregunta(s) con problemas no se han incluido.` : "Exportado a GIFT: en Moodle, Banco de preguntas → Importar → formato GIFT"); };
@@ -2261,7 +2663,7 @@ Usa solo contenido del material. ${instruccionIdioma()}`}, {role:"user", content
   finally{ b.disabled = false; }
 };
 $("btnPlanMd").onclick = () => S.plan && descargar(new Blob([S.plan], {type:"text/markdown"}), S.nombre + "_plan_de_clase.md");
-$("btnPlanDocx").onclick = async () => { if(!S.plan) return; try{ descargar(await mdADocx(S.plan, "Plan de clase"), S.nombre + "_plan_de_clase.docx"); }catch(e){ toast(e.message); } };
+$("btnPlanDocx").onclick = async () => { if(!S.plan) return; try{ descargar(await mdADocx(S.plan, t("Plan de clase")), S.nombre + "_plan_de_clase.docx"); }catch(e){ toast(e.message); } };
 
 /* ══════════ PRODUCTOS Y PAQUETE ══════════ */
 function verProducto(p){ $$("#ptabs [data-p]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.p === p))); $$(".ppanel").forEach(x => x.classList.toggle("on", x.id === "pp-" + p)); if(p === "pack") pintaPack(); }
@@ -2311,15 +2713,70 @@ La interpretación correcta es que, si repitiéramos el muestreo muchas veces, e
 Al aumentar n el intervalo se estrecha, porque el error estándar disminuye con la raíz de n. Al aumentar el nivel de confianza, por ejemplo al 99 %, el intervalo se ensancha.
 
 No hay que confundir la desviación típica, que mide la dispersión de los datos, con el error estándar, que mide la precisión de la media estimada.`;
-function cargaEjemplo(){
+const EJ = {
+  es: {texto: EJEMPLO, nombre: "intervalos_de_confianza", fichero: "apunte_intervalos_de_confianza.txt",
+    hablada: "x barra más menos t con n menos uno grados de libertad, por s partido por la raíz de n",
+    fuente: "Elaboración propia con datos simulados", pie: "Veinte intervalos al 95 % calculados con veinte muestras distintas",
+    alt: "Veinte segmentos horizontales, uno por muestra, alrededor de una línea vertical discontinua que marca la media poblacional μ. Diecinueve segmentos la cortan; uno, en rojo, queda entero a la derecha y no la contiene."},
+  en: {nombre: "confidence_intervals", fichero: "notes_confidence_intervals.txt",
+    texto: `Confidence intervals for a mean
+
+When we estimate the mean of a population from a sample, the sample mean does not exactly match the population mean. A confidence interval gives a range of plausible values for the population mean.
+
+For a sample of size n with mean x̄ and standard deviation s, if the population is approximately normal or n is large, the 95% interval is
+
+[[E1]]
+
+where t is the value of Student's t distribution with n − 1 degrees of freedom that leaves 2.5% in each tail. The ratio s/√n is the standard error of the mean.
+
+Example: in 25 patients the mean systolic pressure is 128 mmHg with s = 15. The standard error is 15/5 = 3. With 24 degrees of freedom, t = 2.064. The interval is 128 ± 6.19, that is, from 121.8 to 134.2 mmHg.
+
+The correct interpretation is that, if we repeated the sampling many times, 95% of the intervals built this way would contain the population mean. It is not correct to say that there is a 95% probability that the mean lies in this particular interval.
+
+[[F1]]
+
+As n increases the interval narrows, because the standard error decreases with the square root of n. As the confidence level increases, for example to 99%, the interval widens.
+
+Do not confuse the standard deviation, which measures the spread of the data, with the standard error, which measures the precision of the estimated mean.`,
+    hablada: "x bar plus or minus t with n minus one degrees of freedom, times s over the square root of n",
+    fuente: "Own elaboration with simulated data", pie: "Twenty 95% intervals computed from twenty different samples",
+    alt: "Twenty horizontal segments, one per sample, around a dashed vertical line that marks the population mean μ. Nineteen segments cross it; one, in red, lies entirely to the right and does not contain it."},
+  pt: {nombre: "intervalos_de_confianca", fichero: "apontamento_intervalos_de_confianca.txt",
+    texto: `Intervalos de confiança para uma média
+
+Quando estimamos a média de uma população a partir de uma amostra, a média amostral não coincide exatamente com a populacional. O intervalo de confiança dá um intervalo de valores plausíveis para a média populacional.
+
+Para uma amostra de dimensão n com média x̄ e desvio-padrão s, se a população for aproximadamente normal ou n for grande, o intervalo a 95 % é
+
+[[E1]]
+
+onde t é o valor da distribuição t de Student com n − 1 graus de liberdade que deixa 2,5 % em cada cauda. O quociente s/√n é o erro-padrão da média.
+
+Exemplo: em 25 doentes a pressão sistólica média é 128 mmHg com s = 15. O erro-padrão é 15/5 = 3. Com 24 graus de liberdade, t = 2,064. O intervalo é 128 ± 6,19, ou seja, de 121,8 a 134,2 mmHg.
+
+A interpretação correta é que, se repetíssemos a amostragem muitas vezes, 95 % dos intervalos assim construídos conteriam a média populacional. Não é correto dizer que há 95 % de probabilidade de a média estar neste intervalo concreto.
+
+[[F1]]
+
+Ao aumentar n o intervalo estreita-se, porque o erro-padrão diminui com a raiz de n. Ao aumentar o nível de confiança, por exemplo para 99 %, o intervalo alarga-se.
+
+Não se deve confundir o desvio-padrão, que mede a dispersão dos dados, com o erro-padrão, que mede a precisão da média estimada.`,
+    hablada: "x barra mais ou menos t com n menos um graus de liberdade, vezes s a dividir pela raiz de n",
+    fuente: "Elaboração própria com dados simulados", pie: "Vinte intervalos a 95 % calculados com vinte amostras diferentes",
+    alt: "Vinte segmentos horizontais, um por amostra, em torno de uma linha vertical tracejada que marca a média populacional μ. Dezanove segmentos cortam-na; um, a vermelho, fica inteiro à direita e não a contém."}
+};
+function cargaEjemplo(ir = true){
+  const X = EJ[LANG] || EJ.es;   // el apunte de ejemplo existe en cada idioma de la interfaz (Forja §14)
   setModo("mejorar"); reiniciarRecursos();
-  nuevoRecurso({tipo:"formula", latex:"\\bar{x} \\pm t_{n-1} \\cdot \\frac{s}{\\sqrt{n}}", hablada:"x barra más menos t con n menos uno grados de libertad, por s partido por la raíz de n", origen:"Ejemplo · ecuación", nativa:true, importante:true});
-  nuevoRecurso({tipo:"figura", src:figuraEjemplo(), w:1200, h:760, origen:"Ejemplo", importante:true, ia:"hecho", fuente:"Elaboración propia con datos simulados", pie:"Veinte intervalos al 95 % calculados con veinte muestras distintas", alt:"Veinte segmentos horizontales, uno por muestra, alrededor de una línea vertical discontinua que marca la media poblacional μ. Diecinueve segmentos la cortan; uno, en rojo, queda entero a la derecha y no la contiene."});
-  S.fuente = {tipo:"texto", base:EJEMPLO}; S.bruto = componerBruto(); S.tipo = "md"; S.nombre = "intervalos_de_confianza";
-  $("notaDoc").textContent = `Apunte de ejemplo · ${EJEMPLO.split(/\s+/).length} palabras, una fórmula y una figura. Tiene buen contenido pero poca didáctica: sin objetivos, sin comprobaciones, sin ejercicios.`;
-  tras_cargar("apunte_intervalos_de_confianza.txt"); go(2);
+  nuevoRecurso({tipo:"formula", latex:"\\bar{x} \\pm t_{n-1} \\cdot \\frac{s}{\\sqrt{n}}", hablada:X.hablada, origen:"Ejemplo · ecuación", nativa:true, importante:true});
+  nuevoRecurso({tipo:"figura", src:figuraEjemplo(), w:1200, h:760, origen:"Ejemplo", importante:true, ia:"hecho", fuente:X.fuente, pie:X.pie, alt:X.alt});
+  S.fuente = {tipo:"texto", base:X.texto}; S.bruto = componerBruto(); S.tipo = "md"; S.nombre = X.nombre;
+  $("notaDoc").textContent = `Apunte de ejemplo · ${X.texto.split(/\s+/).length} palabras, una fórmula y una figura. Tiene buen contenido pero poca didáctica: sin objetivos, sin comprobaciones, sin ejercicios.`;
+  tras_cargar(X.fichero); S.esEjemplo = LANG; if(ir) go(2);
 }
-$("btnEj").onclick = cargaEjemplo;
+/* Si el ejemplo está cargado y aún no se ha trabajado con él, al cambiar de idioma se carga en el nuevo. */
+window.addEventListener("langchange", () => { if(S.esEjemplo && S.esEjemplo !== LANG && !S.evalIni && !S.mejorado){ cargaEjemplo(false); pintaGaleria(); } });
+$("btnEj").onclick = () => cargaEjemplo();
 $("lnkEj").onclick = e => { e.preventDefault(); cargaEjemplo(); };
 $("btnStart").onclick = () => go(laClave() ? 2 : 1);
 
@@ -3059,7 +3516,7 @@ function mdExport(md, ruta){
       const r = R(id); if(!r) return m;
       if(r.tipo === "formula" && r.latex) return `$$ ${r.latex} $$`;
       if(!r.src) return m;
-      const cap = [`Figura ${r.id}.`, r.pie || pie, r.fuente ? `Fuente: ${r.fuente}.` : ""].filter(Boolean).join(" ");
+      const cap = [t("Figura {0}.", r.id), r.pie || pie, r.fuente ? t("Fuente: {0}.", r.fuente) : ""].filter(Boolean).join(" ");
       return `![${(r.alt || r.pie || pie || r.id).replace(/[\[\]\n]/g, " ")}](${ruta(r)})\n\n*${cap}*`;
     });
 }
@@ -3168,7 +3625,7 @@ const reservaPie = r => r && (r.pie || r.fuente) ? 14 + (r.pie ? 40 : 0) + (r.fu
 function dibujaPie(ctx, r, cx, y, ancho){
   if(!r) return; ctx.textBaseline = "top"; ctx.textAlign = "center";
   if(r.pie){ ctx.font = `400 28px ${FB}`; ctx.fillStyle = "#C3D3E2"; ctx.fillText(recortaTexto(ctx, r.pie, ancho), cx, y); y += 40; }
-  if(r.fuente){ ctx.font = `400 22px ${FB}`; ctx.fillStyle = APAGADO; ctx.fillText(recortaTexto(ctx, "Fuente: " + r.fuente, ancho), cx, y); }
+  if(r.fuente){ ctx.font = `400 22px ${FB}`; ctx.fillStyle = APAGADO; ctx.fillText(recortaTexto(ctx, t("Fuente: {0}", r.fuente), ancho), cx, y); }
   ctx.textAlign = "left";
 }
 function dibujarConRecursos(ctx, e, alto){
@@ -3216,7 +3673,7 @@ function pptxConRecursos(pres, s, e, ac){
     const res = (r.pie ? .34 : 0) + (r.fuente ? .26 : 0), fin = imagen(v, r.alt || r.pie || r.id, bx, by, bw, bh - res);
     let cy = fin + .06;
     if(r.pie){ s.addText(r.pie, {x:bx, y:cy, w:bw, h:.32, fontFace:"Arial", fontSize:12, color:"C3D3E2", align:"center"}); cy += .32; }
-    if(r.fuente) s.addText("Fuente: " + r.fuente, {x:bx, y:cy, w:bw, h:.26, fontFace:"Arial", fontSize:9, color:"8FA7BE", align:"center"});
+    if(r.fuente) s.addText(t("Fuente: {0}", r.fuente), {x:bx, y:cy, w:bw, h:.26, fontFace:"Arial", fontSize:9, color:"8FA7BE", align:"center"});
   };
   if(p === "texto_figura"){ puntos(X, y + .1, AW * .44, H - y - .1); figura(e.figuras[0], X + AW * .47, y, AW * .53, H - y); }
   else if(p === "figura") figura(e.figuras[0], X, y, AW, H - y);
@@ -3229,9 +3686,9 @@ function pptxConRecursos(pres, s, e, ac){
 }
 const notasEscena = e => {
   const {r, lat} = claveFormula(e), extra = [];
-  (e.figuras || []).map(R).filter(Boolean).forEach(f => extra.push(`Figura ${f.id}: ${f.alt || f.pie || ""}${f.fuente ? ` (Fuente: ${f.fuente})` : ""}`));
-  if(lat) extra.push(`Fórmula en LaTeX: ${lat}`);
-  if(e.formula_hablada || r?.hablada) extra.push(`Se lee: ${e.formula_hablada || r.hablada}`);
+  (e.figuras || []).map(R).filter(Boolean).forEach(f => extra.push(`${t("Figura {0}", f.id)}: ${f.alt || f.pie || ""}${f.fuente ? ` (${t("Fuente: {0}", f.fuente)})` : ""}`));
+  if(lat) extra.push(t("Fórmula en LaTeX: {0}", lat));
+  if(e.formula_hablada || r?.hablada) extra.push(t("Se lee: {0}", e.formula_hablada || r.hablada));
   return (e.narracion || "") + (extra.length ? "\n\n" + extra.join("\n") : "");
 };
 
@@ -3246,7 +3703,7 @@ async function beamerEn(z){
   const bab = (BABEL.find(([k]) => lengua.startsWith(k)) || [])[1];
   const fich = new Map();
   const ruta = r => { const f = `${r.tipo === "formula" ? "formulas" : "figuras"}/${r.id}.${extDe(r.src)}`; fich.set(f, r.src); return f; };
-  const cap = r => [r.pie ? texEsc(r.pie) : "", r.fuente ? `\\\\{\\tiny Fuente: ${texEsc(r.fuente)}}` : ""].join("");
+  const cap = r => [r.pie ? texEsc(r.pie) : "", r.fuente ? `\\\\{\\tiny ${t("Fuente: {0}", texEsc(r.fuente))}}` : ""].join("");
   const img = (r, ancho, alto) => `\\centering\n\\includegraphics[width=${ancho},height=${alto},keepaspectratio]{${ruta(r)}}% ${(r.alt || "").replace(/\n/g, " ")}\n${r.pie || r.fuente ? `\\par\\vspace{2pt}{\\scriptsize ${cap(r)}}\n` : ""}`;
   const lista = e => (e.puntos || []).length ? `\\begin{itemize}\n${e.puntos.slice(0, 4).map(p => `  \\item ${texEsc(p)}`).join("\n")}\n\\end{itemize}\n` : "";
   let t = `% Generado con NanoClase · compílalo con pdflatex (dos veces) o súbelo a Overleaf
@@ -3303,7 +3760,7 @@ function figuraEjemplo(){
 }
 
 /* ══════════ ARRANQUE ══════════ */
-cargaPrefs(); setModo("mejorar"); refrescarLectura(); pintaPack(); go(0);
+cargaPrefs(); pintaModelos(); setModo("mejorar"); refrescarLectura(); pintaPack(); go(0); initI18n();
 
 </script>
 </body>
